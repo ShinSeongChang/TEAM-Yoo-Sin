@@ -36,7 +36,7 @@ public class PlayerBehavior : MonoBehaviour
     void Start()
     {
         playerRigidbody = GetComponent<Rigidbody2D>();
-        attackRemainTime = new WaitForSeconds(0.5f);
+        attackRemainTime = new WaitForSeconds(0.3f);
         isRight = true;
         isLeft = false;
         isUp = false;
