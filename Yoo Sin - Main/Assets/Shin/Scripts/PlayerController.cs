@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        DontDestroyOnLoad(this.gameObject);
+
         playerRigidbody = GetComponent<Rigidbody2D>();
         attackRemainTime = new WaitForSeconds(0.3f);
         isRight = true;
