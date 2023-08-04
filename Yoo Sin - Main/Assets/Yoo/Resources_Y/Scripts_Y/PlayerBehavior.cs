@@ -64,6 +64,7 @@ public class PlayerBehavior : MonoBehaviour
             // 점프 카운트 0으로 초기화, 땅에 있음을 false으로 초기화
             jumpCount = 0;
             isGround = false;
+            playerAni.SetBool("IsGround", false);
             // 점프 힘 추가
             playerRigidbody.AddForce(new Vector2(0, jumpForce));
         }
@@ -78,15 +79,17 @@ public class PlayerBehavior : MonoBehaviour
         // 땅에 붙어있지 않고 z키(점프키)를 떼는 순간
         if (Input.GetKeyUp(KeyCode.Z) && isGround == false)
         {
-            // 점프 중임을 false로 초기화
+            // 점프 중임을 false로 초기화, 떨어지는 중임을 true로 초기화
             isJumping = false;
+            playerAni.SetBool("IsFall", true);
         }
 
-        // 점프 중이 false이고, 땅에 붙어있음이 false이거나 플레이어의 리지드바디의 벨로시티의 y값이 0 이하라면(위로 올라가는 힘이 0이하라면)
-        if (isJumping == false && isGround == false || playerRigidbody.velocity.y <= 0)
+        // 점프 중이 false이고 땅에 붙어있음이 false이거나 플레이어의 리지드바디의 벨로시티의 y값이 0 미만이라면(위로 올라가는 힘이 0미만이라면)
+        if (isJumping == false && isGround == false || playerRigidbody.velocity.y < 0)
         {
-            // 땅으로 더 빨리 떨어지게함
+            // 땅으로 더 빨리 떨어지게함, 떨어지는 중임을 true로 초기화
             playerRigidbody.AddForce(new Vector2(0, -gravityForce));
+            playerAni.SetBool("IsFall", true);
         }
         #endregion
 
@@ -114,6 +117,7 @@ public class PlayerBehavior : MonoBehaviour
         {
             // 아래를 봄을 true로 초기화
             isDown = true;
+            playerAni.SetBool("IsDown", true);
         }
 
         // 아래 방향키를 떼는 순간
@@ -121,6 +125,7 @@ public class PlayerBehavior : MonoBehaviour
         {
             // 아래를 봄을 false로 초기화
             isDown = false;
+            playerAni.SetBool("IsDown", false);
         }
 
         // 우측 방향키를 누르는 중이고 좌측 방향키를 누르는 중이 아닐 때
@@ -266,6 +271,8 @@ public class PlayerBehavior : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         isGround = true;
+        playerAni.SetBool("IsGround", true);
+        playerAni.SetBool("IsFall", false);
         jumpCount = 1;
     }
 }
