@@ -9,6 +9,7 @@ public class Room001Finish : MonoBehaviour
     public GameObject player = default;
     public Transform room2Start = default;
 
+    // Room001 끝지점 도달시 플레이어를 Room002 시작지점으로 이동
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Player")
