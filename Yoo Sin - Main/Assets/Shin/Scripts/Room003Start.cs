@@ -1,16 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Room003Start : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public GameObject player = default;
+    public Transform room002Finish = default;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
         {
-            SceneManager.LoadScene("Room 002");
+            Vector3 moveRoom = new Vector3(room002Finish.position.x - 5.0f, room002Finish.position.y, room002Finish.position.z);
+            player.transform.position = moveRoom;
         }
     }
 }
