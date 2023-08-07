@@ -11,7 +11,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Platform
   - 
   - 
   - 
@@ -40,4 +40,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Layer 0
+    uniqueID: 734326035
+    locked: 0
+  - name: Layer 1
+    uniqueID: 396037349
+    locked: 0
+  - name: Layer 2
+    uniqueID: 796755643
+    locked: 0
+  - name: Layer 3
+    uniqueID: 296397805
     locked: 0
