@@ -188,19 +188,13 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 9136172077150951035}
     m_Position: {x: 270, y: 390, z: 0}
+  m_ChildStateMachines:
   - serializedVersion: 1
-    m_State: {fileID: -7487554061904972534}
-    m_Position: {x: 400, y: 300, z: 0}
+    m_StateMachine: {fileID: -6564409268832427310}
+    m_Position: {x: -40, y: -230, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 863622135840825691}
-    m_Position: {x: 140, y: 300, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -8117471632122687278}
-    m_Position: {x: 140, y: -140, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 5136331971207427013}
-    m_Position: {x: 400, y: -140, z: 0}
-  m_ChildStateMachines: []
+    m_StateMachine: {fileID: -2352503430971807970}
+    m_Position: {x: -40, y: 390, z: 0}
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
@@ -583,6 +577,31 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1107 &-6564409268832427310
+AnimatorStateMachine:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Jumping_R
+  m_ChildStates:
+  - serializedVersion: 1
+    m_State: {fileID: -8117471632122687278}
+    m_Position: {x: 310, y: 290, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 5136331971207427013}
+    m_Position: {x: 310, y: -60, z: 0}
+  m_ChildStateMachines: []
+  m_AnyStateTransitions: []
+  m_EntryTransitions: []
+  m_StateMachineTransitions: {}
+  m_StateMachineBehaviours: []
+  m_AnyStatePosition: {x: 100, y: -130, z: 0}
+  m_EntryPosition: {x: 50, y: 120, z: 0}
+  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_ParentStateMachinePosition: {x: 510, y: 100, z: 0}
+  m_DefaultState: {fileID: -8117471632122687278}
 --- !u!1101 &-5631748949664056032
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1191,6 +1210,31 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1107 &-2352503430971807970
+AnimatorStateMachine:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Jumping_L
+  m_ChildStates:
+  - serializedVersion: 1
+    m_State: {fileID: 863622135840825691}
+    m_Position: {x: 240, y: -50, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -7487554061904972534}
+    m_Position: {x: 240, y: 240, z: 0}
+  m_ChildStateMachines: []
+  m_AnyStateTransitions: []
+  m_EntryTransitions: []
+  m_StateMachineTransitions: {}
+  m_StateMachineBehaviours: []
+  m_AnyStatePosition: {x: 50, y: 20, z: 0}
+  m_EntryPosition: {x: 50, y: 120, z: 0}
+  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_ParentStateMachinePosition: {x: 510, y: 90, z: 0}
+  m_DefaultState: {fileID: 863622135840825691}
 --- !u!1101 &-2299194651664200541
 AnimatorStateTransition:
   m_ObjectHideFlags: 1

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerBehavior : MonoBehaviour
 {
@@ -13,13 +14,15 @@ public class PlayerBehavior : MonoBehaviour
     private SpriteRenderer attackSprite;
     private Collider2D attackCollider;
     private Animator attackAni;
+    private int jumpCount;
 
-    private int jumpCount = 1;
-
-    private float attackDelay = 0.6f;
+    private float attackDelay = 0.45f;
     private float timeAfterAttack = 0f;
-    private float jumpForce = 420f;
-    private float gravityForce = 3f;
+    private float jumpForce = 500f;
+
+    public bool isHitRight;
+    public bool isHitLeft;
+    public bool isHitDown;
 
     private bool isRight;
     private bool isLeft;
@@ -42,12 +45,16 @@ public class PlayerBehavior : MonoBehaviour
         playerAni = GetComponent<Animator>();
         playerRigidbody = GetComponent<Rigidbody2D>();
         attackRemainTime = new WaitForSeconds(0.2f);
+        jumpCount = 1;
         isRight = true;
         isLeft = false;
         isUp = false;
         isDown = false;
         isJumping = false;
         isGround = true;
+        isHitRight = false;
+        isHitLeft = false;
+        isHitDown = false;
     }
 
     // Update is called once per frame
@@ -58,38 +65,43 @@ public class PlayerBehavior : MonoBehaviour
 
         // 점프 관련
         #region
-        // 땅에 있음이 true이고 z키(점프키)를 누르는 순간
-        if (Input.GetKeyDown(KeyCode.Z) && isGround == true)
+        // 점프 가능 횟수가 1 이고, z키(점프키)를 누르는 순간
+        if (jumpCount == 1 && Input.GetKeyDown(KeyCode.Z))
         {
-            // 점프 카운트 0으로 초기화, 땅에 있음을 false으로 초기화
+            // 점프 카운트 0으로 초기화, 땅에 있음, 떨어지는 중을 false으로 초기화
             jumpCount = 0;
             isGround = false;
             playerAni.SetBool("IsGround", false);
-            // 점프 힘 추가
+            playerAni.SetBool("IsFall", false);
+            // velocity 0으로 초기화, velocity에 점프 힘 추가
+            playerRigidbody.velocity = Vector2.zero;
             playerRigidbody.AddForce(new Vector2(0, jumpForce));
         }
 
-        // 점프 카운트가 0 이고 땅에 있음이 false이고 z키(점프키)를 누르는 중일 때
-        if (Input.GetKey(KeyCode.Z) && jumpCount == 0 && isGround == false)
+        // 땅에 있음이 false이고 z키(점프키)를 누르는 중이고 점프 카운트가 0 일 때 
+        if (isGround == false && jumpCount == 0 && Input.GetKey(KeyCode.Z))
         {
             // 점프 중을 true로 초기화
             isJumping = true;
         }
 
         // 땅에 붙어있지 않고 z키(점프키)를 떼는 순간
-        if (Input.GetKeyUp(KeyCode.Z) && isGround == false)
+        if (isGround == false && Input.GetKeyUp(KeyCode.Z))
         {
             // 점프 중임을 false로 초기화, 떨어지는 중임을 true로 초기화
             isJumping = false;
             playerAni.SetBool("IsFall", true);
         }
 
-        // 점프 중이 false이고 땅에 붙어있음이 false이거나 플레이어의 리지드바디의 벨로시티의 y값이 0 미만이라면(위로 올라가는 힘이 0미만이라면)
-        if (isJumping == false && isGround == false || playerRigidbody.velocity.y < 0)
+        // 하단 공격이 false 이고 점프 중이 false이고 땅에 붙어있음이 false이거나 하단 공격이 false 이고 플레이어의 리지드바디의 벨로시티의 y값이 0 미만이라면(위로 올라가는 힘이 0미만이라면)
+        if (isHitDown == false && isJumping == false && isGround == false || isHitDown == false && isGround == false &&  playerRigidbody.velocity.y < 0)
         {
             // 땅으로 더 빨리 떨어지게함, 떨어지는 중임을 true로 초기화
-            playerRigidbody.AddForce(new Vector2(0, -gravityForce));
-            playerAni.SetBool("IsFall", true);
+            if (playerRigidbody.gravityScale == 1)
+            {
+                playerRigidbody.gravityScale = 5;
+                playerAni.SetBool("IsFall", true);
+            }
         }
         #endregion
 
@@ -128,8 +140,8 @@ public class PlayerBehavior : MonoBehaviour
             playerAni.SetBool("IsDown", false);
         }
 
-        // 우측 방향키를 누르는 중이고 좌측 방향키를 누르는 중이 아닐 때
-        if (Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow))
+        // 우측 공격성공이 아니고, 우측 방향키를 누르는 중이고 좌측 방향키를 누르는 중이 아닐 때
+        if (isHitRight == false && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow))
         {
             // 우측으로 이동속도에 비례하게 이동, 왼쪽을 봄을 false로, 오른쪽을 봄을 true로 초기화
             transform.position += moveSpeed * Time.deltaTime * transform.right;
@@ -139,11 +151,11 @@ public class PlayerBehavior : MonoBehaviour
             playerAni.SetBool("IsRight", true);
             playerAni.SetBool("IsWalk", true);
         }
-        // 좌측 방향키를 누르는 중이고 우측 방향키를 누르는 중이 아닐 때
-        else if (Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
+        // 좌측 공격성공이 아니고, 좌측 방향키를 누르는 중이고 우측 방향키를 누르는 중이 아닐 때
+        else if (isHitLeft == false && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
         {
             // 좌측으로 이동속도에 비례하게 이동, 오른쪽을 봄을 false로, 왼쪽을 봄을 true로 초기화
-            transform.position += -moveSpeed * Time.deltaTime * transform.right;
+            transform.position -= moveSpeed * Time.deltaTime * transform.right;
             isLeft = true;
             isRight = false;
             playerAni.SetBool("IsLeft", true);
@@ -268,17 +280,33 @@ public class PlayerBehavior : MonoBehaviour
         yield break;
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Ground"))
+        {
+            jumpCount = 1;
+            playerRigidbody.velocity = Vector2.zero;
+            isGround = true;
+            //playerRigidbody.gravityScale = 1;
+            playerAni.SetBool("IsGround", true);
+            playerAni.SetBool("IsFall", false);
+        }
+    }
+
     private void OnCollisionStay2D(Collision2D collision)
     {
-        isGround = true;
-        playerAni.SetBool("IsGround", true);
-        playerAni.SetBool("IsFall", false);
-        jumpCount = 1;
+        if(collision.collider.CompareTag("Ground"))
+        {
+            playerRigidbody.gravityScale = 1;
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        isGround = false;
-        playerAni.SetBool("IsGround", false);
+        if (collision.collider.CompareTag("Ground"))
+        {
+            isGround = false;
+            playerAni.SetBool("IsGround", false);
+        }
     }
 }
