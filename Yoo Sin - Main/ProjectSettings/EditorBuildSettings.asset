@@ -4,8 +4,5 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 1
-    path: Assets/Yoo/Scenes_Y/YooScene.unity
-    guid: 68e39070e4e4a2344938e8b23c84bb00
+  m_Scenes: []
   m_configObjects: {}
