@@ -298,6 +298,7 @@ public class PlayerBehavior : MonoBehaviour
         if(collision.collider.CompareTag("Ground"))
         {
             playerRigidbody.gravityScale = 1;
+            playerAni.SetBool("IsGround", true);
         }
     }
 
