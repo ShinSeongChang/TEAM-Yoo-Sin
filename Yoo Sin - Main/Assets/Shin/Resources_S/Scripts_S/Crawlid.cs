@@ -165,14 +165,14 @@ public class Crawlid : MonoBehaviour
     {    
         
         // crawlid 가 살아있는 동안 공격을 받는다면
-        if (isDead.Equals(false) && collision.tag.Equals("Attack"))
+        if (isDead.Equals(false) && collision.tag.Equals("PlayerAttack"))
         {                                    
             lifeCount -= 1;            
 
             Vector3 myPos = new Vector2(transform.position.x, transform.position.y);
             Vector3 offset = playerTransform.position - myPos;
 
-            Debug.LogFormat("몬스터로부터 플레이어 방향 : {0}", offset.normalized);
+            //Debug.LogFormat("몬스터로부터 플레이어 방향 : {0}", offset.normalized);
             
 
             if (offset.normalized.x < 0)
@@ -204,7 +204,7 @@ public class Crawlid : MonoBehaviour
                 else
                 {
                     crawlidRigid.simulated = false;
-                    crawlidCollider.enabled = false;                              
+                    crawlidCollider.enabled = false;                        
                 }
                 
 
