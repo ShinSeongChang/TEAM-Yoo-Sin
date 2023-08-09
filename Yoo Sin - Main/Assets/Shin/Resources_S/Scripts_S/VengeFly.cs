@@ -7,7 +7,7 @@ public class Vengefly : MonoBehaviour
     private Rigidbody2D vengeflyRigid = default;
     private Transform vengeflyTransform = default;
     private CircleCollider2D vengeflyCollider = default;
-    private CircleCollider2D detectedArea = default;
+    private CircleCollider2D vengeflyDetectedArea = default;
     private SpriteRenderer vengeflySprite = default;
     private Animator vengeflyAnimator = default;
 
@@ -30,7 +30,7 @@ public class Vengefly : MonoBehaviour
         vengeflyRigid = GetComponent<Rigidbody2D>();
         vengeflyTransform = GetComponent<Transform>();
         vengeflyCollider = GetComponent<CircleCollider2D>();
-        detectedArea = transform.GetComponentInChildren<CircleCollider2D>();
+        vengeflyDetectedArea = transform.GetComponentInChildren<CircleCollider2D>();
         vengeflySprite = GetComponent<SpriteRenderer>();
         vengeflyAnimator = GetComponent<Animator>();
 
@@ -133,11 +133,11 @@ public class Vengefly : MonoBehaviour
 
         if (offset.normalized.x < 0f)
         {
-            Flip_False();
+            vengeflySprite.flipX = false;
         }
         else
         {
-            Flip_True();
+            vengeflySprite.flipX = true;
         }
 
         // 이동을 진행할 시간
@@ -187,13 +187,4 @@ public class Vengefly : MonoBehaviour
 
     }
 
-    public void Flip_False()
-    {
-        vengeflySprite.flipX = false;
-    }
-
-    public void Flip_True()
-    {
-        vengeflySprite.flipX = true;
-    }
 }

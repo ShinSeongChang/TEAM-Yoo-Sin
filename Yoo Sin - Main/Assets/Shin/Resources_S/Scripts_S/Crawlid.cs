@@ -166,15 +166,19 @@ public class Crawlid : MonoBehaviour
         
         // crawlid 가 살아있는 동안 공격을 받는다면
         if (isDead.Equals(false) && collision.tag.Equals("PlayerAttack"))
-        {                                    
+        {
+            Debug.Log("Crawlid 타격");
             lifeCount -= 1;            
 
             Vector3 myPos = new Vector2(transform.position.x, transform.position.y);
-            Vector3 offset = playerTransform.position - myPos;
+            Vector2 offset = playerTransform.position - myPos;
 
             //Debug.LogFormat("몬스터로부터 플레이어 방향 : {0}", offset.normalized);
-            
 
+
+            /*
+                ========= Legacy : Crawlid 타격시 플레이어 반대방향으로 밀려나는 기능 추가하기 ========
+             
             if (offset.normalized.x < 0)
             {
                 crawlidRigid.AddForce(transform.right * 5f, ForceMode2D.Impulse);
@@ -183,6 +187,8 @@ public class Crawlid : MonoBehaviour
             {
                 
             }
+                ========= Legacy : Crawlid 타격시 플레이어 반대방향으로 밀려나는 기능 추가하기 ========
+            */
 
             if (lifeCount <= 0)
             {
@@ -211,7 +217,6 @@ public class Crawlid : MonoBehaviour
             }
 
             isHit = false;
-
         }
     }
 
