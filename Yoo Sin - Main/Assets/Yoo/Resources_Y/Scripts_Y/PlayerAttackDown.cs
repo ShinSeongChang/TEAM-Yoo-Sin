@@ -8,12 +8,13 @@ public class PlayerAttackDown : MonoBehaviour
     private WaitForSeconds attackRemainTime;
     private PlayerBehavior playerAct;
     private float repulsForce = 300f;
+    private bool isAttacking = false;
     // Start is called before the first frame update
     void Start()
     {
         playerRigidbody = transform.GetComponentInParent<Rigidbody2D>();
         playerAct = transform.GetComponentInParent<PlayerBehavior>();
-        attackRemainTime = new WaitForSeconds(0.3f);
+        attackRemainTime = new WaitForSeconds(0.2f);
     }
 
     // Update is called once per frame
@@ -24,7 +25,7 @@ public class PlayerAttackDown : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Monster"))
+        if (other.CompareTag("Monster") && isAttacking == false)
         {
             StartCoroutine(Hit());
         }
@@ -32,11 +33,13 @@ public class PlayerAttackDown : MonoBehaviour
 
     IEnumerator Hit()
     {
+        isAttacking = true;
         playerAct.isHitDown = true;
         playerRigidbody.gravityScale = 1;
         playerRigidbody.velocity = Vector2.zero;
         playerRigidbody.AddForce(new Vector2(0 ,repulsForce));
         yield return attackRemainTime;
+        isAttacking = false;
         playerAct.isHitDown = false;
         yield break;
     }

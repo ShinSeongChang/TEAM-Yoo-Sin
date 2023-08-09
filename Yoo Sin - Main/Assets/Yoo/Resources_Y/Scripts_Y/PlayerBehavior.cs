@@ -282,7 +282,7 @@ public class PlayerBehavior : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Ground"))
+        if (collision.collider.CompareTag("Platform"))
         {
             jumpCount = 1;
             playerRigidbody.velocity = Vector2.zero;
@@ -295,7 +295,7 @@ public class PlayerBehavior : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if(collision.collider.CompareTag("Ground"))
+        if(collision.collider.CompareTag("Platform"))
         {
             playerRigidbody.gravityScale = 1;
             playerAni.SetBool("IsGround", true);
@@ -304,7 +304,7 @@ public class PlayerBehavior : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Ground"))
+        if (collision.collider.CompareTag("Platform"))
         {
             isGround = false;
             playerAni.SetBool("IsGround", false);
