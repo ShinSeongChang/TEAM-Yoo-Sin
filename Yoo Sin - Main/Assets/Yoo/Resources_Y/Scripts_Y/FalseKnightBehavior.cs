@@ -32,7 +32,7 @@ public class FalseKnightBehavior : MonoBehaviour
     private Quaternion toLeft = Quaternion.Euler(0, 180, 0);
     private Quaternion toRight = Quaternion.Euler(0, 0, 0);
 
-    private int hp = 0;
+    private int hp = 13;
     private int randomNumber;
     private int stunCount;
     private Skill whatToDo;
@@ -230,7 +230,7 @@ public class FalseKnightBehavior : MonoBehaviour
     {
         // 스턴 횟수를 1 추가하고 기사의 애니메이터의 기본상태임을 false, 스턴상태임을 true로 초기화, StunStart트리거 활성화
         stunCount += 1;
-        if(stunCount == 3)
+        if (stunCount == 3)
         {
             falseKnightAni.SetBool("IsDead", true);
         }
@@ -242,14 +242,14 @@ public class FalseKnightBehavior : MonoBehaviour
         {
             // 왼쪽으로 일정거리 날아감
             falseKnightRigidbody.velocity = Vector2.zero;
-            falseKnightRigidbody.AddForce(new Vector2((-1 * 120), JUMP_FORCE/2));
+            falseKnightRigidbody.AddForce(new Vector2((-1 * 120), JUMP_FORCE / 2));
         }
         // 오른쪽을 보고 있지 않다면
         else if (playerOnRight == false)
         {
             // 오른쪽으로 일정거리 날아감
             falseKnightRigidbody.velocity = Vector2.zero;
-            falseKnightRigidbody.AddForce(new Vector2(120, JUMP_FORCE/2));
+            falseKnightRigidbody.AddForce(new Vector2(120, JUMP_FORCE / 2));
         }
     }
 
