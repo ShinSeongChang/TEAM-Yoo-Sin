@@ -1,0 +1,375 @@
+fileFormatVersion: 2
+guid: 036b442d04b7c3f42918c5cd3e0584e8
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: AspidHunter_Bullet_0
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 673
+        width: 74
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a9d27c3fc240c4418a99a30a1b21c10
+      internalID: 1894807533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AspidHunter_Bullet_1
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 578
+        width: 74
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0b1ae3f0f626984093645e3214e4aaa
+      internalID: 637751022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explosed_Horizontal002
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 690
+        width: 99
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b1f3a7a3115d1f4b8cf374707198dbc
+      internalID: 1537824876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explosed_Horizontal001
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 754
+        width: 60
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d06503d041c1ff540b50bd25f6ee2824
+      internalID: 771887866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explosed_Horizontal003
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 606
+        width: 105
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33c0e1f11bb8c8d4f91446832d6ce16d
+      internalID: 1716278127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explosed_Vertical001
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 607
+        width: 78
+        height: 107
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7301c6673fa14740b4d53e22b353acc
+      internalID: 581366513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explosed_Vertical003
+      rect:
+        serializedVersion: 2
+        x: 161
+        y: 511
+        width: 100
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49f1c14304cc29247a17b9a8cd50fd7c
+      internalID: -466043029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explosed_Vertical002
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 507
+        width: 93
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 771babc03f0dedd4e92ba89d1a1bd201
+      internalID: -668592785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AspidHunter_Bullet_3
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 534
+        width: 74
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1499aa2ef7d4ab4293c55d459932c91
+      internalID: -2123843689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      AspidHunter_Bullet_0: 1894807533
+      AspidHunter_Bullet_1: 637751022
+      AspidHunter_Bullet_10: 982635470
+      AspidHunter_Bullet_11: -665502364
+      AspidHunter_Bullet_12: -1262783183
+      AspidHunter_Bullet_13: -581515744
+      AspidHunter_Bullet_14: -2079463796
+      AspidHunter_Bullet_15: 1522964905
+      AspidHunter_Bullet_16: -838125785
+      AspidHunter_Bullet_17: -830535597
+      AspidHunter_Bullet_18: -1646263764
+      AspidHunter_Bullet_19: 514105827
+      AspidHunter_Bullet_20: 797122413
+      AspidHunter_Bullet_21: 597037364
+      AspidHunter_Bullet_22: -2029908146
+      AspidHunter_Bullet_23: 102093510
+      AspidHunter_Bullet_24: 1394501857
+      AspidHunter_Bullet_25: 1844831789
+      AspidHunter_Bullet_26: 1667629740
+      AspidHunter_Bullet_27: -1119848051
+      AspidHunter_Bullet_28: 879699731
+      AspidHunter_Bullet_29: -712912255
+      AspidHunter_Bullet_3: -2123843689
+      AspidHunter_Bullet_30: -2079283192
+      AspidHunter_Bullet_31: 1644278852
+      AspidHunter_Bullet_32: -778088692
+      AspidHunter_Bullet_33: -931694402
+      AspidHunter_Bullet_34: 1370004250
+      AspidHunter_Bullet_35: -1472205247
+      AspidHunter_Bullet_36: 386417721
+      AspidHunter_Bullet_37: -2062651951
+      AspidHunter_Bullet_8: 2116159866
+      AspidHunter_Bullet_9: 2116153020
+      explosed_Horizontal001: 771887866
+      explosed_Horizontal002: 1537824876
+      explosed_Horizontal003: 1716278127
+      explosed_Vertical001: 581366513
+      explosed_Vertical002: -668592785
+      explosed_Vertical003: -466043029
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

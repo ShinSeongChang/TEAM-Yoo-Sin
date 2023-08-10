@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6603697576558696185}
   m_Layer: 0
   m_Name: Vengefly
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -174,7 +174,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6974052597837201969}
   - component: {fileID: 6974052597837201970}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DetectedPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

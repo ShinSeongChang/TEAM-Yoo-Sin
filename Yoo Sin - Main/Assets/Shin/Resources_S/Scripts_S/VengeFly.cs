@@ -129,7 +129,7 @@ public class Vengefly : MonoBehaviour
         xPos = Random.Range(-1f, 1.01f);
         yPos = Random.Range(-1f, 1.01f);
 
-        Debug.LogFormat("이번 방향 지시값 : {0}", offset.normalized);
+        //Debug.LogFormat("이번 방향 지시값 : {0}", offset.normalized);
 
         if (offset.normalized.x < 0f)
         {

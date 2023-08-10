@@ -8,15 +8,17 @@ TagManager:
   - Platform
   - Wall
   - Monster
+  - MonsterAttack
+  - StunBody
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Platform
   - Water
   - UI
-  - Platform
-  - 
+  - PlayerAttack
+  - DetectedArea
   - 
   - 
   - 
