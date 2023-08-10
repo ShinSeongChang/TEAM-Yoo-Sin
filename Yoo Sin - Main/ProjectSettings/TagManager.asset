@@ -14,11 +14,11 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Platform
   - Water
   - UI
-  - Platform
-  - 
+  - PlayerAttack
+  - DetectedArea
   - 
   - 
   - 
@@ -58,4 +58,37 @@ TagManager:
     locked: 0
   - name: Layer 3
     uniqueID: 296397805
+    locked: 0
+  - name: BackGround
+    uniqueID: 3138603085
+    locked: 0
+  - name: New Layer 6
+    uniqueID: 1626214157
+    locked: 0
+  - name: New Layer 7
+    uniqueID: 4095102167
+    locked: 0
+  - name: New Layer 8
+    uniqueID: 2628346499
+    locked: 0
+  - name: New Layer 9
+    uniqueID: 3546698921
+    locked: 0
+  - name: MiddleGround
+    uniqueID: 960363497
+    locked: 0
+  - name: New Layer 11
+    uniqueID: 2193343465
+    locked: 0
+  - name: New Layer 12
+    uniqueID: 2597162089
+    locked: 0
+  - name: New Layer 13
+    uniqueID: 798554647
+    locked: 0
+  - name: New Layer 14
+    uniqueID: 2720577583
+    locked: 0
+  - name: ForeGround
+    uniqueID: 1411283515
     locked: 0
