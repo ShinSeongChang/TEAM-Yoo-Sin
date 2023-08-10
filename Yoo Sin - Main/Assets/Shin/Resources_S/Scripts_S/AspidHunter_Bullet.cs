@@ -23,7 +23,7 @@ public class AspidHunter_Bullet : MonoBehaviour
     {
         if(collision.tag.Equals("Player") || collision.tag.Equals("Platform") || collision.tag.Equals("Wall"))
         {
-            transform.position = Vector2.zero;
+            bulletRigid.velocity = Vector2.zero;
         }
     }
 
