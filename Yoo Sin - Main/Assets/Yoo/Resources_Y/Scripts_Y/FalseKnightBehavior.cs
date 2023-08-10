@@ -408,8 +408,10 @@ public class FalseKnightBehavior : MonoBehaviour
     {
         // 모닝스타 공격 범위 콜라이더를 활성화 하고 
         attackRange.enabled = true;
+        attackRange.transform.localPosition += new Vector3(0.00001f, 0, 0);
         // 공격 유지시간만큼 기다린 후 다음 행 너머 부터 실행
         yield return attackRemain;
+        attackRange.transform.localPosition -= new Vector3(0.00001f, 0, 0);
         // 모닝스타 공격 범위 콜라이더를 비활성화 하고
         attackRange.enabled = false;
         // 충격파 공격 중이 true라면
