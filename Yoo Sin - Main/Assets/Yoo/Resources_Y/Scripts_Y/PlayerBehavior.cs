@@ -53,6 +53,7 @@ public class PlayerBehavior : MonoBehaviour
         DOWN_ATTACK_L = 5,
         DOWN_ATTACK_R = 6
     }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -80,7 +81,8 @@ public class PlayerBehavior : MonoBehaviour
     {
         if (isDead == true)
         {
-            return;
+            playerAni.SetBool("IsDead", true);
+            StartCoroutine(Dead());
         }
 
         if (hp <= 0)
@@ -291,6 +293,19 @@ public class PlayerBehavior : MonoBehaviour
                 }
             }
         }
+    }
+
+    public int Get_Hp()
+    {
+        return hp;
+    }
+
+    IEnumerator Dead()
+    {
+        // 1프레임 후 오브젝트 파괴
+        yield return null;
+        Destroy(gameObject);
+        yield break;
     }
 
     // 플레이어 공격 코루틴

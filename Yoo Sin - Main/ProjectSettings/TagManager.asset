@@ -14,11 +14,11 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Platform
   - Water
   - UI
-  - Platform
-  - 
+  - PlayerAttack
+  - DetectedArea
   - 
   - 
   - 
