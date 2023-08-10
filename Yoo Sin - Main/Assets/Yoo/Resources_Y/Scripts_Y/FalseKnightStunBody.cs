@@ -17,19 +17,19 @@ public class FalseKnightStunBody: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 바디의 체력이 0이고, 바디콜라이더 트리거가 비활성화 이면
-        if (hp == 0 && bodyCollider.isTrigger == false) 
+        // 바디의 체력이 0이면
+        if (hp == 0) 
         {
-            // 바디콜라이더 트리거 활성화
-            bodyCollider.isTrigger = true;
+            // 바디콜라이더 비활성화
+            bodyCollider.enabled = false;
         }
         // 바디의 체력이 0이고, 스턴 관리 오브젝트의 스케일이 0이라면
         if (hp == 0 && transform.parent.transform.localScale == Vector3.zero)
         {
-            // 바디의 체력 13으로 초기화, 바디애니메이터, 바디콜라이더 트리거 비활성화
+            // 바디의 체력 13으로 초기화, 바디애니메이터 비활성화, 바디콜라이더 활성화
             hp = 13;
             bodyAni.enabled = false;
-            bodyCollider.isTrigger = false;
+            bodyCollider.enabled = true;
         }
         // 바디의 애니메이터가 비활성화 상태이고, 스턴관리 오브젝트의 스케일이 1이라면
         if (bodyAni.enabled == false && transform.parent.transform.localScale == Vector3.one)

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FalseKnightBehavior : MonoBehaviour
@@ -8,12 +9,13 @@ public class FalseKnightBehavior : MonoBehaviour
     private const int ATTACK_RANGE = 0;
     private const int STUN = 1;
 
-    private const float SHOCKWAVE_CHARGE_TIME = 1.37f;
+    private const float SHOCKWAVE_CHARGE_TIME = 1.35f;
     private const float TURN_TIME = 0.167f;
     private const float RUN_JUMP_TIME = 0.25f;
     private const float RUNNING = 0.7f;
-    private const float ATTACK_REMAIN_TIME = 0.3f;
-    private const float HEAD_OPEN_TIME = 0.75f;
+    private const float ATTACK_REMAIN_TIME = 0.25f;
+    private const float HEAD_OPEN_TIME = 0.417f;
+    private const float BEFORE_HEAD_OPEN_TIME = 1.583f;
 
     private const float RUN_DELAY = 5f;
     private const float ATTACK_DELAY = 2.5f;
@@ -45,6 +47,7 @@ public class FalseKnightBehavior : MonoBehaviour
     private WaitForSeconds running = new WaitForSeconds(RUNNING);
     private WaitForSeconds attackRemain = new WaitForSeconds(ATTACK_REMAIN_TIME);
     private WaitForSeconds headOpenDelay = new WaitForSeconds(HEAD_OPEN_TIME);
+    private WaitForSeconds beforeHeadOpen = new WaitForSeconds(BEFORE_HEAD_OPEN_TIME);
 
     private FalseKnightStunHead head;
 
@@ -222,11 +225,15 @@ public class FalseKnightBehavior : MonoBehaviour
         }
     }
 
-    // 기사가 스턴 상태로 되는 Stun함수
+    // 기사가 스턴 상태로 되는 Stun함수 (스턴 횟수가 일정 횟수가 되면 사망으로 변경)
     private void Stun()
     {
         // 스턴 횟수를 1 추가하고 기사의 애니메이터의 기본상태임을 false, 스턴상태임을 true로 초기화, StunStart트리거 활성화
         stunCount += 1;
+        if(stunCount == 3)
+        {
+            falseKnightAni.SetBool("IsDead", true);
+        }
         falseKnightAni.SetBool("IsIdle", false);
         falseKnightAni.SetBool("IsStun", true);
         falseKnightAni.SetTrigger("StunStart");
@@ -425,16 +432,31 @@ public class FalseKnightBehavior : MonoBehaviour
     // 기사의 투구를 여는 코루틴
     IEnumerator HeadOpen()
     {
-        // 1프레임 후 417행부터 실행
+        // 1프레임 후 다음 행 너머 부터 실행
+        yield return null;
+        // 기사의 콜라이더를 끄고 리지드바디를 못움직이게함
+        falseKnightCollider.enabled = false;
+        falseKnightRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+        // 땅 착지 후 머리 열리기 까지 대기시간
+        yield return beforeHeadOpen;
+        falseKnightAni.SetBool("HeadOpen", true);
+        //falseKnightRigidbody.gravityScale = 0;
+        // 투구열리는 애니메이션 시간만큼 기다린 후 다음 행 너머 부터 실행
+        yield return headOpenDelay;
+        falseKnightAni.SetBool("HeadOpen", false);
+        falseKnightAni.SetBool("IsHeadOpen", true);
+        // 여기서 코루틴 종료
+        yield break;
+    }
+
+    // 기사의 사망 코루틴
+    IEnumerator Dead()
+    {
+        // 1프레임 후 다음 행 너머 부터 실행
         yield return null;
         // 기사의 콜라이더를 끄고 리지드바디를 못움직이게 함
         falseKnightCollider.enabled = false;
         falseKnightRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
-        //falseKnightRigidbody.gravityScale = 0;
-        // 투구열리는 애니메이션 시간만큼 기다린 후 다음 행 너머 부터 실행
-        yield return headOpenDelay;
-        falseKnightAni.SetBool("IsHeadOpen", true);
-        // 여기서 코루틴 종료
         yield break;
     }
 
@@ -448,14 +470,19 @@ public class FalseKnightBehavior : MonoBehaviour
             falseKnightAni.SetBool("IsGround", true);
             falseKnightRigidbody.velocity = Vector2.zero;
             falseKnightRigidbody.gravityScale = 1;
+            // 사망이 true이면
+            if (falseKnightAni.GetBool("IsDead") == true)
+            {
+                StartCoroutine(Dead());
+            }
             // 스턴이 false 이고 내려찍기 공격중이 true라면
             if (falseKnightAni.GetBool("IsStun") == false && falseKnightAni.GetBool("IsTakeDown") == true)
             {
                 // 모닝스타 공격 유지시간 관리 코루틴 실행
                 StartCoroutine(AttackRemain());
             }
-
-            if (falseKnightAni.GetBool("IsStun") == true)
+            // 사망이 false 이고 스턴이 true라면
+            if (falseKnightAni.GetBool("IsDead") == false && falseKnightAni.GetBool("IsStun") == true)
             {
                 StartCoroutine(HeadOpen());
             }

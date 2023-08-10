@@ -8,6 +8,8 @@ TagManager:
   - Platform
   - Wall
   - Monster
+  - MonsterAttack
+  - StunBody
   layers:
   - Default
   - TransparentFX

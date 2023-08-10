@@ -25,9 +25,12 @@ public class PlayerAttackRight : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Monster") && isAttacking == false)
+        if (isAttacking == false)
         {
-            StartCoroutine(Hit());
+            if (other.CompareTag("Monster") || other.CompareTag("StunBody"))
+            {
+                StartCoroutine(Hit());
+            }
         }
     }
 
