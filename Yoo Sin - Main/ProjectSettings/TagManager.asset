@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - PlayerAttack
+  - Platform
+  - Wall
+  - Monster
+  - MonsterAttack
+  - StunBody
   layers:
   - Default
   - TransparentFX
@@ -41,13 +47,13 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Layer 0
+  - name: BackGround
     uniqueID: 734326035
     locked: 0
-  - name: Layer 1
+  - name: MiddleGround
     uniqueID: 396037349
     locked: 0
-  - name: Layer 2
+  - name: ForeGround
     uniqueID: 796755643
     locked: 0
   - name: Layer 3
