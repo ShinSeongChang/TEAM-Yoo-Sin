@@ -7,7 +7,7 @@ public class PlayerAttackRight : MonoBehaviour
     private Rigidbody2D playerRigidbody;
     private WaitForSeconds attackRemainTime;
     private PlayerBehavior playerAct;
-    private float repulsForce = -230f;
+    private float repulsForce = -300f;
     private bool isAttacking = false;
     // Start is called before the first frame update
     void Start()

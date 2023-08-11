@@ -911,7 +911,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.62, y: 1.28}
+  m_Size: {x: 0.4, y: 1.28}
   m_Direction: 0
 --- !u!114 &2048283406734315408
 MonoBehaviour:
@@ -992,7 +992,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.121568635, g: 0.1764706, b: 0.34901962, a: 0}
+  m_BackGroundColor: {r: 0.078431375, g: 0.078431375, b: 0.16078432, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

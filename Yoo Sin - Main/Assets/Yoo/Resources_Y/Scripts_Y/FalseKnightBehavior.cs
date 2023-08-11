@@ -9,19 +9,21 @@ public class FalseKnightBehavior : MonoBehaviour
     private const int ATTACK_RANGE = 0;
     private const int STUN = 1;
 
-    private const float SHOCKWAVE_CHARGE_TIME = 1.35f;
+    private const float SHOCKWAVE_CHARGE_TIME = 1.4f;
     private const float TURN_TIME = 0.167f;
     private const float RUN_JUMP_TIME = 0.25f;
     private const float RUNNING = 0.7f;
     private const float ATTACK_REMAIN_TIME = 0.25f;
     private const float HEAD_OPEN_TIME = 0.417f;
-    private const float BEFORE_HEAD_OPEN_TIME = 1.583f;
+    private const float BEFORE_HEAD_OPEN_TIME = 1.283f;
 
     private const float RUN_DELAY = 5f;
     private const float ATTACK_DELAY = 2.5f;
     private const float JUMP_FORCE = 400f;
     // 매직넘버들 상수 처리
 
+    public GameObject shockWavePrefab;
+    private GameObject shockWave;
     private Rigidbody2D falseKnightRigidbody;
     private Animator falseKnightAni;
     private BoxCollider2D detectRange;
@@ -77,7 +79,7 @@ public class FalseKnightBehavior : MonoBehaviour
         timeAfterRun = 0;
         whatToDo = 0;
         stunCount = 0;
-        randomNumber = Random.Range(0, 3);
+        randomNumber = 0;
     }
 
     void Update()
@@ -168,36 +170,73 @@ public class FalseKnightBehavior : MonoBehaviour
         if (falseKnightAni.GetBool("IsIdle") == true && falseKnightAni.GetBool("IsRun") == false
             && falseKnightAni.GetBool("IsTakeDown") == false && falseKnightAni.GetBool("IsShockWave") == false)
         {
-            // 공격 한 후의 시간이 공격 대기시간보다 크고 (공격 대기시간이 지났고) 플레이어와 기사의 거리가 11미만이라면
-            if (timeAfterAttack >= ATTACK_DELAY && distance < 11)
+            // 공격 한 후의 시간이 공격 대기시간보다 크고 (공격 대기시간이 지났고)
+            if (timeAfterAttack >= ATTACK_DELAY)
             {
-                // 3분의 1의 확률로 점프 공격, 충격파 공격, 내려찍기 공격을 함
-                if (whatToDo == Skill.jump)
+                // 거리가 0이상 5미만일 경우 점프, 내려찍기, 백점프 충격파 중 하나 사용
+                if(0 <= distance && distance < 5)
                 {
-                    StartCoroutine(Jump());
+                    randomNumber = Random.Range(0, 3);
+                    if (randomNumber == 0)
+                    {
+                        whatToDo = Skill.jump;
+                    }
+                    else if (randomNumber == 1)
+                    {
+                        whatToDo = Skill.takeDown;
+                    }
+                    else if(randomNumber == 2)
+                    {
+                        whatToDo = Skill.backJumpShockWave;
+                    }
+
+                    if (whatToDo == Skill.jump)
+                    {
+                        StartCoroutine(Jump());
+                    }
+                    else if (whatToDo == Skill.takeDown)
+                    {
+                        StartCoroutine(TakeDown());
+                    }
+                    else if (whatToDo == Skill.backJumpShockWave)
+                    {
+                        StartCoroutine(BackShockWave());
+                    }
                 }
-                else if (whatToDo == Skill.shockWave)
+                // 거리가 5이상 8미만 일경우 점프, 내려찍기, 충격파 중 하나 사용
+                else if (5 <= distance && distance < 8)
+                {
+                    randomNumber = Random.Range(0, 2);
+                    if (randomNumber == 0)
+                    {
+                        whatToDo = Skill.shockWave;
+                    }
+                    else if (randomNumber == 1)
+                    {
+                        whatToDo = Skill.takeDown;
+                    }
+                    else if (randomNumber == 2)
+                    {
+                        whatToDo = Skill.jump;
+                    }
+
+                    if (whatToDo == Skill.shockWave)
+                    {
+                        StartCoroutine(ShockWave());
+                    }
+                    else if (whatToDo == Skill.takeDown)
+                    {
+                        StartCoroutine(TakeDown());
+                    }
+                    else if (whatToDo == Skill.jump)
+                    {
+                        StartCoroutine(Jump());
+                    }
+                }
+                // 플레이어와 기사의 거리가 8이상 11미만이라면 충격파
+                else if (8 <= distance && distance < 11)
                 {
                     StartCoroutine(ShockWave());
-                }
-                else if (whatToDo == Skill.takeDown)
-                {
-                    StartCoroutine(TakeDown());
-                }
-
-                randomNumber = Random.Range(0, 3);
-
-                if (randomNumber == 0)
-                {
-                    whatToDo = Skill.jump;
-                }
-                else if (randomNumber == 1)
-                {
-                    whatToDo = Skill.shockWave;
-                }
-                else if (randomNumber == 2)
-                {
-                    whatToDo = Skill.takeDown;
                 }
             }
         }
@@ -397,15 +436,88 @@ public class FalseKnightBehavior : MonoBehaviour
         timeAfterAttack = 0;
         // 충격파 공격의 차징 시간동안 기다린 후 다음 행 너머 부터 실행
         yield return shockWaveDelay;
-        //// 여기에 지진파 생성 넣기 ////
+
+        if (falseKnightAni.GetBool("IsStun") == true)
+        {
+            yield break;
+        }
+
         StartCoroutine(AttackRemain());
+        if (lookRight == true)
+        {
+            shockWave = Instantiate(shockWavePrefab, new Vector3(transform.position.x + 2f, transform.position.y - 2f, 0), transform.rotation);
+        }
+        else if (lookRight == false)
+        {
+            shockWave = Instantiate(shockWavePrefab, new Vector3(transform.position.x - 2f, transform.position.y - 2f, 0), transform.rotation);
+        }
         // 여기서 코루틴 종료
         yield break;
+    }
+
+    // 기사가 후방점프후 충격파 공격을 하도록 하는 BackShockWave 코루틴
+    IEnumerator BackShockWave()
+    {
+        falseKnightAni.SetBool("IsIdle", false);
+        falseKnightAni.SetBool("IsBackShockWave", true);
+        // 공격 시작 후의 시간을 0으로 초기화
+        timeAfterAttack = 0;
+        // 달리기와 점프 준비 애니메이션이 실행되는 시간 만큼 기다린 후 다음 행 너머 부터 실행
+        yield return runAndJumpDelay;
+        // 플레이어가 오른쪽에 있다면
+        if (playerOnRight == true)
+        {
+            // 왼쪽으로 조금 뜀
+            falseKnightRigidbody.velocity = Vector2.zero;
+            falseKnightRigidbody.AddForce(new Vector2(-1 * 160, JUMP_FORCE));
+        }
+        // 플레이어가 오른쪽에 있지않다면
+        else if (playerOnRight == false)
+        {
+            // 오른쪽을 조금 뜀
+            falseKnightRigidbody.velocity = Vector2.zero;
+            falseKnightRigidbody.AddForce(new Vector2(160, JUMP_FORCE));
+        }
+
+        while (falseKnightAni.GetBool("IsBackShockWave") == true)
+        {
+            if (falseKnightAni.GetCurrentAnimatorStateInfo(0).IsName("FalseKnightBackJump_Land") == true)
+            {
+                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.96f)
+                {
+                    // 공격 시작 후의 시간을 0으로 초기화
+                    timeAfterAttack = 0;
+                    // 충격파 공격의 차징 시간동안 기다린 후 다음 행 너머 부터 실행
+                    yield return shockWaveDelay;
+                    if (falseKnightAni.GetBool("IsStun") == true)
+                    {
+                        yield break;
+                    }
+
+                    StartCoroutine(AttackRemain());
+                    if (lookRight == true)
+                    {
+                        shockWave = Instantiate(shockWavePrefab, new Vector3(transform.position.x + 2, transform.position.y - 2, 0), transform.rotation);
+                    }
+                    else if (lookRight == false)
+                    {
+                        shockWave = Instantiate(shockWavePrefab, new Vector3(transform.position.x - 2, transform.position.y - 2, 0), transform.rotation);
+                    }
+                    yield break;
+                    // 여기서 코루틴 종료
+                }
+            }
+            yield return null;
+        }
     }
 
     // 기사의 모닝스타 공격 유지시간을 관리하는 AttackRemain 코루틴
     IEnumerator AttackRemain()
     {
+        if(falseKnightAni.GetBool("IsStun") == true)
+        {
+            yield break;
+        }
         // 모닝스타 공격 범위 콜라이더를 활성화 하고 
         attackRange.enabled = true;
         attackRange.transform.localPosition += new Vector3(0.00001f, 0, 0);
@@ -425,8 +537,13 @@ public class FalseKnightBehavior : MonoBehaviour
         else if (falseKnightAni.GetBool("IsTakeDown") == true)
         {
             // 내려찍기 공격 중을 false로 초기화하고 기본 상태를 true로 초기화
-            falseKnightAni.SetBool("IsIdle", true);
             falseKnightAni.SetBool("IsTakeDown", false);
+            falseKnightAni.SetBool("IsIdle", true);
+        }
+        else if (falseKnightAni.GetBool("IsBackShockWave") == true)
+        {
+            falseKnightAni.SetBool("IsBackShockWave", false);
+            falseKnightAni.SetBool("IsIdle", true);
         }
         yield break;
     }
@@ -478,10 +595,13 @@ public class FalseKnightBehavior : MonoBehaviour
                 StartCoroutine(Dead());
             }
             // 스턴이 false 이고 내려찍기 공격중이 true라면
-            if (falseKnightAni.GetBool("IsStun") == false && falseKnightAni.GetBool("IsTakeDown") == true)
+            if (falseKnightAni.GetBool("IsStun") == false)
             {
-                // 모닝스타 공격 유지시간 관리 코루틴 실행
-                StartCoroutine(AttackRemain());
+                if (falseKnightAni.GetBool("IsTakeDown") == true)
+                {
+                    // 모닝스타 공격 유지시간 관리 코루틴 실행
+                    StartCoroutine(AttackRemain());
+                }
             }
             // 사망이 false 이고 스턴이 true라면
             if (falseKnightAni.GetBool("IsDead") == false && falseKnightAni.GetBool("IsStun") == true)

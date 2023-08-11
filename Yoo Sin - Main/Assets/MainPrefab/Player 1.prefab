@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 8377208512229297384}
   - component: {fileID: 6470067369479634512}
   - component: {fileID: 1756070796}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RightAttack
   m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
@@ -398,7 +398,7 @@ GameObject:
   - component: {fileID: 2589814915792143511}
   - component: {fileID: 5969152362231521530}
   - component: {fileID: 1426189915}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LeftAttack
   m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
@@ -534,7 +534,7 @@ GameObject:
   - component: {fileID: 2807317150500259916}
   - component: {fileID: 1728098384}
   - component: {fileID: 1035722558}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DownAttack_Left
   m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
@@ -669,7 +669,7 @@ GameObject:
   - component: {fileID: 2048283405836429760}
   - component: {fileID: 1062543585194235116}
   - component: {fileID: 344353843}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: UpAttack_Left
   m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
@@ -992,7 +992,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.121568635, g: 0.1764706, b: 0.34901962, a: 0}
+  m_BackGroundColor: {r: 0.003921569, g: 0.003921569, b: 0.007843138, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1037,7 +1037,7 @@ GameObject:
   - component: {fileID: 8189910698674713962}
   - component: {fileID: 5478676302817315153}
   - component: {fileID: 5088870604707358534}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: UpAttack_Right
   m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
@@ -1161,7 +1161,7 @@ GameObject:
   - component: {fileID: 8812483920079146590}
   - component: {fileID: 2932116444759511914}
   - component: {fileID: 1565553063}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DownAttack_Right
   m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
