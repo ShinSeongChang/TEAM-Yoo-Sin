@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,7 +13,9 @@ public class AspidHunter : MonoBehaviour
     private SpriteRenderer aspidSprite = default;
     private Animator aspidAnimator = default;
 
-    private Vector2 firstPos = default;
+    public GameObject bulletPrefab = default;
+
+    private Vector2 firstPos = default;   
 
     public float xPos = default;
     public float yPos = default;
@@ -21,6 +24,7 @@ public class AspidHunter : MonoBehaviour
     public bool isIdle = false;
     public bool isStay = false;
     public bool chaseLimit = false;
+    public bool isFire = false;
 
     private float areaSpeed = 1.0f;
     private float chaseSpeed = 2.0f;
@@ -116,7 +120,7 @@ public class AspidHunter : MonoBehaviour
 
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    public void OnTriggerStay2D(Collider2D collision)
     {
         
         if (isDead.Equals(false) && collision.tag.Equals("Player"))
@@ -128,6 +132,7 @@ public class AspidHunter : MonoBehaviour
             Vector2 myPos = new Vector2(transform.position.x, transform.position.y);
             // 플레이어 위치 추적
             Debug.DrawRay(transform.position, (transform.position - collision.transform.position) * - 1 , Color.green);
+
             Vector2 offset = collision.transform.position - transform.position;
 
             if (offset.normalized.x > 0)
@@ -141,21 +146,6 @@ public class AspidHunter : MonoBehaviour
 
             aspidRigid.velocity = offset.normalized * chaseSpeed;
 
-
-            //chasedArea = transform.position - collision.transform.position;
-            //chasedNoramalize = chasedArea.normalized;
-            //chasedPos = new Vector2(transform.position.x + chasedNoramalize.x, transform.position.y + chasedNoramalize.y);
-
-            //if(transform.position.x <= chasedPos.x && transform.position.y <= chasedPos.y)
-            //{
-            //    aspidRigid.velocity = Vector2.zero;
-            //    chaseLimit = true;
-            //}
-            //else
-            //{
-            //    chaseLimit = false;
-            //}
-
             chasedArea = transform.position - collision.transform.position;
             chasedNoramalize = chasedArea.normalized * 5f;
             chasedPos = new Vector2(collision.transform.position.x + chasedNoramalize.x, collision.transform.position.y + chasedNoramalize.y);
@@ -168,7 +158,7 @@ public class AspidHunter : MonoBehaviour
                 {
                     Debug.Log("왼쪽 아래");
                     //aspidRigid.velocity = aspidRigid.velocity * -1 * 1f;
-                    Invoke("OppositeVector", 0.25f);
+                    Invoke("OppositeVector", 0.1f);
                 }
             }
 
@@ -179,7 +169,7 @@ public class AspidHunter : MonoBehaviour
                 {
                     Debug.Log("왼쪽 위");
                     //aspidRigid.velocity = Vector2.zero;
-                    Invoke("OppositeVector", 0.25f);
+                    Invoke("OppositeVector", 0.1f);
                 }
             }
 
@@ -190,7 +180,7 @@ public class AspidHunter : MonoBehaviour
                 {
                     Debug.Log("오른쪽 아래");
                     //aspidRigid.velocity = Vector2.zero;
-                    Invoke("OppositeVector", 0.25f);
+                    Invoke("OppositeVector", 0.1f);
                 }
             }
 
@@ -201,32 +191,15 @@ public class AspidHunter : MonoBehaviour
                 {
                     Debug.Log("오른쪽 위");
                     //aspidRigid.velocity = Vector2.zero;
-                    Invoke("OppositeVector", 0.25f);
+                    Invoke("OppositeVector", 0.1f);
                 }
             }
 
-            //if (aspidRigid.position.x <= chasedPos.x)
-            //{
-            //    //Debug.Log("도달했음");
-            //    //Debug.Log(aspidRigid.position);
-            //    //Debug.LogFormat("도달할 위치 {0}", chasedPos);
-            //    //Debug.Log("찍히나?");
-
-            //    //aspidRigid.velocity = Vector2.zero;
-
-            //    //chasedArea = transform.position - collision.transform.position;
-            //    //chasedNoramalize = chasedArea.normalized * 0.1f;
-            //    //chasedPos = new Vector2(transform.position.x + chasedNoramalize.x, transform.position.y + chasedNoramalize.y);
-
-            //    //Debug.LogFormat("탐지된 플레이어로부터 몬스터의 거리 : {0}", chasedArea);
-            //    //Debug.LogFormat("몬스터가 추격할 최종 포지션 : {0}", chasedNoramalize);
-            //    //Debug.LogFormat("몬스터가 추격할 최종 포지션 : {0}", chasedPos);
-
-                
-            //    //myPos = new Vector2(transform.position.x + chaseSpeed, transform.position.y + chaseSpeed);
-            //    //Debug.LogFormat("몬스터가 추격할 거리 {0}", myPos);
-            //}
-
+            if(isFire.Equals(false))
+            {
+                isFire = true;
+                StartCoroutine(FireBullet());
+            }
 
         }        
         
@@ -262,5 +235,13 @@ public class AspidHunter : MonoBehaviour
     private void OppositeVector()
     {
         aspidRigid.velocity *= -1 * 0.2f;
+    }
+
+    IEnumerator FireBullet()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        isFire = false;
+        Instantiate(bulletPrefab, transform.position, Quaternion.identity);
     }
 }

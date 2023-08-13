@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6974052597325055586}
   - component: {fileID: 6974052597325055598}
   - component: {fileID: 6974052597325055599}
-  - component: {fileID: 6603697576558696185}
+  - component: {fileID: 3556973726256143692}
   m_Layer: 0
   m_Name: Vengefly
   m_TagString: Monster
@@ -147,7 +147,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6603697576558696185
+--- !u!114 &3556973726256143692
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

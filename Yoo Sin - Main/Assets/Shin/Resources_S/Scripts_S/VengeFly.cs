@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Vengefly : MonoBehaviour
+public class VengeFly : MonoBehaviour
 {
     private Rigidbody2D vengeflyRigid = default;
     private Transform vengeflyTransform = default;

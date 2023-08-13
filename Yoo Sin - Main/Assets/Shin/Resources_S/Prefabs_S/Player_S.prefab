@@ -592,7 +592,7 @@ GameObject:
   - component: {fileID: 2048283405756659540}
   m_Layer: 0
   m_Name: Player_S
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -721,6 +721,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 7
+  isHitRight: 0
+  isHitLeft: 0
+  isHitDown: 0
 --- !u!95 &2048283405756659540
 Animator:
   serializedVersion: 5
