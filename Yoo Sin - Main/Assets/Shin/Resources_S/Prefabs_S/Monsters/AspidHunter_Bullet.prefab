@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8500034441953560908}
   m_Layer: 0
   m_Name: AspidHunter_Bullet
-  m_TagString: Untagged
+  m_TagString: MonsterAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,7 +121,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 038a5c40051611b4eace732183b1205d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 2048283406734315409, guid: d726442b3196d4147b3c14cedf928a9f, type: 3}
 --- !u!58 &8500034441953560909
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ public class AspidHunter_Bullet : MonoBehaviour
     private SpriteRenderer bulletSprite = default;
     private Transform player = default;
 
-    private float bulletSpeed = 5.0f;
+    private float bulletSpeed = 8.0f;
 
     void Start()
     {
