@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
         }
         else if(menuCursor.anchoredPosition.y < -299f && enter == true)
         {
-            UnityEditor.EditorApplication.isPlaying = false;
+            //UnityEditor.EditorApplication.isPlaying = false;
             Application.Quit();
         }
     }
