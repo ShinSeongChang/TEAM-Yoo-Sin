@@ -57,7 +57,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1939589898905496812}
   - component: {fileID: 1939589898905496787}
-  - component: {fileID: 1939589898905496786}
+  - component: {fileID: 7483903584601645278}
   - component: {fileID: 1939589898905496785}
   - component: {fileID: 1939589898905496784}
   m_Layer: 0
@@ -134,8 +134,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!70 &1939589898905496786
-CapsuleCollider2D:
+--- !u!60 &7483903584601645278
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -147,9 +147,54 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.065, y: -1}
-  m_Size: {x: 2.33, y: 1.9}
-  m_Direction: 1
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.528, y: 0.429}
+    oldSize: {x: 3.84, y: 4.58}
+    newSize: {x: 3.47, y: 2.59}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.54248, y: -1.8948199}
+      - {x: 0.62248, y: -1.79482}
+      - {x: 0.63248, y: -1.7648199}
+      - {x: 0.63248, y: -1.66482}
+      - {x: 0.57248, y: -1.4748199}
+      - {x: 0.60248, y: -1.1148199}
+      - {x: 0.81248, y: -0.93481994}
+      - {x: 0.86248, y: -0.86481994}
+      - {x: 1.1, y: -0.7848199}
+      - {x: 1.08, y: -0.66481996}
+      - {x: 1, y: -0.49481994}
+      - {x: 0.87, y: -0.30481994}
+      - {x: 0.6, y: -0.091994}
+      - {x: 0.47248, y: -0.038}
+      - {x: 0.24248001, y: 0.04005}
+      - {x: -0.22751999, y: 0.0418005}
+      - {x: -0.49751997, y: -0.04181994}
+      - {x: -0.75751996, y: -0.17481995}
+      - {x: -1.01752, y: -0.41481993}
+      - {x: -1.09752, y: -0.5248199}
+      - {x: -1.1875199, y: -0.66481996}
+      - {x: -1.23752, y: -0.8448199}
+      - {x: -1.24752, y: -0.92481995}
+      - {x: -1.25752, y: -1.27482}
+      - {x: -1.3075199, y: -1.3148199}
+      - {x: -1.46752, y: -1.4848199}
+      - {x: -1.77752, y: -1.5748199}
+      - {x: -1.9175199, y: -1.7048199}
+      - {x: -1.9752, y: -1.79482}
+      - {x: -1.9752, y: -1.8548199}
+      - {x: -1.9752, y: -1.8482}
+      - {x: -1.85752, y: -1.82}
+      - {x: -1.27752, y: -1.93482}
+      - {x: -0.90752, y: -1.894482}
+      - {x: 0.09248001, y: -1.94482}
+      - {x: 0.30248, y: -1.93482}
 --- !u!95 &1939589898905496785
 Animator:
   serializedVersion: 5
@@ -193,7 +238,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1939589899239987350}
   - component: {fileID: 1939589899239987349}
-  - component: {fileID: 1939589899239987348}
+  - component: {fileID: 4983729931743861149}
   - component: {fileID: 1939589899239987355}
   - component: {fileID: 1939589899239987354}
   m_Layer: 0
@@ -270,8 +315,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!70 &1939589899239987348
-CapsuleCollider2D:
+--- !u!60 &4983729931743861149
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -283,9 +328,35 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.21, y: -0.06}
-  m_Size: {x: 0.71, y: 1.05}
-  m_Direction: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.17, y: 1.18}
+    newSize: {x: 1.17, y: 1.18}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.58, y: 0}
+      - {x: 0.54, y: 0.19}
+      - {x: 0.35999998, y: 0.46}
+      - {x: 0.25, y: 0.52}
+      - {x: -0.099999994, y: 0.56}
+      - {x: -0.39999998, y: 0.43}
+      - {x: -0.5, y: 0.3}
+      - {x: -0.55, y: 0.13}
+      - {x: -0.58, y: -0.04}
+      - {x: -0.57, y: -0.22}
+      - {x: -0.42999998, y: -0.47}
+      - {x: -0.28, y: -0.55}
+      - {x: -0.19999999, y: -0.57}
+      - {x: 0.32, y: -0.57}
+      - {x: 0.5, y: -0.46}
+      - {x: 0.53, y: -0.39999998}
+      - {x: 0.58, y: -0.26999998}
 --- !u!95 &1939589899239987355
 Animator:
   serializedVersion: 5

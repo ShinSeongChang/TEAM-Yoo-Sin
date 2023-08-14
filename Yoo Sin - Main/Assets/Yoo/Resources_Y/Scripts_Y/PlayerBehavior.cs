@@ -25,7 +25,7 @@ public class PlayerBehavior : MonoBehaviour
     private float attackDelay = 0.46f;
     private float timeAfterAttack = 0f;
     private float jumpForce = 500f;
-    private float horizontalKnockBackForce = 400f;
+    private float horizontalKnockBackForce = 300f;
     private float verticalKnockBackForce = 300f;
 
     private Vector3 monsterPosition;
@@ -95,17 +95,20 @@ public class PlayerBehavior : MonoBehaviour
 
         // 점프 관련
         #region
-        // 점프 가능 횟수가 1 이고, z키(점프키)를 누르는 순간
-        if (jumpCount == 1 && Input.GetKeyDown(KeyCode.Z))
+        if (isKnockBack == false)
         {
-            // 점프 카운트 0으로 초기화, 땅에 있음, 떨어지는 중을 false으로 초기화
-            jumpCount = 0;
-            isGround = false;
-            playerAni.SetBool("IsGround", false);
-            playerAni.SetBool("IsFall", false);
-            // velocity 0으로 초기화, velocity에 점프 힘 추가
-            playerRigidbody.velocity = Vector2.zero;
-            playerRigidbody.AddForce(new Vector2(0, jumpForce));
+            // 점프 가능 횟수가 1 이고, z키(점프키)를 누르는 순간
+            if (jumpCount == 1 && Input.GetKeyDown(KeyCode.Z))
+            {
+                // 점프 카운트 0으로 초기화, 땅에 있음, 떨어지는 중을 false으로 초기화
+                jumpCount = 0;
+                isGround = false;
+                playerAni.SetBool("IsGround", false);
+                playerAni.SetBool("IsFall", false);
+                // velocity 0으로 초기화, velocity에 점프 힘 추가
+                playerRigidbody.velocity = Vector2.zero;
+                playerRigidbody.AddForce(new Vector2(0, jumpForce));
+            }
         }
 
         // 땅에 있음이 false이고 z키(점프키)를 누르는 중이고 점프 카운트가 0 일 때 
@@ -123,14 +126,22 @@ public class PlayerBehavior : MonoBehaviour
             playerAni.SetBool("IsFall", true);
         }
 
-        // 하단 공격이 false 이고 점프 중이 false이고 땅에 붙어있음이 false이거나 하단 공격이 false 이고 플레이어의 리지드바디의 벨로시티의 y값이 0 미만이라면(위로 올라가는 힘이 0미만이라면)
-        if (isHitDown == false && isJumping == false && isGround == false || isHitDown == false && isGround == false && playerRigidbody.velocity.y < 0)
+        if (isKnockBack == true)
         {
-            // 땅으로 더 빨리 떨어지게함, 떨어지는 중임을 true로 초기화
-            if (playerRigidbody.gravityScale == 1)
+            playerRigidbody.gravityScale = 1;
+        }
+
+        if (isKnockBack == false)
+        {
+            // 하단 공격이 false 이고 점프 중이 false이고 땅에 붙어있음이 false이거나 하단 공격이 false 이고 플레이어의 리지드바디의 벨로시티의 y값이 0 미만이라면(위로 올라가는 힘이 0미만이라면)
+            if (isHitDown == false && isJumping == false && isGround == false || isHitDown == false && isGround == false && playerRigidbody.velocity.y < 0)
             {
-                playerRigidbody.gravityScale = 5;
-                playerAni.SetBool("IsFall", true);
+                // 땅으로 더 빨리 떨어지게함, 떨어지는 중임을 true로 초기화
+                if (playerRigidbody.gravityScale == 1)
+                {
+                    playerRigidbody.gravityScale = 5;
+                    playerAni.SetBool("IsFall", true);
+                }
             }
         }
         #endregion
@@ -178,6 +189,7 @@ public class PlayerBehavior : MonoBehaviour
             // 우측 공격성공이 아니고, 우측 방향키를 누르는 중이고 좌측 방향키를 누르는 중이 아닐 때
             if (isHitRight == false && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow))
             {
+                playerRigidbody.velocity = new Vector2(0, playerRigidbody.velocity.y);
                 // 우측으로 이동속도에 비례하게 이동, 왼쪽을 봄을 false로, 오른쪽을 봄을 true로 초기화
                 transform.position += moveSpeed * Time.deltaTime * transform.right;
                 isLeft = false;
@@ -189,6 +201,7 @@ public class PlayerBehavior : MonoBehaviour
             // 좌측 공격성공이 아니고, 좌측 방향키를 누르는 중이고 우측 방향키를 누르는 중이 아닐 때
             else if (isHitLeft == false && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
             {
+                playerRigidbody.velocity = new Vector2(0, playerRigidbody.velocity.y);
                 // 좌측으로 이동속도에 비례하게 이동, 오른쪽을 봄을 false로, 왼쪽을 봄을 true로 초기화
                 transform.position -= moveSpeed * Time.deltaTime * transform.right;
                 isLeft = true;
@@ -203,10 +216,10 @@ public class PlayerBehavior : MonoBehaviour
         // x키(공격) 관련
         if (Input.GetKeyDown(KeyCode.X))
         {
-            if (isKnockBack == true)
-            {
-                return;
-            }
+            //if (isKnockBack == true)
+            //{
+            //    return;
+            //}
             // 위를 봄이 true일 때
             if (isUp == true)
             {
@@ -405,7 +418,9 @@ public class PlayerBehavior : MonoBehaviour
     {
         if (collision.collider.CompareTag("Platform") || collision.collider.CompareTag("StunBody"))
         {
+            jumpCount = 1;
             playerRigidbody.gravityScale = 1;
+            isGround = true;
             playerAni.SetBool("IsGround", true);
             //playerAni.SetBool("IsFall", false);
         }
@@ -420,7 +435,7 @@ public class PlayerBehavior : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isInvincible == false && collision.CompareTag("MonsterAttack"))
         {
