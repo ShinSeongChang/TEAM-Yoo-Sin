@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class Room001Finish : MonoBehaviour
 {
-    public GameObject player = default;
+    public Transform player = default;
     public Transform room2Start = default;
 
     // Room001 끝지점 도달시 플레이어를 Room002 시작지점으로 이동
