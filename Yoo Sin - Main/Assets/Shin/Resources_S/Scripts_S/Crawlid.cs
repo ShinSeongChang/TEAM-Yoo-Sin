@@ -37,33 +37,41 @@ public class Crawlid : MonoBehaviour
     private void FixedUpdate()
     {
         myPos = transform.position;
-
-        // Crawlid의 이동 로직 == 죽지않았을 때, 돌고있는 상태가 아닐 때, 맞고있을때가 아닐 때 한 방향으로 움직인다.
-        if (isDie == false &&isTurn == false && isHit == false)
+        
+        // crawlid의 update 행동들은 살아있는 동안만 동작한다.
+        if(isDie.Equals(false))
         {
-            crawlidRigid.velocity = new Vector2(speed * vector, crawlidRigid.velocity.y);        
-        }
+
+            // Crawlid의 이동 로직 == 죽지않았을 때, 돌고있는 상태가 아닐 때, 맞고있을때가 아닐 때 한 방향으로 움직인다.
+            if (isTurn == false && isHit == false)
+            {
+                crawlidRigid.velocity = new Vector2(speed * vector, crawlidRigid.velocity.y);        
+            }
 
 
-        // *{ 레이캐스트로 절벽 탐지하는 로직
+            // *{ 레이캐스트로 절벽 탐지하는 로직
 
-        // 레이캐스트의 시작점 == crawlid보다 x값이 0.6앞선 위치 * vector로 왼쪽인지 오른쪽인지 판별한다.
-        Vector2 crawlidFront = new Vector2(transform.position.x + 0.6f * vector, transform.position.y);
-        // 레이캐스트의 끝점 == 시작점에의 y값의 -1f한 지점까지 찍을예정
-        Vector2 crawlidFrontdown = new Vector2(0, -1f);
+            // 레이캐스트의 시작점 == crawlid보다 x값이 0.6앞선 위치 * vector로 왼쪽인지 오른쪽인지 판별한다.
+            Vector2 crawlidFront = new Vector2(transform.position.x + 0.6f * vector, transform.position.y);
 
-        // 레이캐스트가 찍히는곳을 직접 봐보기
-        // Debug.DrawRay(crawlidFront, crawlidFrontdown, Color.green);
+            // 레이캐스트의 끝점 == 시작점에의 y값의 -1f한 지점까지 찍을예정
+            Vector2 crawlidFrontdown = new Vector2(0, -1f);
+
+            // 레이캐스트가 찍히는곳을 직접 봐보기
+            // Debug.DrawRay(crawlidFront, crawlidFrontdown, Color.green);
  
-        RaycastHit2D hit = Physics2D.Raycast(crawlidFront, crawlidFrontdown, 1, LayerMask.GetMask("Platform"));
+            RaycastHit2D hit = Physics2D.Raycast(crawlidFront, crawlidFrontdown, 1, LayerMask.GetMask("Platform"));
 
-        // 레이캐스트가 찍은곳에 플랫폼이 없으며 현재 플랫폼 위에 있는 상태라면
-        if (isGround == true && hit.collider == null) 
-        {
-            StartCoroutine(Turning());
+            // 레이캐스트가 찍은곳에 플랫폼이 없으며 현재 플랫폼 위에 있는 상태라면
+            if (isGround == true && hit.collider == null) 
+            {
+                StartCoroutine(Turning());
+            }
+
+            // *} 레이캐스트로 절벽 탐지하는 로직
+
         }
 
-        // *} 레이캐스트로 절벽 탐지하는 로직
 
     }
 
@@ -73,18 +81,6 @@ public class Crawlid : MonoBehaviour
         // 충돌 지점의 좌표를 받아내는 crashedPoint
         Vector2 crashedPoint = collision.contacts[0].point;
         Vector2 crashedNormalize = crashedPoint - myPos;
-
-        // 죽은상태에서는 포물선으로 날아가게 설정, 날아가는 도중 플랫폼에 닿으면
-        if(isDie == true && collision.collider.tag.Equals("Platform") && crashedNormalize.y < -0.2f)
-        {
-            crawlidAnimator.SetTrigger("Die_Land");
-
-            Debug.Log(crashedNormalize);
-            // Rigidbody 비활성화
-            crawlidRigid.simulated = false;
-            // 충돌을 제외하기 위한 Collider 비활성화
-            crawlidCollider.enabled = false;
-        }
 
         // 충돌한것이 플레이어가 아니며
         if(collision.collider.tag != "Player")
@@ -117,6 +113,24 @@ public class Crawlid : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
+        if(isDie.Equals(true))
+        {
+            crawlidRigid.velocity = crawlidRigid.velocity * 0f;
+
+            if(collision.tag.Equals("Platform"))
+            {
+                crawlidAnimator.SetTrigger("Die_Land");
+
+                // Rigidbody 비활성화
+                crawlidRigid.simulated = false;
+
+                // 충돌을 제외하기 위한 Collider 비활성화
+                crawlidCollider.enabled = false;
+            }
+
+        }
+
         // 플레이어의 공격에 닿게 되면
         if(collision.tag.Equals("PlayerAttack"))
         {
@@ -129,20 +143,21 @@ public class Crawlid : MonoBehaviour
 
             // 라이프 카운트가 0 이하가 되면
             if(lifeCount <= 0)
-            {            
-                // isDie = true , 속력을 잃고, 죽는 애니메이션 재생
+            {
+                // isDie = true, 날아가는 도중 충돌력을 제외하기 위해 isTrigger = true
+                crawlidCollider.isTrigger = true;
                 isDie = true;
                 crawlidRigid.velocity = Vector2.zero;
                 crawlidAnimator.SetTrigger("Die");
 
                 // 만약 플레이어가 왼쪽방향에서 가격하여 사망하게 된경우
-                if (offset.normalized.x < 0f && (offset.normalized.y > -0.3f && offset.normalized.y < 0.3f))
+                if (offset.normalized.x < 0f && (offset.normalized.y > -0.5f && offset.normalized.y < 0.5f))
                 {
                     // 오른쪽 윗 대각선으로 날아간다.
                     Vector2 hitForce = new Vector2(10f, 2.5f);
                     crawlidRigid.AddForce(hitForce, ForceMode2D.Impulse);
                 }
-                else if (offset.normalized.x > 0f && (offset.normalized.y > -0.3f && offset.normalized.y < 0.3f))
+                else if (offset.normalized.x > 0f && (offset.normalized.y > -0.5f && offset.normalized.y < 0.5f))
                 {
                     // 플레이어가 오른쪽 방향에서 가격하여 사망하게 된 경우 왼쪽 윗 대각선으로 날아간다.
                     Vector2 hitForce = new Vector2(-10f, 2.5f);
