@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Thread : MonoBehaviour
 {
-    Needle needle;
+    private Hornet_Needle needle;
     private Animator threadAni;
     // Start is called before the first frame update
     void Start()
     {
-        needle = transform.GetComponentInParent<Needle>();
+        needle = transform.GetComponentInParent<Hornet_Needle>();
         threadAni = GetComponent<Animator>();
     }
 

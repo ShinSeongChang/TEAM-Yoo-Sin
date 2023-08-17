@@ -318,15 +318,15 @@ public class FalseKnightBehavior : MonoBehaviour
         falseKnightAni.SetBool("IsTurn", true);
         // Turn애니메이션이 실행되는 시간 만큼 기다린 후 다음 행 너머 부터 실행
         yield return turnDelay;
-        // 플레이어가 기사 오른쪽에 있지않으나 기사가 오른쪽을 보고 있다면
-        if (playerOnRight == false && lookRight == true)
+        // 기사가 오른쪽을 보고 있다면
+        if (/*playerOnRight == false &&*/ lookRight == true)
         {
             // 기사가 왼쪽을 보도록하고, 기사가 오른쪽을 보고있지않다고 저장함
             transform.rotation = toLeft;
             lookRight = false;
         }
-        // 플레이어가 기사 오른쪽에 있으나 기사가 오른쪽을 보고 있지않다면
-        else if (playerOnRight == true && lookRight == false)
+        // 기사가 오른쪽을 보고 있지않다면
+        else if (/*playerOnRight == true &&*/ lookRight == false)
         {
             // 기사가 오른쪽을 보도록하고, 기사가 오른쪽을 보고있다고 저장함
             transform.rotation = toRight;

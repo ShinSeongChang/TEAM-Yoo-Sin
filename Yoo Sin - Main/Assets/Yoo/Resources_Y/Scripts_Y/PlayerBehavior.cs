@@ -327,9 +327,9 @@ public class PlayerBehavior : MonoBehaviour
         // 플레이어 애니메이터의 어택트리거 활성화
         playerAni.SetTrigger("Attack");
         // 공격 스프라이트와 공격 콜라이더, 공격 애니메이터를 킴
+        attackSprite.enabled = true;
         attackAni.enabled = true;
         attackAni.SetTrigger("Awake");
-        attackSprite.enabled = true;
         attackCollider.enabled = true;
         // 공격 지속 시간이 지난 후 아래 줄을 실행함
         yield return attackRemainTime;
@@ -398,7 +398,7 @@ public class PlayerBehavior : MonoBehaviour
             jumpCount = 1;
             playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, 0);
             isGround = true;
-            //playerRigidbody.gravityScale = 1;
+            playerRigidbody.gravityScale = 1;
             playerAni.SetBool("IsGround", true);
             //playerAni.SetBool("IsFall", false);
         }
@@ -418,10 +418,10 @@ public class PlayerBehavior : MonoBehaviour
     {
         if (collision.collider.CompareTag("Platform") || collision.collider.CompareTag("StunBody"))
         {
-            jumpCount = 1;
-            playerRigidbody.gravityScale = 1;
-            isGround = true;
-            playerAni.SetBool("IsGround", true);
+            //jumpCount = 1;
+            //playerRigidbody.gravityScale = 1;
+            //isGround = true;
+            //playerAni.SetBool("IsGround", true);
             //playerAni.SetBool("IsFall", false);
         }
     }
