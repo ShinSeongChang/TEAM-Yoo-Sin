@@ -22,19 +22,20 @@ public class MenuCursor : MonoBehaviour
         {
             cursorTransform.anchoredPosition = new Vector2(cursorTransform.anchoredPosition.x, cursorTransform.anchoredPosition.y - 100f);
 
-            if (cursorTransform.anchoredPosition.y < -300)
+            if (cursorTransform.anchoredPosition.y < -295f)
             {
-                cursorTransform.anchoredPosition = new Vector2(0f, -200f);
+                cursorTransform.anchoredPosition = new Vector2(0f, -195f);
             }
         }
         else if (upKey.Equals(true))
         {
             cursorTransform.anchoredPosition = new Vector2(cursorTransform.anchoredPosition.x, cursorTransform.anchoredPosition.y + 100f);
 
-            if (cursorTransform.anchoredPosition.y > -200f)
+            if (cursorTransform.anchoredPosition.y > -195f)
             {
-                cursorTransform.anchoredPosition = new Vector2(0f, -300f);
+                cursorTransform.anchoredPosition = new Vector2(0f, -295f);
             }
         }
+
     }
 }
