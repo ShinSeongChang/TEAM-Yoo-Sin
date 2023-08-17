@@ -32,7 +32,7 @@ public class HornetBodys : MonoBehaviour
         {
             hornetRigidbody.velocity = Vector2.zero;
             hornetAni.SetBool("IsGround", true);
-            if(hornetRotationZ != 0)
+            if (hornetAni.GetBool("IsIdle") == false)
             {
                 //Debug.Log("여기들어옴?");
                 if (hornetBehavior.Get_LookLeft() == true)
@@ -45,6 +45,11 @@ public class HornetBodys : MonoBehaviour
                     transform.parent.transform.rotation = toRight;
                     //Debug.Log("오른쪽으로");
                 }
+            }
+
+            if (hornetRigidbody.gravityScale != 5)
+            {
+                hornetRigidbody.gravityScale = 5;
             }
         }
 
