@@ -20,9 +20,7 @@ public class CursorscaleStart : MonoBehaviour
 
     private bool isEnlargement = false;
     private bool isRedution = false;
-    private bool isLeave = false;
-
-    private float wiatTime = 0.25f;
+    private bool isLeave = false;    
 
     // Start is called before the first frame update
     void Start()

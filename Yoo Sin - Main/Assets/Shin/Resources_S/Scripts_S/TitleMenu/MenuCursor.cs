@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MenuCursor : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class MenuCursor : MonoBehaviour
     {
         bool upKey = Input.GetKeyDown(KeyCode.UpArrow);
         bool downKey = Input.GetKeyDown(KeyCode.DownArrow);
+        bool enter = Input.GetKeyDown(KeyCode.Return);
 
         if (downKey.Equals(true))
         {
@@ -35,6 +37,17 @@ public class MenuCursor : MonoBehaviour
             {
                 cursorTransform.anchoredPosition = new Vector2(0f, -295f);
             }
+        }
+
+
+        if (cursorTransform.anchoredPosition.y > -201f && enter == true)
+        {
+            SceneManager.LoadScene("Room001");
+        }
+        else if (cursorTransform.anchoredPosition.y < -299f && enter == true)
+        {
+            //UnityEditor.EditorApplication.isPlaying = false;
+            Application.Quit();
         }
 
     }
