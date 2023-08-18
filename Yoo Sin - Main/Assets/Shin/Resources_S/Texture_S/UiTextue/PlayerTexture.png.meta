@@ -528,7 +528,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerTexture_0
+      name: skill006
       rect:
         serializedVersion: 2
         x: 286
@@ -549,7 +549,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerTexture_1
+      name: skill003
       rect:
         serializedVersion: 2
         x: 396
@@ -557,7 +557,7 @@ TextureImporter:
         width: 39
         height: 39
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -578,7 +578,7 @@ TextureImporter:
         width: 39
         height: 39
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -586,6 +586,195 @@ TextureImporter:
       bones: []
       spriteID: efaaf19c5064f4947b02d909e18298f5
       internalID: 884436462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skill010
+      rect:
+        serializedVersion: 2
+        x: 402
+        y: 1296
+        width: 39
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d053943cc5a2fa84abbc5560a79f5f62
+      internalID: 1677609141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skill004
+      rect:
+        serializedVersion: 2
+        x: 402
+        y: 1257
+        width: 39
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73e633d79d804554eb2c10497dbe35e6
+      internalID: 547363859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skill005
+      rect:
+        serializedVersion: 2
+        x: 357
+        y: 1319
+        width: 39
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88a292a69fa5161468eab340517287f2
+      internalID: 1474444938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skill002
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 1319
+        width: 39
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: adbbde0d7b31aef43bfa587991d7d78d
+      internalID: 525369395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skill008
+      rect:
+        serializedVersion: 2
+        x: 247
+        y: 1353
+        width: 39
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ccf6e6bfef4eb6044bf8ca31cf259871
+      internalID: 218963914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skill007
+      rect:
+        serializedVersion: 2
+        x: 218
+        y: 1392
+        width: 39
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0ce69ebcf68f3045be4036afdf6714b
+      internalID: 1131897358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skill009
+      rect:
+        serializedVersion: 2
+        x: 179
+        y: 1390
+        width: 39
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5fae77af5ea1f3446a511b758d1250bf
+      internalID: -910032926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skill001
+      rect:
+        serializedVersion: 2
+        x: 179
+        y: 1429
+        width: 39
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2c64803b1be30748b077190924551dd
+      internalID: 2121896643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerTexture_0
+      rect:
+        serializedVersion: 2
+        x: 795
+        y: 1009
+        width: 111
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9cacb9c528bb76e4c873218da11f4bdf
+      internalID: -1375232639
       vertices: []
       indices: 
       edges: []
@@ -618,11 +807,20 @@ TextureImporter:
       PlayerHealth_Idle004: -1832115267
       PlayerHealth_Idle005: 663993256
       PlayerHealth_Idle006: 2051930373
-      PlayerTexture_0: -1873074926
-      PlayerTexture_1: -469853492
+      PlayerTexture_0: -1375232639
       PlayerTexture_2: 884436462
       Player_SkillGauge001: -2022093829
       Player_SkillGauge002: -1793145991
+      skill001: 2121896643
+      skill002: 525369395
+      skill003: -469853492
+      skill004: 547363859
+      skill005: 1474444938
+      skill006: -1873074926
+      skill007: 1131897358
+      skill008: 218963914
+      skill009: -910032926
+      skill010: 1677609141
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

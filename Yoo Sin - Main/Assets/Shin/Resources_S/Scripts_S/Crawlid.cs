@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -7,6 +8,7 @@ using UnityEngine;
 
 public class Crawlid : MonoBehaviour
 {
+    private SkillGauge skillGauge;
     private Transform player = default;
     private Rigidbody2D crawlidRigid = default;
     private CapsuleCollider2D crawlidCollider = default;
@@ -32,6 +34,12 @@ public class Crawlid : MonoBehaviour
         crawlidSprite = GetComponent<SpriteRenderer>();
 
         isGround = true;        
+    }
+
+    void Start()
+    {
+        skillGauge = GameObject.Find("GaugeImg").GetComponent<SkillGauge>();
+        
     }
 
     private void FixedUpdate()
@@ -136,6 +144,8 @@ public class Crawlid : MonoBehaviour
         {
             // 라이프 카운트가 1씩 깎이며
             lifeCount -= 1;
+
+            skillGauge.GaugePlus();
 
             // 현재 플레이어와의 거리를 계산하고
             Vector2 offset = new Vector2(player.position.x - myPos.x, player.position.y - myPos.y);

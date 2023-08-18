@@ -40,7 +40,7 @@ public class CursorscaleStart : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if(isEnlargement == false && mainCursor.anchoredPosition.y == myCursor.anchoredPosition.y)
         {

@@ -1,0 +1,441 @@
+fileFormatVersion: 2
+guid: 2065119ba4985b9459d733a822655a6c
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: MenuAnime_10
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 840
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe44b3a569254d743975aeb500801884
+      internalID: 1430724666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Select001
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 613
+        width: 184
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2184f06cf9b9b2428e8d974932c7288
+      internalID: 2116778701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Select002
+      rect:
+        serializedVersion: 2
+        x: 410
+        y: 593
+        width: 242
+        height: 69
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c88c018ae891ea14590f8e443222d215
+      internalID: 747523920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MenuScroll001
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 489
+        width: 404
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5a06a0e913507345b6a502361b427f3
+      internalID: -1794696648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MenuScroll002
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 427
+        width: 404
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67e41ea2d6241e442836da5c9fb0df68
+      internalID: -1650357112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MenuScroll004
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 295
+        width: 404
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 473cfebdd5f2f45488e09ce13929c1d9
+      internalID: 1429922970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MenuScroll003
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 364
+        width: 404
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffa0068353ff867469e81396ef9f0752
+      internalID: 462357702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MenuScroll005
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 226
+        width: 404
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9738a306b4a966e48b492729d1197743
+      internalID: -733898805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MenuScroll006
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 157
+        width: 404
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4ffa12181e0fe4409059aca472d5561
+      internalID: -1958764597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MenuScroll007
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 87
+        width: 404
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2aca145e7f079943bcdd317b88ed705
+      internalID: -1365725986
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MenuAnime_0
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 509
+        width: 79
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7d90d41b88d6c643b207058bce5bb20
+      internalID: -1075470447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      MenuAnime_0: -1075470447
+      MenuAnime_1: 1220864741
+      MenuAnime_10: 1430724666
+      MenuAnime_11: 2120967537
+      MenuAnime_12: -1337705417
+      MenuAnime_13: -1254328214
+      MenuAnime_14: 1364232571
+      MenuAnime_15: -1694979186
+      MenuAnime_16: 1376249626
+      MenuAnime_17: -1934443373
+      MenuAnime_18: -276965290
+      MenuAnime_19: 1530534192
+      MenuAnime_2: 1215494266
+      MenuAnime_20: -1064100284
+      MenuAnime_21: -1937573574
+      MenuAnime_22: -464463222
+      MenuAnime_23: -1636615097
+      MenuAnime_24: 213488084
+      MenuAnime_27: 1825280391
+      MenuAnime_28: 196774586
+      MenuAnime_29: -334036565
+      MenuAnime_3: 1862413266
+      MenuAnime_31: 770872181
+      MenuAnime_32: -1321889984
+      MenuAnime_33: 1308169290
+      MenuAnime_35: 92833913
+      MenuAnime_38: -1097168750
+      MenuAnime_39: 799612195
+      MenuAnime_4: 352134922
+      MenuAnime_41: -398770405
+      MenuAnime_42: 1244576342
+      MenuAnime_43: -567169418
+      MenuAnime_44: -643253896
+      MenuAnime_45: 2089955527
+      MenuAnime_46: -1611753685
+      MenuAnime_47: -1351969204
+      MenuAnime_48: 209224137
+      MenuAnime_49: 497614918
+      MenuAnime_5: -573232590
+      MenuAnime_51: -259371226
+      MenuAnime_52: -2063300449
+      MenuAnime_53: -1058184286
+      MenuAnime_55: -584777097
+      MenuAnime_56: -84034837
+      MenuAnime_57: -479324806
+      MenuAnime_58: 733911141
+      MenuAnime_59: -1078486474
+      MenuAnime_6: -898751280
+      MenuAnime_60: 1731811637
+      MenuAnime_61: -1714094440
+      MenuAnime_62: 1459753459
+      MenuAnime_7: -1138342510
+      MenuAnime_8: -1257320731
+      MenuAnime_9: -1438299036
+      MenuScroll001: -1794696648
+      MenuScroll002: -1650357112
+      MenuScroll003: 462357702
+      MenuScroll004: 1429922970
+      MenuScroll005: -733898805
+      MenuScroll006: -1958764597
+      MenuScroll007: -1365725986
+      Select001: 2116778701
+      Select002: 747523920
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

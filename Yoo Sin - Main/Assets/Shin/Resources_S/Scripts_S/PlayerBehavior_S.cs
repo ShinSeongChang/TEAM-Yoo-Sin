@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class PlayerBehavior_S : MonoBehaviour
 {
+    public static bool playermove = false;
     public float moveSpeed = 7f;
 
     private const float INVINCIBLE_TIME = 2f;
@@ -76,239 +77,246 @@ public class PlayerBehavior_S : MonoBehaviour
         isKnockBack = false;
         playerHealthUi = GameObject.Find("Healts").GetComponent<PlayerHealthUi>();
 
+        playermove = true;
+
         Debug.LogFormat("체력 : " + hp + "\n");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isDead == true)
+        if(playermove == true)
         {
-            playerAni.SetBool("IsDead", true);
-            StartCoroutine(Dead());
-        }
-
-        if (hp <= 0)
-        {
-            isDead = true;
-        }
-
-        // 공격 딜레이를 위해 델타타임 추가
-        timeAfterAttack += Time.deltaTime;
-
-        // 점프 관련
-        #region
-        if (isKnockBack == false)
-        {
-            // 점프 가능 횟수가 1 이고, z키(점프키)를 누르는 순간
-            if (jumpCount == 1 && Input.GetKeyDown(KeyCode.Z))
+            if (isDead == true)
             {
-                // 점프 카운트 0으로 초기화, 땅에 있음, 떨어지는 중을 false으로 초기화
-                jumpCount = 0;
-                isGround = false;
-                playerAni.SetBool("IsGround", false);
-                playerAni.SetBool("IsFall", false);
-                // velocity 0으로 초기화, velocity에 점프 힘 추가
-                playerRigidbody.velocity = Vector2.zero;
-                playerRigidbody.AddForce(new Vector2(0, jumpForce));
+                playerAni.SetBool("IsDead", true);
+                StartCoroutine(Dead());
             }
-        }
 
-        // 땅에 있음이 false이고 z키(점프키)를 누르는 중이고 점프 카운트가 0 일 때 
-        if (isGround == false && jumpCount == 0 && Input.GetKey(KeyCode.Z))
-        {
-            // 점프 중을 true로 초기화
-            isJumping = true;
-        }
-
-        // 땅에 붙어있지 않고 z키(점프키)를 떼는 순간
-        if (isGround == false && Input.GetKeyUp(KeyCode.Z))
-        {
-            // 점프 중임을 false로 초기화, 떨어지는 중임을 true로 초기화
-            isJumping = false;
-            playerAni.SetBool("IsFall", true);
-        }
-
-        if (isKnockBack == true)
-        {
-            playerRigidbody.gravityScale = 1;
-        }
-
-        if (isKnockBack == false)
-        {
-            // 하단 공격이 false 이고 점프 중이 false이고 땅에 붙어있음이 false이거나 하단 공격이 false 이고 플레이어의 리지드바디의 벨로시티의 y값이 0 미만이라면(위로 올라가는 힘이 0미만이라면)
-            if (isHitDown == false && isJumping == false && isGround == false || isHitDown == false && isGround == false && playerRigidbody.velocity.y < 0)
+            if (hp <= 0)
             {
-                // 땅으로 더 빨리 떨어지게함, 떨어지는 중임을 true로 초기화
-                if (playerRigidbody.gravityScale == 1)
+                isDead = true;
+            }
+
+            // 공격 딜레이를 위해 델타타임 추가
+            timeAfterAttack += Time.deltaTime;
+
+            // 점프 관련
+            #region
+            if (isKnockBack == false)
+            {
+                // 점프 가능 횟수가 1 이고, z키(점프키)를 누르는 순간
+                if (jumpCount == 1 && Input.GetKeyDown(KeyCode.Z))
                 {
-                    playerRigidbody.gravityScale = 5;
-                    playerAni.SetBool("IsFall", true);
+                    // 점프 카운트 0으로 초기화, 땅에 있음, 떨어지는 중을 false으로 초기화
+                    jumpCount = 0;
+                    isGround = false;
+                    playerAni.SetBool("IsGround", false);
+                    playerAni.SetBool("IsFall", false);
+                    // velocity 0으로 초기화, velocity에 점프 힘 추가
+                    playerRigidbody.velocity = Vector2.zero;
+                    playerRigidbody.AddForce(new Vector2(0, jumpForce));
                 }
             }
-        }
-        #endregion
 
-        // 방향키(이동) 관련
-        #region
-        // 걷는 중을 false로 초기화
-        playerAni.SetBool("IsWalk", false);
-
-        // 위 방향키를 누르는 중일 때
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            // 위를 봄을 true로, 아래를 봄을 false로 초기화
-            isUp = true;
-            playerAni.SetBool("IsUp", true);
-            isDown = false;
-        }
-
-        // 위 방향키를 떼는 순간
-        if (Input.GetKeyUp(KeyCode.UpArrow))
-        {
-            // 위를 봄을 false로 초기화
-            isUp = false;
-            playerAni.SetBool("IsUp", false);
-        }
-
-        // 아래 방향키를 누르는중이고 위 방향키를 누르는중이 아닐 때
-        if (Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.UpArrow))
-        {
-            // 아래를 봄을 true로 초기화
-            isDown = true;
-            playerAni.SetBool("IsDown", true);
-        }
-
-        // 아래 방향키를 떼는 순간
-        if (Input.GetKeyUp(KeyCode.DownArrow))
-        {
-            // 아래를 봄을 false로 초기화
-            isDown = false;
-            playerAni.SetBool("IsDown", false);
-        }
-
-        if (isKnockBack == false)
-        {
-            // 우측 공격성공이 아니고, 우측 방향키를 누르는 중이고 좌측 방향키를 누르는 중이 아닐 때
-            if (isHitRight == false && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow))
+            // 땅에 있음이 false이고 z키(점프키)를 누르는 중이고 점프 카운트가 0 일 때 
+            if (isGround == false && jumpCount == 0 && Input.GetKey(KeyCode.Z))
             {
-                playerRigidbody.velocity = new Vector2(0, playerRigidbody.velocity.y);
-                // 우측으로 이동속도에 비례하게 이동, 왼쪽을 봄을 false로, 오른쪽을 봄을 true로 초기화
-                transform.position += moveSpeed * Time.deltaTime * transform.right;
-                isLeft = false;
-                isRight = true;
-                playerAni.SetBool("IsLeft", false);
-                playerAni.SetBool("IsRight", true);
-                playerAni.SetBool("IsWalk", true);
+                // 점프 중을 true로 초기화
+                isJumping = true;
             }
-            // 좌측 공격성공이 아니고, 좌측 방향키를 누르는 중이고 우측 방향키를 누르는 중이 아닐 때
-            else if (isHitLeft == false && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
-            {
-                playerRigidbody.velocity = new Vector2(0, playerRigidbody.velocity.y);
-                // 좌측으로 이동속도에 비례하게 이동, 오른쪽을 봄을 false로, 왼쪽을 봄을 true로 초기화
-                transform.position -= moveSpeed * Time.deltaTime * transform.right;
-                isLeft = true;
-                isRight = false;
-                playerAni.SetBool("IsLeft", true);
-                playerAni.SetBool("IsRight", false);
-                playerAni.SetBool("IsWalk", true);
-            }
-        }
-        #endregion
 
-        // x키(공격) 관련
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            //if (isKnockBack == true)
-            //{
-            //    return;
-            //}
-            // 위를 봄이 true일 때
-            if (isUp == true)
+            // 땅에 붙어있지 않고 z키(점프키)를 떼는 순간
+            if (isGround == false && Input.GetKeyUp(KeyCode.Z))
             {
-                // 공격 후 지난 시간이 공격 딜레이보다 크다면
-                if (timeAfterAttack > attackDelay)
+                // 점프 중임을 false로 초기화, 떨어지는 중임을 true로 초기화
+                isJumping = false;
+                playerAni.SetBool("IsFall", true);
+            }
+
+            if (isKnockBack == true)
+            {
+                playerRigidbody.gravityScale = 1;
+            }
+
+            if (isKnockBack == false)
+            {
+                // 하단 공격이 false 이고 점프 중이 false이고 땅에 붙어있음이 false이거나 하단 공격이 false 이고 플레이어의 리지드바디의 벨로시티의 y값이 0 미만이라면(위로 올라가는 힘이 0미만이라면)
+                if (isHitDown == false && isJumping == false && isGround == false || isHitDown == false && isGround == false && playerRigidbody.velocity.y < 0)
                 {
-                    if (isLeft == true)
+                    // 땅으로 더 빨리 떨어지게함, 떨어지는 중임을 true로 초기화
+                    if (playerRigidbody.gravityScale == 1)
                     {
-                        // 위쪽 방향의 스프라이트와 콜라이더를 켰다가 공격지속시간후에 끔 (왼쪽에서 오른쪽으로 공격)
-                        attackSprite = transform.GetChild((int)attackDirection.UP_ATTACK_L).GetComponent<SpriteRenderer>();
-                        attackCollider = transform.GetChild((int)attackDirection.UP_ATTACK_L).GetComponent<Collider2D>();
-                        attackAni = transform.GetChild((int)attackDirection.UP_ATTACK_L).GetComponent<Animator>();
-                        timeAfterAttack = 0;
-                        StartCoroutine(Attack());
-                    }
-
-                    if (isRight == true)
-                    {
-                        // 위쪽 방향의 스프라이트와 콜라이더를 켰다가 공격지속시간후에 끔 (오른쪽에서 왼쪽으로 공격)
-                        attackSprite = transform.GetChild((int)attackDirection.UP_ATTACK_R).GetComponent<SpriteRenderer>();
-                        attackCollider = transform.GetChild((int)attackDirection.UP_ATTACK_R).GetComponent<Collider2D>();
-                        attackAni = transform.GetChild((int)attackDirection.UP_ATTACK_R).GetComponent<Animator>();
-                        timeAfterAttack = 0;
-                        StartCoroutine(Attack());
+                        playerRigidbody.gravityScale = 5;
+                        playerAni.SetBool("IsFall", true);
                     }
                 }
             }
+            #endregion
 
-            // 아래를 봄이 true이고, 땅에 붙어있음이 false일 때
-            if (isGround == false && isDown == true)
+            // 방향키(이동) 관련
+            #region
+            // 걷는 중을 false로 초기화
+            playerAni.SetBool("IsWalk", false);
+
+            // 위 방향키를 누르는 중일 때
+            if (Input.GetKey(KeyCode.UpArrow))
             {
-                // 공격 후 지난 시간이 공격 딜레이보다 크다면
-                if (timeAfterAttack > attackDelay)
+                // 위를 봄을 true로, 아래를 봄을 false로 초기화
+                isUp = true;
+                playerAni.SetBool("IsUp", true);
+                isDown = false;
+            }
+
+            // 위 방향키를 떼는 순간
+            if (Input.GetKeyUp(KeyCode.UpArrow))
+            {
+                // 위를 봄을 false로 초기화
+                isUp = false;
+                playerAni.SetBool("IsUp", false);
+            }
+
+            // 아래 방향키를 누르는중이고 위 방향키를 누르는중이 아닐 때
+            if (Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.UpArrow))
+            {
+                // 아래를 봄을 true로 초기화
+                isDown = true;
+                playerAni.SetBool("IsDown", true);
+            }
+
+            // 아래 방향키를 떼는 순간
+            if (Input.GetKeyUp(KeyCode.DownArrow))
+            {
+                // 아래를 봄을 false로 초기화
+                isDown = false;
+                playerAni.SetBool("IsDown", false);
+            }
+
+            if (isKnockBack == false)
+            {
+                // 우측 공격성공이 아니고, 우측 방향키를 누르는 중이고 좌측 방향키를 누르는 중이 아닐 때
+                if (isHitRight == false && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow))
                 {
-                    if (isLeft == true)
+                    playerRigidbody.velocity = new Vector2(0, playerRigidbody.velocity.y);
+                    // 우측으로 이동속도에 비례하게 이동, 왼쪽을 봄을 false로, 오른쪽을 봄을 true로 초기화
+                    transform.position += moveSpeed * Time.deltaTime * transform.right;
+                    isLeft = false;
+                    isRight = true;
+                    playerAni.SetBool("IsLeft", false);
+                    playerAni.SetBool("IsRight", true);
+                    playerAni.SetBool("IsWalk", true);
+                }
+                // 좌측 공격성공이 아니고, 좌측 방향키를 누르는 중이고 우측 방향키를 누르는 중이 아닐 때
+                else if (isHitLeft == false && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
+                {
+                    playerRigidbody.velocity = new Vector2(0, playerRigidbody.velocity.y);
+                    // 좌측으로 이동속도에 비례하게 이동, 오른쪽을 봄을 false로, 왼쪽을 봄을 true로 초기화
+                    transform.position -= moveSpeed * Time.deltaTime * transform.right;
+                    isLeft = true;
+                    isRight = false;
+                    playerAni.SetBool("IsLeft", true);
+                    playerAni.SetBool("IsRight", false);
+                    playerAni.SetBool("IsWalk", true);
+                }
+            }
+            #endregion
+
+            // x키(공격) 관련
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                //if (isKnockBack == true)
+                //{
+                //    return;
+                //}
+                // 위를 봄이 true일 때
+                if (isUp == true)
+                {
+                    // 공격 후 지난 시간이 공격 딜레이보다 크다면
+                    if (timeAfterAttack > attackDelay)
                     {
-                        // 아래쪽 방향의 스프라이트와 콜라이더를 켰다가 공격지속시간후에 끔 (왼쪽에서 오른쪽으로 공격)
-                        attackSprite = transform.GetChild((int)attackDirection.DOWN_ATTACK_L).GetComponent<SpriteRenderer>();
-                        attackCollider = transform.GetChild((int)attackDirection.DOWN_ATTACK_L).GetComponent<Collider2D>();
-                        attackAni = transform.GetChild((int)attackDirection.DOWN_ATTACK_L).GetComponent<Animator>();
+                        if (isLeft == true)
+                        {
+                            // 위쪽 방향의 스프라이트와 콜라이더를 켰다가 공격지속시간후에 끔 (왼쪽에서 오른쪽으로 공격)
+                            attackSprite = transform.GetChild((int)attackDirection.UP_ATTACK_L).GetComponent<SpriteRenderer>();
+                            attackCollider = transform.GetChild((int)attackDirection.UP_ATTACK_L).GetComponent<Collider2D>();
+                            attackAni = transform.GetChild((int)attackDirection.UP_ATTACK_L).GetComponent<Animator>();
+                            timeAfterAttack = 0;
+                            StartCoroutine(Attack());
+                        }
+
+                        if (isRight == true)
+                        {
+                            // 위쪽 방향의 스프라이트와 콜라이더를 켰다가 공격지속시간후에 끔 (오른쪽에서 왼쪽으로 공격)
+                            attackSprite = transform.GetChild((int)attackDirection.UP_ATTACK_R).GetComponent<SpriteRenderer>();
+                            attackCollider = transform.GetChild((int)attackDirection.UP_ATTACK_R).GetComponent<Collider2D>();
+                            attackAni = transform.GetChild((int)attackDirection.UP_ATTACK_R).GetComponent<Animator>();
+                            timeAfterAttack = 0;
+                            StartCoroutine(Attack());
+                        }
+                    }
+                }
+
+                // 아래를 봄이 true이고, 땅에 붙어있음이 false일 때
+                if (isGround == false && isDown == true)
+                {
+                    // 공격 후 지난 시간이 공격 딜레이보다 크다면
+                    if (timeAfterAttack > attackDelay)
+                    {
+                        if (isLeft == true)
+                        {
+                            // 아래쪽 방향의 스프라이트와 콜라이더를 켰다가 공격지속시간후에 끔 (왼쪽에서 오른쪽으로 공격)
+                            attackSprite = transform.GetChild((int)attackDirection.DOWN_ATTACK_L).GetComponent<SpriteRenderer>();
+                            attackCollider = transform.GetChild((int)attackDirection.DOWN_ATTACK_L).GetComponent<Collider2D>();
+                            attackAni = transform.GetChild((int)attackDirection.DOWN_ATTACK_L).GetComponent<Animator>();
+                            timeAfterAttack = 0;
+                            StartCoroutine(Attack());
+                        }
+
+                        if (isRight == true)
+                        {
+                            // 아래쪽 방향의 스프라이트와 콜라이더를 켰다가 공격지속시간후에 끔 (오른쪽에서 왼쪽으로 공격)
+                            attackSprite = transform.GetChild((int)attackDirection.DOWN_ATTACK_R).GetComponent<SpriteRenderer>();
+                            attackCollider = transform.GetChild((int)attackDirection.DOWN_ATTACK_R).GetComponent<Collider2D>();
+                            attackAni = transform.GetChild((int)attackDirection.DOWN_ATTACK_R).GetComponent<Animator>();
+                            timeAfterAttack = 0;
+                            StartCoroutine(Attack());
+                        }
+                    }
+                }
+
+                // 왼쪽을 봄이 true이고 위를 봄이 false일 때
+                if (isLeft == true && isUp == false)
+                {
+                    // 공격 후 지난 시간이 공격 딜레이보다 크다면
+                    if (timeAfterAttack > attackDelay)
+                    {
+                        // 왼쪽 방향의 스프라이트와 콜라이더, 애니메이터를 가져옴
+                        attackSprite = transform.GetChild((int)attackDirection.LEFT_ATTACK).GetComponent<SpriteRenderer>();
+                        attackCollider = transform.GetChild((int)attackDirection.LEFT_ATTACK).GetComponent<Collider2D>();
+                        attackAni = transform.GetChild((int)attackDirection.LEFT_ATTACK).GetComponent<Animator>();
                         timeAfterAttack = 0;
                         StartCoroutine(Attack());
                     }
+                }
 
-                    if (isRight == true)
+                // 오른쪽을 봄이 true이고 위를 봄이 false일 때
+                if (isRight == true && isUp == false)
+                {
+                    // 공격 후 지난 시간이 공격 딜레이보다 크다면
+                    if (timeAfterAttack > attackDelay)
                     {
-                        // 아래쪽 방향의 스프라이트와 콜라이더를 켰다가 공격지속시간후에 끔 (오른쪽에서 왼쪽으로 공격)
-                        attackSprite = transform.GetChild((int)attackDirection.DOWN_ATTACK_R).GetComponent<SpriteRenderer>();
-                        attackCollider = transform.GetChild((int)attackDirection.DOWN_ATTACK_R).GetComponent<Collider2D>();
-                        attackAni = transform.GetChild((int)attackDirection.DOWN_ATTACK_R).GetComponent<Animator>();
+                        // 오른쪽 방향의 스프라이트와 콜라이더, 애니메이터를 가져옴
+                        attackSprite = transform.GetChild((int)attackDirection.RIGHT_ATTACK).GetComponent<SpriteRenderer>();
+                        attackCollider = transform.GetChild((int)attackDirection.RIGHT_ATTACK).GetComponent<Collider2D>();
+                        attackAni = transform.GetChild((int)attackDirection.RIGHT_ATTACK).GetComponent<Animator>();
                         timeAfterAttack = 0;
                         StartCoroutine(Attack());
                     }
                 }
             }
 
-            // 왼쪽을 봄이 true이고 위를 봄이 false일 때
-            if (isLeft == true && isUp == false)
-            {
-                // 공격 후 지난 시간이 공격 딜레이보다 크다면
-                if (timeAfterAttack > attackDelay)
-                {
-                    // 왼쪽 방향의 스프라이트와 콜라이더, 애니메이터를 가져옴
-                    attackSprite = transform.GetChild((int)attackDirection.LEFT_ATTACK).GetComponent<SpriteRenderer>();
-                    attackCollider = transform.GetChild((int)attackDirection.LEFT_ATTACK).GetComponent<Collider2D>();
-                    attackAni = transform.GetChild((int)attackDirection.LEFT_ATTACK).GetComponent<Animator>();
-                    timeAfterAttack = 0;
-                    StartCoroutine(Attack());
-                }
-            }
-
-            // 오른쪽을 봄이 true이고 위를 봄이 false일 때
-            if (isRight == true && isUp == false)
-            {
-                // 공격 후 지난 시간이 공격 딜레이보다 크다면
-                if (timeAfterAttack > attackDelay)
-                {
-                    // 오른쪽 방향의 스프라이트와 콜라이더, 애니메이터를 가져옴
-                    attackSprite = transform.GetChild((int)attackDirection.RIGHT_ATTACK).GetComponent<SpriteRenderer>();
-                    attackCollider = transform.GetChild((int)attackDirection.RIGHT_ATTACK).GetComponent<Collider2D>();
-                    attackAni = transform.GetChild((int)attackDirection.RIGHT_ATTACK).GetComponent<Animator>();
-                    timeAfterAttack = 0;
-                    StartCoroutine(Attack());
-                }
-            }
         }
+
     }
 
     public int Get_Hp()
