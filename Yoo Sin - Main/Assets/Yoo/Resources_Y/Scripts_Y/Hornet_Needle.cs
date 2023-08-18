@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Hornet_Needle : MonoBehaviour
 {
-    private const float SPEED_CHANGE_TERM = 0.0425f;
+    private const float SPEED_CHANGE_TERM = 0.05f;
     private WaitForSeconds speedChangeTime = new WaitForSeconds(SPEED_CHANGE_TERM);
-    private const float RECALL_TERM = 0.08f;
+    private const float RECALL_TERM = 0.05f;
     private WaitForSeconds recallTime = new WaitForSeconds(RECALL_TERM);
 
-    public float speed = 28f;
+    public float speed = 56f;
     private Vector3 haveToGo;
     private Vector3 startPosition;
     private Vector3 dir;
@@ -112,7 +112,7 @@ public class Hornet_Needle : MonoBehaviour
 
     IEnumerator speedDown()
     {
-        while (speed > 1)
+        while (speed > 1f)
         {
             if (isReturn == true)
             {
@@ -121,14 +121,13 @@ public class Hornet_Needle : MonoBehaviour
             speed -= 1f;
             yield return speedChangeTime;
         }
-        yield break;
     }
 
     IEnumerator speedUp()
     {
         speed = 0;
         yield return recallTime;
-        while (speed < 28)
+        while (speed < 56f)
         {
             if (isEnd == true)
             {
@@ -137,7 +136,6 @@ public class Hornet_Needle : MonoBehaviour
             speed += 1f;
             yield return speedChangeTime;
         }
-        yield break;
     }
 
     public bool Get_IsReturn()

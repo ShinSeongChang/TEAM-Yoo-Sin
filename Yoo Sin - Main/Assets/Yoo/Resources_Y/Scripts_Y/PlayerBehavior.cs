@@ -25,7 +25,7 @@ public class PlayerBehavior : MonoBehaviour
     private float attackDelay = 0.46f;
     private float timeAfterAttack = 0f;
     private float jumpForce = 500f;
-    private float horizontalKnockBackForce = 300f;
+    private float horizontalKnockBackForce = 400f;
     private float verticalKnockBackForce = 300f;
 
     private Vector3 monsterPosition;
@@ -357,7 +357,7 @@ public class PlayerBehavior : MonoBehaviour
         if (monsterPosition.x >= transform.position.x)
         {
             playerRigidbody.velocity = Vector2.zero;
-            if (yDiff < -1.4f)
+            if (yDiff < -2f)
             {
                 playerRigidbody.AddForce(new Vector2(-horizontalKnockBackForce * 1.3f, -verticalKnockBackForce));
             }
@@ -373,7 +373,7 @@ public class PlayerBehavior : MonoBehaviour
         if (monsterPosition.x < transform.position.x)
         {
             playerRigidbody.velocity = Vector2.zero;
-            if (yDiff < -1.4f)
+            if (yDiff < -2f)
             {
                 playerRigidbody.AddForce(new Vector2(horizontalKnockBackForce * 1.3f, -verticalKnockBackForce));
             }

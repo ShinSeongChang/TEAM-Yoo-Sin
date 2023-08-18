@@ -26,12 +26,33 @@ public class HornetBodys : MonoBehaviour
         
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("PlayerAttack") == true)
+        {
+            if(hornetAni.GetBool("IsStun") == false)
+            {
+                hornetBehavior.HpDown();
+            }
+            if(hornetAni.GetBool("IsStun") == true && hornetAni.GetBool("IsIdle") == false)
+            {
+                hornetBehavior.StunHpDown();
+            }
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (hornetRigidbody.gravityScale != 5)
+        {
+            hornetRigidbody.gravityScale = 5;
+        }
+
         if (collision.collider.CompareTag("Platform"))
         {
             hornetRigidbody.velocity = Vector2.zero;
             hornetAni.SetBool("IsGround", true);
+
             if (hornetAni.GetBool("IsIdle") == false)
             {
                 //Debug.Log("¿©±âµé¾î¿È?");
@@ -47,15 +68,25 @@ public class HornetBodys : MonoBehaviour
                 }
             }
 
-            if (hornetRigidbody.gravityScale != 5)
-            {
-                hornetRigidbody.gravityScale = 5;
-            }
+            //if (hornetRigidbody.gravityScale != 5)
+            //{
+            //    hornetRigidbody.gravityScale = 5;
+            //}
         }
 
         if(collision.collider.CompareTag("Wall"))
         {
-             hornetBehavior.isConer = true;
+            hornetBehavior.isConer = true;
+
+            //if (hornetRigidbody.gravityScale != 5)
+            //{
+            //    hornetRigidbody.gravityScale = 5;
+            //}
+        }
+
+        if (collision.collider.CompareTag("Player"))
+        {
+            hornetBehavior.hitPlayer = true;
         }
     }
 

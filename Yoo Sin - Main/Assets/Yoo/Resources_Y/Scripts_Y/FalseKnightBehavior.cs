@@ -248,6 +248,7 @@ public class FalseKnightBehavior : MonoBehaviour
         // 기사의 체력이 0이하라면
         if (hp <= 0)
         {
+            StopAllCoroutines();
             // Stun함수 실행
             Stun();
         }

@@ -25,7 +25,7 @@ public class Hornet_Whiping : MonoBehaviour
 
     IEnumerator AttackRemain()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.23f);
         isEnd = true;
         yield break;
     }
