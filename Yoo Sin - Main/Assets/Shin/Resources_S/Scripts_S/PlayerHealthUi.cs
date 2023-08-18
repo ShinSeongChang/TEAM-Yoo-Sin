@@ -19,20 +19,13 @@ public class PlayerHealthUi : MonoBehaviour
         for(int i = 0; i < childAnimator.Length; i++)
         {
             childAnimator[i] = childHealth.GetChild(i).GetComponentInChildren<Animator>();
-            Debug.Log(childAnimator[i].name);
         }
-
-        //Debug.Log(childAnimator[4].name);
 
     }
 
     public void HealtDown()
     {
         lifeCount -= 1;
-
-        Debug.Log("맞은 후 라이프 : " + lifeCount);
-
-        Debug.Log("동작해야할 자식 애니메이터 : " + childAnimator[lifeCount].name);
 
         childAnimator[lifeCount].SetTrigger("isHit");
     }

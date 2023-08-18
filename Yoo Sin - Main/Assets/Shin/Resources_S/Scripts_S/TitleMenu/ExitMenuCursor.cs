@@ -42,7 +42,6 @@ public class ExitMenuCursor : MonoBehaviour
 
         if (cursorTransform.anchoredPosition.y <= -100f && enter == true)
         {
-            Debug.Log("ÂïÈ÷³ª?");
             //UnityEditor.EditorApplication.isPlaying = false;
             SceneManager.LoadScene("TilteScene");
         }
