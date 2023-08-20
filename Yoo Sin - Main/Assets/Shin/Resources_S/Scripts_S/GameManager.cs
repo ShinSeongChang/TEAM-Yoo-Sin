@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GameObject exitText = default;
 
+    [SerializeField]
+    GameObject FalseKnight_Intro = default;
+
     public int playerLife = 5;    
 
     private bool escape = false;
@@ -73,5 +76,10 @@ public class GameManager : MonoBehaviour
 
         // 텍스트들은 스크롤 애니메이션이 먼저 나온 이후에 출력되게 했음.
         exitText.SetActive(true);
+    }
+
+    public void FalseKngiht_Intro()
+    {
+        FalseKnight_Intro.SetActive(true);
     }
 }
