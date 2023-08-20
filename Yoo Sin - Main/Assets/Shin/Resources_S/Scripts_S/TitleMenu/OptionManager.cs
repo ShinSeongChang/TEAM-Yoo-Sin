@@ -59,6 +59,7 @@ public class OptionManager : MonoBehaviour
             soundText.alpha = 0f;
             resumeText.alpha = 0f;
 
+
             TitleManager.instance.OptionExit();
             yield break;
 

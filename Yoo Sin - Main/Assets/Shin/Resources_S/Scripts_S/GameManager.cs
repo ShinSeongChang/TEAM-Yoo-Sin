@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
     private bool escape = false;
     private bool menuOpen = false;
 
-
     private void Awake()
     {
         // ╫л╠шео фпео
