@@ -6,11 +6,13 @@ using UnityEngine.SceneManagement;
 public class MenuCursor : MonoBehaviour
 {
     private RectTransform cursorTransform = default;
+    private MainManager mainManager = default;
 
     // Start is called before the first frame update
     void Start()
     {
         cursorTransform = GetComponent<RectTransform>();
+        mainManager = GameObject.Find("Main").GetComponent<MainManager>();
     }
 
     // Update is called once per frame
@@ -26,28 +28,31 @@ public class MenuCursor : MonoBehaviour
 
             if (cursorTransform.anchoredPosition.y < -295f)
             {
-                cursorTransform.anchoredPosition = new Vector2(0f, -195f);
+                cursorTransform.anchoredPosition = new Vector2(0f, -95f);
             }
         }
         else if (upKey.Equals(true))
         {
             cursorTransform.anchoredPosition = new Vector2(cursorTransform.anchoredPosition.x, cursorTransform.anchoredPosition.y + 100f);
 
-            if (cursorTransform.anchoredPosition.y > -195f)
+            if (cursorTransform.anchoredPosition.y > -95f)
             {
                 cursorTransform.anchoredPosition = new Vector2(0f, -295f);
             }
         }
 
 
-        if (cursorTransform.anchoredPosition.y > -201f && enter == true)
+        if (cursorTransform.anchoredPosition.y == -95f && enter == true)
         {
-            SceneManager.LoadScene("Room001");
+            TitleManager.instance.GameStart();
         }
-        else if (cursorTransform.anchoredPosition.y < -299f && enter == true)
+        else if(cursorTransform.anchoredPosition.y == -195f && enter == true)
         {
-            //UnityEditor.EditorApplication.isPlaying = false;
-            Application.Quit();
+            mainManager.OptionInit();
+        }
+        else if (cursorTransform.anchoredPosition.y == -295f && enter == true)
+        {
+            TitleManager.instance.GameExit();
         }
 
     }

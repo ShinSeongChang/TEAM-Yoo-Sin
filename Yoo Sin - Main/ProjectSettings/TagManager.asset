@@ -47,48 +47,48 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: BackGround
+  - name: Layer1
     uniqueID: 734326035
     locked: 0
-  - name: MiddleGround
+  - name: Layer2
     uniqueID: 396037349
     locked: 0
-  - name: ForeGround
+  - name: Layer3
     uniqueID: 796755643
     locked: 0
-  - name: Layer 3
+  - name: Layer4
     uniqueID: 296397805
     locked: 0
-  - name: BackGround
+  - name: Layer5
     uniqueID: 3138603085
     locked: 0
-  - name: New Layer 6
+  - name: Layer16
     uniqueID: 1626214157
     locked: 0
-  - name: New Layer 7
+  - name: Layer7
     uniqueID: 4095102167
     locked: 0
-  - name: New Layer 8
+  - name: Layer8
     uniqueID: 2628346499
     locked: 0
-  - name: New Layer 9
+  - name: Monsters
     uniqueID: 3546698921
     locked: 0
-  - name: MiddleGround
+  - name: Player
     uniqueID: 960363497
     locked: 0
-  - name: New Layer 11
+  - name: Layer11
     uniqueID: 2193343465
     locked: 0
-  - name: New Layer 12
+  - name: Layer12
     uniqueID: 2597162089
     locked: 0
-  - name: New Layer 13
+  - name: Layer13
     uniqueID: 798554647
     locked: 0
-  - name: New Layer 14
+  - name: Layer14
     uniqueID: 2720577583
     locked: 0
-  - name: ForeGround
+  - name: Layer15
     uniqueID: 1411283515
     locked: 0
