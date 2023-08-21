@@ -6,14 +6,14 @@ public class PlayerAttackDown : MonoBehaviour
 {
     private Rigidbody2D playerRigidbody;
     private WaitForSeconds attackRemainTime;
-    private PlayerBehavior playerAct;
+    private PlayerBehavior_F playerAct;
     private float repulsForce = 350f;
     private bool isAttacking = false;
     // Start is called before the first frame update
     void Start()
     {
-        playerRigidbody = transform.GetComponentInParent<Rigidbody2D>();
-        playerAct = transform.GetComponentInParent<PlayerBehavior>();
+        playerRigidbody = GetComponentInParent<SpriteRenderer>().gameObject.GetComponentInParent<Rigidbody2D>();
+        playerAct = GetComponentInParent<SpriteRenderer>().gameObject.GetComponentInParent<PlayerBehavior_F>();
         attackRemainTime = new WaitForSeconds(0.2f);
     }
 

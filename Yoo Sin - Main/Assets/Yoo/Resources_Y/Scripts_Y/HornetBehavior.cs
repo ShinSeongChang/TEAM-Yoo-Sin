@@ -6,6 +6,7 @@ using UnityEngine;
 public class HornetBehavior : MonoBehaviour
 {
     private GameObject player;
+    private PlayerBehavior_F playerBehavior;
     private const float MOVE_SPEED = 7f;
     private const float RUNNING_TIME = 0.7f;
     private const float EVADE_SPEED = 14f;
@@ -88,6 +89,11 @@ public class HornetBehavior : MonoBehaviour
     {
         if (hornetAni.GetBool("IsDead") == false && player != null)
         {
+            if (playerBehavior.GetDead() == true)
+            {
+                player = null;
+            }
+
             if (hornetAni.GetBool("IsStun") == false)
             {
                 CheckStun();
@@ -671,6 +677,17 @@ public class HornetBehavior : MonoBehaviour
         hornetAni.SetBool("IsIdle", false);
         hornetAni.SetTrigger("DashStart");
 
+        // 플레이어가 왼쪽에 있지않다면
+        if (playerOnLeft == false)
+        {
+            xPositionToDash = transform.position.x + DASH_DISTANCE;
+        }
+        // 플레이어가 왼쪽에 있다면
+        else if (playerOnLeft == true)
+        {
+            xPositionToDash = transform.position.x - DASH_DISTANCE;
+        }
+
         if (isConer == true)
         {
             isConer = false;
@@ -683,18 +700,16 @@ public class HornetBehavior : MonoBehaviour
                 if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
                 {
                     effect = Instantiate(groundDashEffectPrefab, transform.position, transform.rotation);
-                    // 플레이어가 왼쪽에 있지않다면
-                    if (playerOnLeft == false)
+                    // 대쉬 시작 시점에 플레이어가 왼쪽에 있지않다면
+                    if (xPositionToDash >= transform.position.x)
                     {
-                        xPositionToDash = transform.position.x + DASH_DISTANCE;
                         // 오른쪽으로 플레이어와 거리차이에 따라 힘을 줌 (대쉬 시작 시점의 플레이어 위치를 향한 힘)
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(1000f, 0));
                     }
-                    // 플레이어가 왼쪽에 있다면
-                    else if (playerOnLeft == true)
+                    // 대쉬 시작 시점에 플레이어가 왼쪽에 있다면
+                    else if (xPositionToDash <= transform.position.x)
                     {
-                        xPositionToDash = transform.position.x - DASH_DISTANCE;
                         // 왼쪽으로 플레이어와 거리차이에 따라 힘을 줌 (대쉬 시작 시점의 플레이어 위치를 향한 힘)
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(-1000f, 0));
@@ -1014,10 +1029,10 @@ public class HornetBehavior : MonoBehaviour
 
         while (true)
         {
-            tempColor.a -= 0.0005f;
+            tempColor.a -= 0.001f;
             hornetSprite.color = tempColor;
-            Debug.Log("이거 실행함?");
-            if (tempColor.a < 0.0005f)
+            //Debug.Log("이거 실행함?");
+            if (tempColor.a < 0.001f)
             {
                 Destroy(gameObject);
                 yield break;
@@ -1031,6 +1046,7 @@ public class HornetBehavior : MonoBehaviour
         if (collision.CompareTag("Player") == true)
         {
             player = collision.gameObject;
+            playerBehavior = player.GetComponent<PlayerBehavior_F>();
             detectRange.enabled = false;
             StartCoroutine(Encount());
             Debug.Log("플레이어를 감지함");
