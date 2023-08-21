@@ -85,6 +85,8 @@ public class GameManager : MonoBehaviour
 
         // 텍스트들은 스크롤 애니메이션이 먼저 나온 이후에 출력되게 했음.
         exitText.SetActive(true);
+
+        yield break;
     }
 
     public void FalseKngiht_Intro()
@@ -115,6 +117,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.75f);
 
         EndingCanvas.SetActive(true);
+
+
 
         yield break;
     }
