@@ -11,20 +11,43 @@ public class BossIntro : MonoBehaviour
     {
         childText = transform.GetComponentInChildren<Transform>();
 
-        StartCoroutine(IntroStart());       
+        for(int i = 0; i < childText.childCount; i++)
+        {
+            childText.GetChild(i).gameObject.SetActive(true);
+        }
+
+        StartCoroutine(IntroStart());
+        StartCoroutine(AniInvisible());
     }
 
     IEnumerator IntroStart()
     {
-        for (int i = 0; i < childText.childCount; i++)
+        float timer = 0;        
+
+        for(int i = 0;i < childText.childCount; i++)
         {
             childText.GetChild(i).gameObject.SetActive(true);
 
-            yield return new WaitForSeconds(0.05f);
+            timer += Time.deltaTime;
+
+            // 글자간 간격 조절이 안된다 왜지??
+
+            //Debug.Log("횟수 : " + i);
+            //Debug.Log("걸린 시간 : " + timer);
+
+            yield return new WaitForSeconds(0.25f);
         }
 
-        // 글자 사라지는 타이밍 맞춰주기
+
+        yield break;
+
+    }
+
+    IEnumerator AniInvisible()
+    {
+        // 텍스트들 투명해지는 타이밍 맞추기
         yield return new WaitForSeconds(1.2f);
+
 
         while (BossIntro_Ani.color.a > 0f)
         {
@@ -36,5 +59,4 @@ public class BossIntro : MonoBehaviour
 
         yield break;
     }
-
 }

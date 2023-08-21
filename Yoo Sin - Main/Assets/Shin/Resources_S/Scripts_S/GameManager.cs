@@ -18,9 +18,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GameObject Hornet_Intro = default;
 
-    [SerializeField] 
-    GameObject EndingCanvas = default;
-
     public int playerLife = 5;
 
     public bool boss1Die = false;
@@ -96,26 +93,5 @@ public class GameManager : MonoBehaviour
     public void HornetIntro()
     {
         Hornet_Intro.SetActive(true);
-    }
-
-    public void EndingScene()
-    {
-        Time.timeScale = 0.3f;
-
-        StartCoroutine(EndingDelay());
-
-    }
-
-    IEnumerator EndingDelay()
-    {
-        yield return new WaitForSecondsRealtime(2.0f);
-
-        Time.timeScale = 1.0f;
-
-        yield return new WaitForSeconds(0.75f);
-
-        EndingCanvas.SetActive(true);
-
-        yield break;
     }
 }

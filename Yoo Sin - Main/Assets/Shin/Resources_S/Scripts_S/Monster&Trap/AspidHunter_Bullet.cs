@@ -19,12 +19,13 @@ public class AspidHunter_Bullet : MonoBehaviour
         bulletCollider = GetComponent<CircleCollider2D>();
         bulletAnimator = GetComponent<Animator>();
         bulletSprite = GetComponent<SpriteRenderer>();
-        player = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        player = GameObject.Find("Player_S").GetComponent<Transform>();
 
         Vector2 target = player.position - transform.position;
 
         bulletRigid.velocity = target.normalized * bulletSpeed;
 
+        Debug.Log(target);
         Debug.Log(bulletRigid.velocity);
         
     }

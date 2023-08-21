@@ -165,7 +165,7 @@ public class VengeFly : MonoBehaviour
         // vengefly는 죽으면 포물선으로 날아가게 된다. 이후 땅에 닿게되면 이미지가 사라짐.
         if (isDead.Equals(true))
         {
-            if(collision.tag.Equals("Platform") || collision.tag.Equals("Wall"))
+            if(collision.tag.Equals("Platform"))
             {
                 gameObject.SetActive(false);
             }
