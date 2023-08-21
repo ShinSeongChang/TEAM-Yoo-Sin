@@ -578,7 +578,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f75b51c746f68b45a0c6049c6fd8a39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shockWavePrefab: {fileID: 0}
+  shockWavePrefab: {fileID: 7049556918355290570, guid: 8850fb78abe781e4fa31afdf40bc4e02, type: 3}
 --- !u!1 &1939589900629403822
 GameObject:
   m_ObjectHideFlags: 0
