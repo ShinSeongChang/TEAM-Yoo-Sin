@@ -15,7 +15,13 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GameObject FalseKnight_Intro = default;
 
-    public int playerLife = 5;    
+    [SerializeField]
+    GameObject Hornet_Intro = default;
+
+    public int playerLife = 5;
+
+    public bool boss1Die = false;
+    public bool boss2Die = false;
 
     private bool escape = false;
     private bool menuOpen = false;
@@ -81,5 +87,11 @@ public class GameManager : MonoBehaviour
     public void FalseKngiht_Intro()
     {
         FalseKnight_Intro.SetActive(true);
+        
+    }
+
+    public void HornetIntro()
+    {
+        Hornet_Intro.SetActive(true);
     }
 }
