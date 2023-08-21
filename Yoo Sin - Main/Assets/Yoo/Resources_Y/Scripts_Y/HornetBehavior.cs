@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 public class HornetBehavior : MonoBehaviour
@@ -13,6 +14,9 @@ public class HornetBehavior : MonoBehaviour
     private const float ACT_TERM = 0.4f;
     private const float EVADE_COOLDOWN = 5f;
     private const float DASH_DISTANCE = 7f;
+    private const float FADE_OUT_TIME = 0.2f;
+
+    private WaitForSeconds fadeOutTime = new WaitForSeconds(FADE_OUT_TIME);
 
     public GameObject airDashEffectPrefab;
     public GameObject groundDashEffectPrefab;
@@ -21,6 +25,7 @@ public class HornetBehavior : MonoBehaviour
     public GameObject needlePrefab;
     public GameObject whipingPrefab;
 
+    private SpriteRenderer hornetSprite;
     private GameObject needle;
     private GameObject whip;
     private GameObject effect;
@@ -33,7 +38,7 @@ public class HornetBehavior : MonoBehaviour
     private float timeAfterAct;
     private float timeAfterEvaded;
     private Collider2D detectRange;
-    private int hp = 10;
+    private int hp = 1;
     private int stunHp = 1;
     private int randomNumber;
     private int stunCount;
@@ -61,10 +66,12 @@ public class HornetBehavior : MonoBehaviour
         detectRange = GetComponent<Collider2D>();
         hornetAni = GetComponent<Animator>();
         hornetRigidbody = GetComponent<Rigidbody2D>();
+        hornetSprite = GetComponent<SpriteRenderer>();
         timeAfterRun = 0;
         timeAfterEvade = 0;
         timeAfterAct = 0;
         distance = 0;
+        stunCount = 2;
         lookLeft = true;
         isConer = false;
         //StartCoroutine(DashAir());
@@ -100,9 +107,16 @@ public class HornetBehavior : MonoBehaviour
                 }
             }
 
-            if (hornetAni.GetBool("IsStun") == true)
+            if (hornetAni.GetBool("IsStun") == true && stunCount < 3)
             {
                 CheckWakeUp();
+            }
+
+            if (stunCount >= 3)
+            {
+                hornetAni.SetBool("IsDead", true);
+                Debug.Log("여기들어옴?");
+                StartCoroutine(Dead());
             }
             //if(hornetAni.GetBool("IsIdle") == true && dashCount == 1)
             //{
@@ -971,6 +985,42 @@ public class HornetBehavior : MonoBehaviour
                     }
                     yield break;
                 }
+            }
+            yield return null;
+        }
+    }
+
+    IEnumerator Dead()
+    {
+        while(true)
+        {
+            if(hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetStunPart1"))
+            {
+                if(hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                {
+                    break;
+                }
+            }
+            yield return null;
+        }
+
+        Collider2D[] hornetColliders = transform.GetComponentsInChildren<Collider2D>();
+        for(int i = 0; i < transform.childCount; i ++)
+        {
+            hornetColliders[i].enabled = false;
+        }
+
+        UnityEngine.Color tempColor = hornetSprite.color;
+
+        while (true)
+        {
+            tempColor.a -= 0.0005f;
+            hornetSprite.color = tempColor;
+            Debug.Log("이거 실행함?");
+            if (tempColor.a < 0.0005f)
+            {
+                Destroy(gameObject);
+                yield break;
             }
             yield return null;
         }
