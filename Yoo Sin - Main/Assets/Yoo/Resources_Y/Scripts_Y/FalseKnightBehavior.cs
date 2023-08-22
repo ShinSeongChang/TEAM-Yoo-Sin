@@ -29,6 +29,7 @@ public class FalseKnightBehavior : MonoBehaviour
     private BoxCollider2D detectRange;
     private CapsuleCollider2D falseKnightCollider;
     private GameObject player;
+    private PlayerBehavior_F playerBehavior;
     private Collider2D attackRange;
 
     private Quaternion toLeft = Quaternion.Euler(0, 180, 0);
@@ -84,6 +85,10 @@ public class FalseKnightBehavior : MonoBehaviour
 
     void Update()
     {
+        if (player == null)
+        {
+            return;
+        }
         // 사망 상태가 false이고, 스턴 상태가 false 이면
         if (falseKnightAni.GetBool("IsDead") == false && falseKnightAni.GetBool("IsStun") == false)
         {
@@ -91,6 +96,11 @@ public class FalseKnightBehavior : MonoBehaviour
             // 플레이어가 감지됐다면
             if (player != null)
             {
+                if (playerBehavior.GetDead() == true)
+                {
+                    player = null;
+                }
+
                 // 땅에 붙어있음이 false 이고, 상승하는 힘이 0미만이라면
                 if (falseKnightAni.GetBool("IsGround") == false && falseKnightRigidbody.velocity.y < 0)
                 {
@@ -632,6 +642,7 @@ public class FalseKnightBehavior : MonoBehaviour
             // 플레이어의 게임 오브젝트를 가져오고 detectRange 콜라이더를 끔
             // 1회 발각 시 죽을 때 까지 쫓아옴
             player = other.gameObject;
+            playerBehavior = player.GetComponent<PlayerBehavior_F>();
             detectRange.enabled = false;
         }
 

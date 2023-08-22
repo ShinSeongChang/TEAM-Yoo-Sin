@@ -6,14 +6,15 @@ public class PlayerAttackRight : MonoBehaviour
 {
     private Rigidbody2D playerRigidbody;
     private WaitForSeconds attackRemainTime;
-    private PlayerBehavior playerAct;
+    private PlayerBehavior_F playerAct;
+    public Animator playerAni;
     private float repulsForce = -300f;
     private bool isAttacking = false;
     // Start is called before the first frame update
     void Start()
     {
-        playerRigidbody = transform.GetComponentInParent<Rigidbody2D>();
-        playerAct = transform.GetComponentInParent<PlayerBehavior>();
+        playerRigidbody = GetComponentInParent<SpriteRenderer>().gameObject.GetComponentInParent<Rigidbody2D>();
+        playerAct = GetComponentInParent<SpriteRenderer>().gameObject.GetComponentInParent<PlayerBehavior_F>();
         attackRemainTime = new WaitForSeconds(0.2f);
     }
 
@@ -29,6 +30,15 @@ public class PlayerAttackRight : MonoBehaviour
         {
             if (other.CompareTag("Monster") || other.CompareTag("StunBody"))
             {
+                if (playerAni.GetBool("IsRight") == false && repulsForce == -300f)
+                {
+                    repulsForce = 300f;
+                }
+
+                if (playerAni.GetBool("IsRight") == true && repulsForce == 300f)
+                {
+                    repulsForce = -300f;
+                }
                 StartCoroutine(Hit());
             }
         }
@@ -37,12 +47,12 @@ public class PlayerAttackRight : MonoBehaviour
     IEnumerator Hit()
     {
         isAttacking = true;
-        playerAct.isHitRight = true;
+        playerAct.isHitFront = true;
         playerRigidbody.velocity = Vector2.zero;
         playerRigidbody.AddForce(new Vector2(repulsForce, 0));
         yield return attackRemainTime;
         isAttacking = false;
-        playerAct.isHitRight = false;
+        playerAct.isHitFront = false;
         yield break;
     }
 }

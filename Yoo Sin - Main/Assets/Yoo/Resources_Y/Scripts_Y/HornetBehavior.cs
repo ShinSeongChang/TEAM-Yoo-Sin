@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 public class HornetBehavior : MonoBehaviour
 {
     private GameObject player;
+    private PlayerBehavior_F playerBehavior;
     private const float MOVE_SPEED = 7f;
     private const float RUNNING_TIME = 0.7f;
     private const float EVADE_SPEED = 14f;
@@ -13,6 +15,9 @@ public class HornetBehavior : MonoBehaviour
     private const float ACT_TERM = 0.4f;
     private const float EVADE_COOLDOWN = 5f;
     private const float DASH_DISTANCE = 7f;
+    private const float FADE_OUT_TIME = 0.2f;
+
+    private WaitForSeconds fadeOutTime = new WaitForSeconds(FADE_OUT_TIME);
 
     public GameObject airDashEffectPrefab;
     public GameObject groundDashEffectPrefab;
@@ -21,6 +26,7 @@ public class HornetBehavior : MonoBehaviour
     public GameObject needlePrefab;
     public GameObject whipingPrefab;
 
+    private SpriteRenderer hornetSprite;
     private GameObject needle;
     private GameObject whip;
     private GameObject effect;
@@ -33,7 +39,7 @@ public class HornetBehavior : MonoBehaviour
     private float timeAfterAct;
     private float timeAfterEvaded;
     private Collider2D detectRange;
-    private int hp = 10;
+    private int hp = 1;
     private int stunHp = 1;
     private int randomNumber;
     private int stunCount;
@@ -61,10 +67,12 @@ public class HornetBehavior : MonoBehaviour
         detectRange = GetComponent<Collider2D>();
         hornetAni = GetComponent<Animator>();
         hornetRigidbody = GetComponent<Rigidbody2D>();
+        hornetSprite = GetComponent<SpriteRenderer>();
         timeAfterRun = 0;
         timeAfterEvade = 0;
         timeAfterAct = 0;
         distance = 0;
+        stunCount = 2;
         lookLeft = true;
         isConer = false;
         //StartCoroutine(DashAir());
@@ -81,6 +89,11 @@ public class HornetBehavior : MonoBehaviour
     {
         if (hornetAni.GetBool("IsDead") == false && player != null)
         {
+            if (playerBehavior.GetDead() == true)
+            {
+                player = null;
+            }
+
             if (hornetAni.GetBool("IsStun") == false)
             {
                 CheckStun();
@@ -100,9 +113,16 @@ public class HornetBehavior : MonoBehaviour
                 }
             }
 
-            if (hornetAni.GetBool("IsStun") == true)
+            if (hornetAni.GetBool("IsStun") == true && stunCount < 3)
             {
                 CheckWakeUp();
+            }
+
+            if (stunCount >= 3)
+            {
+                hornetAni.SetBool("IsDead", true);
+                Debug.Log("여기들어옴?");
+                StartCoroutine(Dead());
             }
             //if(hornetAni.GetBool("IsIdle") == true && dashCount == 1)
             //{
@@ -657,6 +677,17 @@ public class HornetBehavior : MonoBehaviour
         hornetAni.SetBool("IsIdle", false);
         hornetAni.SetTrigger("DashStart");
 
+        // 플레이어가 왼쪽에 있지않다면
+        if (playerOnLeft == false)
+        {
+            xPositionToDash = transform.position.x + DASH_DISTANCE;
+        }
+        // 플레이어가 왼쪽에 있다면
+        else if (playerOnLeft == true)
+        {
+            xPositionToDash = transform.position.x - DASH_DISTANCE;
+        }
+
         if (isConer == true)
         {
             isConer = false;
@@ -669,18 +700,16 @@ public class HornetBehavior : MonoBehaviour
                 if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
                 {
                     effect = Instantiate(groundDashEffectPrefab, transform.position, transform.rotation);
-                    // 플레이어가 왼쪽에 있지않다면
-                    if (playerOnLeft == false)
+                    // 대쉬 시작 시점에 플레이어가 왼쪽에 있지않다면
+                    if (xPositionToDash >= transform.position.x)
                     {
-                        xPositionToDash = transform.position.x + DASH_DISTANCE;
                         // 오른쪽으로 플레이어와 거리차이에 따라 힘을 줌 (대쉬 시작 시점의 플레이어 위치를 향한 힘)
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(1000f, 0));
                     }
-                    // 플레이어가 왼쪽에 있다면
-                    else if (playerOnLeft == true)
+                    // 대쉬 시작 시점에 플레이어가 왼쪽에 있다면
+                    else if (xPositionToDash <= transform.position.x)
                     {
-                        xPositionToDash = transform.position.x - DASH_DISTANCE;
                         // 왼쪽으로 플레이어와 거리차이에 따라 힘을 줌 (대쉬 시작 시점의 플레이어 위치를 향한 힘)
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(-1000f, 0));
@@ -976,11 +1005,48 @@ public class HornetBehavior : MonoBehaviour
         }
     }
 
+    IEnumerator Dead()
+    {
+        while(true)
+        {
+            if(hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetStunPart1"))
+            {
+                if(hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                {
+                    break;
+                }
+            }
+            yield return null;
+        }
+
+        Collider2D[] hornetColliders = transform.GetComponentsInChildren<Collider2D>();
+        for(int i = 0; i < transform.childCount; i ++)
+        {
+            hornetColliders[i].enabled = false;
+        }
+
+        UnityEngine.Color tempColor = hornetSprite.color;
+
+        while (true)
+        {
+            tempColor.a -= 0.001f;
+            hornetSprite.color = tempColor;
+            //Debug.Log("이거 실행함?");
+            if (tempColor.a < 0.001f)
+            {
+                Destroy(gameObject);
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player") == true)
         {
             player = collision.gameObject;
+            playerBehavior = player.GetComponent<PlayerBehavior_F>();
             detectRange.enabled = false;
             StartCoroutine(Encount());
             Debug.Log("플레이어를 감지함");
