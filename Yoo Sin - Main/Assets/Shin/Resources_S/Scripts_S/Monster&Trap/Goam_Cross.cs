@@ -27,13 +27,17 @@ public class Goam_Cross : MonoBehaviour
         yield return new WaitForSeconds(1.95f);
 
         goamAnimator.SetTrigger("isAttack");
+        goamCollider.enabled = true;
+        goamSprite.enabled = true;
+
+        //StartCoroutine(OffsetUp());
         StartCoroutine(GoamAttack());
 
     }
     IEnumerator GoamAttack()
     {
-        goamCollider.enabled = true;
-        goamSprite.enabled = true;
+
+        StartCoroutine(OffsetUp());
 
         yield return new WaitForSeconds(0.45f);
 
@@ -47,6 +51,7 @@ public class Goam_Cross : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
 
+        goamCollider.offset = new Vector2(goamCollider.offset.x, -3f);
         goamAnimator.SetTrigger("isReturn");
 
         StartCoroutine(GoamStay());
@@ -67,6 +72,28 @@ public class Goam_Cross : MonoBehaviour
         goamAnimator.SetTrigger("isAttack");
 
         StartCoroutine(GoamAttack());
+
+    }
+
+    IEnumerator OffsetUp()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        goamCollider.offset = new Vector2(goamCollider.offset.x, -1.3f);
+        goamCollider.size = new Vector2(goamCollider.size.x, 3f);
+
+
+        yield return new WaitForSeconds(0.1f);
+
+        goamCollider.offset = new Vector2(goamCollider.offset.x, 0.5f);
+
+        yield return new WaitForSeconds(0.1f);
+
+        goamCollider.offset = new Vector2(goamCollider.offset.x, 0.8f);
+        goamCollider.size = new Vector2(goamCollider.size.x, 3.5f);
+
+        yield break;
+
 
     }
 }

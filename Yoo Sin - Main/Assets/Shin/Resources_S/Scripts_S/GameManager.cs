@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] 
     GameObject EndingCanvas = default;
+
+    [SerializeField]
+    GameObject DieUi = default;
 
     public int playerLife = 5;
 
@@ -51,25 +55,12 @@ public class GameManager : MonoBehaviour
         // 메뉴 열고 닫기는 esc키 입력을 받아서 동작한다.
         escape = Input.GetKeyDown(KeyCode.Escape);
 
-        // 일시정지 메뉴 닫기
-        if(menuOpen && escape == true)
-        {
-            exitText.SetActive(false);
-            exitMenu.SetActive(false);
-            Time.timeScale = 1.0f;
-            PlayerBehavior_S.playermove = true;
-
-            menuOpen = false;
-            escape = false;
-        }
-
         // 일시정지 메뉴 열기
         if (menuOpen == false && escape == true)
         {
-            Time.timeScale = 0f;
+            Time.timeScale = 0.3f;
             PlayerBehavior_S.playermove = false;
             exitMenu.SetActive(true);
-
 
             StartCoroutine(Delay());            
             menuOpen = true;
@@ -104,13 +95,54 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(EndingDelay());
     }
-
     IEnumerator EndingDelay()
     {
 
         yield return new WaitForSeconds(0.75f);
+
         EndingCanvas.SetActive(true);
 
         yield break;
     }
+
+
+    public void PlayerDie()
+    {
+        DieUi.SetActive(true);
+
+        StartCoroutine(LoadTitle());
+    }
+
+    IEnumerator LoadTitle()
+    {
+        yield return new WaitForSeconds(2.0f);
+
+        SceneManager.LoadScene("TilteScene");
+
+        yield break;
+    }
+
+    public void MenuClose()
+    {
+        // 일시정지 메뉴 닫기
+        if (menuOpen == true)
+        {
+            exitText.SetActive(false);
+            exitMenu.SetActive(false);
+            Time.timeScale = 1.0f;
+            PlayerBehavior_S.playermove = true;
+
+            menuOpen = false;
+            escape = false;
+        }
+    }
+
+    public void GameExit()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("TilteScene");
+    }
+
+
+
 }

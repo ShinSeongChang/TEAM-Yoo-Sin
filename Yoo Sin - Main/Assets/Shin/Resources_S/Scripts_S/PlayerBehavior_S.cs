@@ -328,7 +328,10 @@ public class PlayerBehavior_S : MonoBehaviour
     {
         // 1프레임 후 오브젝트 파괴
         yield return null;
-        Destroy(gameObject);
+
+        // Legacy : Shin
+        GameManager.instance.PlayerDie();
+        //Destroy(gameObject);
         yield break;
     }
 

@@ -39,12 +39,16 @@ public class ExitMenuCursor : MonoBehaviour
             }
         }
 
-
-        if (cursorTransform.anchoredPosition.y <= -100f && enter == true)
+        // Resume 선택시
+        if (cursorTransform.anchoredPosition.y == 100f && enter == true)
         {
-            //UnityEditor.EditorApplication.isPlaying = false;
-            Time.timeScale = 1f;
-            SceneManager.LoadScene("TilteScene");
+            GameManager.instance.MenuClose();
+        }
+
+        // GameExit 선택시
+        if (cursorTransform.anchoredPosition.y == -100f && enter == true)
+        {
+            GameManager.instance.GameExit();
         }
 
     }

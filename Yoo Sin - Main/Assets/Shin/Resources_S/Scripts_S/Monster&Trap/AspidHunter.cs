@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq.Expressions;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class AspidHunter : MonoBehaviour
 {
+    private Transform player = default;
     private Rigidbody2D aspidRigid = default;
     private Transform aspidTransform = default;
     private CircleCollider2D aspidCollider = default;
@@ -25,13 +27,16 @@ public class AspidHunter : MonoBehaviour
     public bool isStay = false;
     public bool chaseLimit = false;
     public bool isFire = false;
+    public bool isHit = false;
 
     private float areaSpeed = 1.0f;
     private float chaseSpeed = 2.0f;
     private int lifeCount = 4;
+    private float hitForce = 5f;
 
     void Awake()
     {
+        player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         aspidRigid = GetComponent<Rigidbody2D>();
         aspidTransform = GetComponent<Transform>();
         aspidCollider = GetComponent<CircleCollider2D>();
@@ -133,7 +138,7 @@ public class AspidHunter : MonoBehaviour
     public void OnTriggerStay2D(Collider2D collision)
     {
         // 살아있는 상태에서 탐지범위 안에 들어온것이 플레이어라면
-        if (isDead.Equals(false) && collision.tag.Equals("Player"))
+        if (isDead.Equals(false) && collision.tag.Equals("Player") && isHit == false)
         {
             Vector2 chasedArea = default;
             Vector2 chasedNoramalize = default;
@@ -180,9 +185,9 @@ public class AspidHunter : MonoBehaviour
             {
                 // aspidhunter가 chasedPos 를 넘어가려 한다면
                 if (aspidRigid.position.x <= chasedPos.x && aspidRigid.position.y <= chasedPos.y)
-                {         
+                {
                     // 진행중인 속력의 반대방향으로 일정시간만큼 부여한다.
-                    Invoke("OppositeVector", 0.1f);
+                    StartCoroutine(OppositeVector());
                 }
 
                 // 이후 나머지 3방향에 관한 로직은 같은 내용이다.
@@ -192,8 +197,8 @@ public class AspidHunter : MonoBehaviour
             if (offset.normalized.x < 0 && offset.normalized.y > 0)
             {
                 if (aspidRigid.position.x <= chasedPos.x && aspidRigid.position.y >= chasedPos.y)
-                {                                        
-                    Invoke("OppositeVector", 0.1f);
+                {
+                    StartCoroutine(OppositeVector());
                 }
             }
 
@@ -201,8 +206,8 @@ public class AspidHunter : MonoBehaviour
             if (offset.normalized.x > 0 && offset.normalized.y < 0)
             {
                 if (aspidRigid.position.x >= chasedPos.x && aspidRigid.position.y <= chasedPos.y)
-                {                                        
-                    Invoke("OppositeVector", 0.1f);
+                {
+                    StartCoroutine(OppositeVector());
                 }
             }
 
@@ -210,8 +215,8 @@ public class AspidHunter : MonoBehaviour
             if (offset.normalized.x > 0 && offset.normalized.y > 0)
             {
                 if (aspidRigid.position.x >= chasedPos.x && aspidRigid.position.y >= chasedPos.y)
-                {                                        
-                    Invoke("OppositeVector", 0.1f);
+                {
+                    StartCoroutine(OppositeVector());
                 }
             }
 
@@ -233,9 +238,13 @@ public class AspidHunter : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag.Equals("PlayerAttack"))
-        {           
+        {
+            Vector2 offset = player.transform.position - transform.position;
+
             // 공격을 받을시 라이프카운트를 1씩 잃으며
             lifeCount -= 1;
+
+
 
             if (lifeCount <= 0)
             {
@@ -246,6 +255,16 @@ public class AspidHunter : MonoBehaviour
                 // 죽음 애니메이션이 나온 후 오브젝트를 비활성화 시킬 Die 함수
                 Invoke("Die", 0.6f);
 
+            }
+            else if (offset.normalized.x < 0f)
+            {
+                aspidRigid.AddForce(Vector2.right * hitForce, ForceMode2D.Impulse);
+                StartCoroutine(Hit());
+            }
+            else if (offset.normalized.x > 0f)
+            {
+                aspidRigid.AddForce(Vector2.left * hitForce, ForceMode2D.Impulse);
+                StartCoroutine(Hit());
             }
 
         }
@@ -261,9 +280,13 @@ public class AspidHunter : MonoBehaviour
 
 
     // OnTriggerStay2D 함수 내부 존재
-    private void OppositeVector()
+    IEnumerator OppositeVector()
     {
         aspidRigid.velocity *= -1 * 0.2f;
+
+        yield return new WaitForSeconds(0.1f);
+
+        yield break;
     }
 
     // OnTriggerStay2D 함수 내부 존재
@@ -283,4 +306,14 @@ public class AspidHunter : MonoBehaviour
         yield return new WaitForSeconds(3f);
         isFire = false;
     }
+
+    IEnumerator Hit()
+    {
+        isHit = true;
+
+        yield return new WaitForSeconds(0.25f);
+
+        isHit = false;
+    }
+
 }

@@ -17,7 +17,7 @@ public class VengeFly : MonoBehaviour
     private float areaSpeed = 0.5f;
     private float chaseSpeed = 3.0f;
     private int lifeCount = 3;
-    private float hitForce = 10f;
+    private float hitForce = 5f;
 
     public float xPos = default;
     public float yPos = default;
