@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1152701424657454362}
-  - component: {fileID: 4105968781888321295}
   - component: {fileID: 1715414062}
   - component: {fileID: 3816754501920904843}
   - component: {fileID: 2778195008582017585}
@@ -37,32 +36,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &4105968781888321295
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1152701424657454363}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.62, y: 1.28}
-    newSize: {x: 0.62, y: 1.28}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.4, y: 1.28}
-  m_EdgeRadius: 0
 --- !u!70 &1715414062
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -213,7 +186,7 @@ GameObject:
   - component: {fileID: 8916816200532024222}
   - component: {fileID: 6212007774990854438}
   - component: {fileID: 1816515745}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RightAttack
   m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
@@ -459,7 +432,7 @@ GameObject:
   - component: {fileID: 8481136516034091304}
   - component: {fileID: 2832710880727024668}
   - component: {fileID: 215879058}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DownAttack
   m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
@@ -594,7 +567,7 @@ GameObject:
   - component: {fileID: 9103850406173991452}
   - component: {fileID: 4897414762022854183}
   - component: {fileID: 5287361257784274992}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: UpAttack
   m_TagString: PlayerAttack
   m_Icon: {fileID: 0}

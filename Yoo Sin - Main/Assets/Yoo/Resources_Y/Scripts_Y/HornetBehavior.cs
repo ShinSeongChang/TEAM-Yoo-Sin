@@ -39,7 +39,7 @@ public class HornetBehavior : MonoBehaviour
     private float timeAfterAct;
     private float timeAfterEvaded;
     private Collider2D detectRange;
-    private int hp = 1;
+    private int hp = 10;
     private int stunHp = 1;
     private int randomNumber;
     private int stunCount;
@@ -72,7 +72,7 @@ public class HornetBehavior : MonoBehaviour
         timeAfterEvade = 0;
         timeAfterAct = 0;
         distance = 0;
-        stunCount = 2;
+        stunCount = 0;
         lookLeft = true;
         isConer = false;
         //StartCoroutine(DashAir());

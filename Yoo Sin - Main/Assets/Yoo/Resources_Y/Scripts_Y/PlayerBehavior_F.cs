@@ -19,6 +19,7 @@ public class PlayerBehavior_F : MonoBehaviour
 
     private SpriteRenderer playerSprite;
     private Rigidbody2D playerRigidbody;
+    private Collider2D playerCollider;
     private Animator playerAni;
     private WaitForSeconds attackRemainTime;
     private SpriteRenderer attackSprite;
@@ -64,6 +65,7 @@ public class PlayerBehavior_F : MonoBehaviour
         playerAni = transform.GetChild(0).GetComponent<Animator>();
         playerSprite = transform.GetChild(0).GetComponent<SpriteRenderer>();
         playerRigidbody = transform.GetComponent<Rigidbody2D>();
+        playerCollider = transform.GetComponent <Collider2D>();
         attackRemainTime = new WaitForSeconds(0.2f);
         jumpCount = 1;
         isRight = true;
@@ -87,7 +89,7 @@ public class PlayerBehavior_F : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playermove == true)
+        if (playermove == true && playerAni.GetBool("IsDead") == false)
         {
             if (isDead == true)
             {
@@ -299,9 +301,9 @@ public class PlayerBehavior_F : MonoBehaviour
 
     private void Hit()
     {
+        StartCoroutine(GracePeriod());
         playerAni.SetTrigger("Hurt");
         StartCoroutine(KnockBack());
-        StartCoroutine(GracePeriod());
         StartCoroutine(Blink());
     }
 
@@ -310,6 +312,8 @@ public class PlayerBehavior_F : MonoBehaviour
         // 1프레임 후 오브젝트 파괴
         yield return null;
         playermove = false;
+        playerRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+        playerCollider.enabled = false;
         Destroy(transform.GetChild(0).gameObject);
         yield break;
     }
@@ -435,6 +439,7 @@ public class PlayerBehavior_F : MonoBehaviour
 
         if (isInvincible == false && collision.collider.CompareTag("Monster"))
         {
+            Hit();
             monsterPosition = collision.transform.position;
             yDiff = transform.position.y - monsterPosition.y;
             hp -= 1;
@@ -445,7 +450,6 @@ public class PlayerBehavior_F : MonoBehaviour
             //StartCoroutine(KnockBack());
             //StartCoroutine(GracePeriod());
             //StartCoroutine(Blink());
-            Hit();
         }
 
         if (collision.collider.CompareTag("Wall"))
@@ -463,6 +467,21 @@ public class PlayerBehavior_F : MonoBehaviour
             //isGround = true;
             playerAni.SetBool("IsGround", true);
             //playerAni.SetBool("IsFall", false);
+        }
+
+        if (isInvincible == false && collision.collider.CompareTag("Monster"))
+        {
+            Hit();
+            monsterPosition = collision.transform.position;
+            yDiff = transform.position.y - monsterPosition.y;
+            hp -= 1;
+            Debug.LogFormat("체력 : " + hp + "\n");
+
+            playerHealthUi.HealtDown();
+
+            //StartCoroutine(KnockBack());
+            //StartCoroutine(GracePeriod());
+            //StartCoroutine(Blink());
         }
 
         if (collision.collider.CompareTag("Wall"))
@@ -489,6 +508,7 @@ public class PlayerBehavior_F : MonoBehaviour
     {
         if (isInvincible == false && collision.CompareTag("MonsterAttack"))
         {
+            Hit();
             monsterPosition = collision.transform.position;
             yDiff = transform.position.y - monsterPosition.y;
             hp -= 1;
@@ -499,7 +519,24 @@ public class PlayerBehavior_F : MonoBehaviour
             //StartCoroutine(KnockBack());
             //StartCoroutine(GracePeriod());
             //StartCoroutine(Blink());
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (isInvincible == false && collision.CompareTag("MonsterAttack"))
+        {
             Hit();
+            monsterPosition = collision.transform.position;
+            yDiff = transform.position.y - monsterPosition.y;
+            hp -= 1;
+            Debug.LogFormat("체력 : " + hp + "\n");
+
+            playerHealthUi.HealtDown();
+
+            //StartCoroutine(KnockBack());
+            //StartCoroutine(GracePeriod());
+            //StartCoroutine(Blink());
         }
     }
 }
