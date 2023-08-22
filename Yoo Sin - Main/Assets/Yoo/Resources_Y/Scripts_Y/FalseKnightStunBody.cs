@@ -5,11 +5,13 @@ using UnityEngine;
 public class FalseKnightStunBody: MonoBehaviour
 {
     private int hp = 13;
+    private SkillGauge_Y skillGauge;
     private Animator bodyAni;
     private Collider2D bodyCollider;
     // Start is called before the first frame update
     void Start()
     {
+        skillGauge = GameObject.Find("GaugeImg").GetComponent<SkillGauge_Y>();
         bodyAni = GetComponent<Animator>();
         bodyCollider = GetComponent<Collider2D>();
     }
@@ -59,5 +61,6 @@ public class FalseKnightStunBody: MonoBehaviour
         // 바디의 체력을 1 감소시키고 바디의 애니메이터의 IsHit을 false로 초기화함
         hp -= 1;
         bodyAni.SetBool("IsHit", false);
+        skillGauge.GaugePlus();
     }
 }

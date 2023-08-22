@@ -31,13 +31,14 @@ public class FalseKnightBehavior : MonoBehaviour
     private GameObject player;
     private PlayerBehavior_F playerBehavior;
     private Collider2D attackRange;
+    private SkillGauge_Y skillGauge;
 
     private Quaternion toLeft = Quaternion.Euler(0, 180, 0);
     private Quaternion toRight = Quaternion.Euler(0, 0, 0);
 
     private int hp = 13;
+    private int stunCount = 0;
     private int randomNumber;
-    private int stunCount;
     private Skill whatToDo;
 
     private float distance;
@@ -67,6 +68,7 @@ public class FalseKnightBehavior : MonoBehaviour
 
     void Start()
     {
+        skillGauge = GameObject.Find("GaugeImg").GetComponent<SkillGauge_Y>();
         head = transform.GetChild(STUN).gameObject.transform.GetComponentInChildren<FalseKnightStunHead>();
         falseKnightRigidbody = GetComponent<Rigidbody2D>();
         falseKnightCollider = GetComponent<CapsuleCollider2D>();
@@ -79,7 +81,6 @@ public class FalseKnightBehavior : MonoBehaviour
         timeAfterAttack = 0;
         timeAfterRun = 0;
         whatToDo = 0;
-        stunCount = 0;
         randomNumber = 0;
     }
 
@@ -259,6 +260,7 @@ public class FalseKnightBehavior : MonoBehaviour
         if (hp <= 0)
         {
             StopAllCoroutines();
+            attackRange.enabled = false;
             // Stun함수 실행
             Stun();
         }
@@ -584,9 +586,11 @@ public class FalseKnightBehavior : MonoBehaviour
     {
         // 1프레임 후 다음 행 너머 부터 실행
         yield return null;
+        attackRange.enabled = false;
         // 기사의 콜라이더를 끄고 리지드바디를 못움직이게 함
         falseKnightCollider.enabled = false;
         falseKnightRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+        GameManager.instance.boss1Die = true;
         yield break;
     }
 
@@ -649,6 +653,7 @@ public class FalseKnightBehavior : MonoBehaviour
         // 기사가 트리거로 설정된 플레이어의 공격을 맞을 시
         if (other.CompareTag("PlayerAttack") && hp > 0)
         {
+            skillGauge.GaugePlus();
             hp -= 1;
         }
     }

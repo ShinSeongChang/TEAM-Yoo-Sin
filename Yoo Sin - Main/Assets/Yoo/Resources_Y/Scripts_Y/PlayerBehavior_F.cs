@@ -15,7 +15,8 @@ public class PlayerBehavior_F : MonoBehaviour
     private WaitForSeconds blinkTerm = new WaitForSeconds(BLINK_TERM);
     private WaitForSeconds invinclbleTime = new WaitForSeconds(INVINCIBLE_TIME);
     private WaitForSeconds knockBackTime = new WaitForSeconds(KNOCKBACK_TIME);
-    private PlayerHealthUi playerHealthUi;
+    private PlayerHealthUi_Y playerHealthUi;
+    private SkillGauge_Y playerSkillGauge;
 
     private SpriteRenderer playerSprite;
     private Rigidbody2D playerRigidbody;
@@ -26,7 +27,7 @@ public class PlayerBehavior_F : MonoBehaviour
     private Collider2D attackCollider;
     private Animator attackAni;
     private int jumpCount;
-    private int hp = 5;
+    private int hp;
 
     private Vector3 toLeft = new Vector3(0, 180, 0);
     private Vector3 toRight = new Vector3(0, 0, 0);
@@ -79,8 +80,9 @@ public class PlayerBehavior_F : MonoBehaviour
         isDead = false;
         isKnockBack = false;
         isWall = false;
-        playerHealthUi = GameObject.Find("Healts").GetComponent<PlayerHealthUi>();
-
+        playerHealthUi = GameObject.Find("Healts").GetComponent<PlayerHealthUi_Y>();
+        playerSkillGauge = GameObject.Find("GaugeImg").GetComponent<SkillGauge_Y>();
+        hp = playerHealthUi.GetHp();
         playermove = true;
 
         //Debug.LogFormat("체력 : " + hp + "\n");
@@ -291,6 +293,22 @@ public class PlayerBehavior_F : MonoBehaviour
                     }
                 }
             }
+
+            // a키(스킬) 관련
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                if(playerHealthUi.GetHp() >= 5)
+                {
+                    return;
+                }
+
+                if(playerSkillGauge.GetGauge() >= 2)
+                {
+                    playerHealthUi.HealtUp();
+                    playerSkillGauge.UseHeal();
+                    hp = playerHealthUi.GetHp();
+                }
+            }
         }
     }
 
@@ -442,11 +460,11 @@ public class PlayerBehavior_F : MonoBehaviour
             Hit();
             monsterPosition = collision.transform.position;
             yDiff = transform.position.y - monsterPosition.y;
-            hp -= 1;
+            //hp -= 1;
             Debug.LogFormat("체력 : " + hp + "\n");
 
             playerHealthUi.HealtDown();
-
+            hp = playerHealthUi.GetHp();
             //StartCoroutine(KnockBack());
             //StartCoroutine(GracePeriod());
             //StartCoroutine(Blink());
@@ -474,11 +492,11 @@ public class PlayerBehavior_F : MonoBehaviour
             Hit();
             monsterPosition = collision.transform.position;
             yDiff = transform.position.y - monsterPosition.y;
-            hp -= 1;
+            //hp -= 1;
             Debug.LogFormat("체력 : " + hp + "\n");
 
             playerHealthUi.HealtDown();
-
+            hp = playerHealthUi.GetHp();
             //StartCoroutine(KnockBack());
             //StartCoroutine(GracePeriod());
             //StartCoroutine(Blink());
@@ -511,11 +529,11 @@ public class PlayerBehavior_F : MonoBehaviour
             Hit();
             monsterPosition = collision.transform.position;
             yDiff = transform.position.y - monsterPosition.y;
-            hp -= 1;
+            //hp -= 1;
             Debug.LogFormat("체력 : " + hp + "\n");
 
             playerHealthUi.HealtDown();
-
+            hp = playerHealthUi.GetHp();
             //StartCoroutine(KnockBack());
             //StartCoroutine(GracePeriod());
             //StartCoroutine(Blink());
@@ -529,11 +547,11 @@ public class PlayerBehavior_F : MonoBehaviour
             Hit();
             monsterPosition = collision.transform.position;
             yDiff = transform.position.y - monsterPosition.y;
-            hp -= 1;
+            //hp -= 1;
             Debug.LogFormat("체력 : " + hp + "\n");
 
             playerHealthUi.HealtDown();
-
+            hp = playerHealthUi.GetHp();
             //StartCoroutine(KnockBack());
             //StartCoroutine(GracePeriod());
             //StartCoroutine(Blink());

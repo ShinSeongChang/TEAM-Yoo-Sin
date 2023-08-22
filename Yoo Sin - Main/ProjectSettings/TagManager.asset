@@ -10,6 +10,8 @@ TagManager:
   - Monster
   - MonsterAttack
   - StunBody
+  - FalseCam
+  - HornetCam
   layers:
   - Default
   - TransparentFX

@@ -5,6 +5,7 @@ using UnityEngine;
 public class HornetBodys : MonoBehaviour
 {
     private Animator hornetAni;
+    private SkillGauge_Y skillGauge;
     private Rigidbody2D hornetRigidbody;
     private float hornetRotationZ;
     private HornetBehavior hornetBehavior;
@@ -18,6 +19,7 @@ public class HornetBodys : MonoBehaviour
         hornetRigidbody = transform.GetComponentInParent<Rigidbody2D>();
         hornetRotationZ = transform.parent.eulerAngles.z;
         hornetBehavior = transform.GetComponentInParent<HornetBehavior>();
+        skillGauge = GameObject.Find("GaugeImg").GetComponent<SkillGauge_Y>();
     }
 
     // Update is called once per frame
@@ -33,10 +35,12 @@ public class HornetBodys : MonoBehaviour
             if(hornetAni.GetBool("IsStun") == false)
             {
                 hornetBehavior.HpDown();
+                skillGauge.GaugePlus();
             }
             if(hornetAni.GetBool("IsStun") == true && hornetAni.GetBool("IsIdle") == false)
             {
                 hornetBehavior.StunHpDown();
+                skillGauge.GaugePlus();
             }
         }
     }
@@ -95,6 +99,29 @@ public class HornetBodys : MonoBehaviour
         if (collision.collider.CompareTag("Platform"))
         {
             hornetAni.SetBool("IsGround", false);
+        }
+
+        if (collision.collider.CompareTag("Wall"))
+        {
+            hornetBehavior.isConer = false;
+
+            //if (hornetRigidbody.gravityScale != 5)
+            //{
+            //    hornetRigidbody.gravityScale = 5;
+            //}
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Wall"))
+        {
+            hornetBehavior.isConer = true;
+
+            //if (hornetRigidbody.gravityScale != 5)
+            //{
+            //    hornetRigidbody.gravityScale = 5;
+            //}
         }
     }
 }

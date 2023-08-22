@@ -7,11 +7,13 @@ public class FalseKnightStunHead : MonoBehaviour
     private const int BODY = 1;
 
     public int hp = 8;
+    private SkillGauge_Y skillGauge;
     private Animator headAni;
     private Animator bodyAni;
     // Start is called before the first frame update
     void Start()
     {
+        skillGauge = GameObject.Find("GaugeImg").GetComponent<SkillGauge_Y>();
         headAni = GetComponent<Animator>();
         bodyAni = transform.parent.transform.GetChild(BODY).GetComponent<Animator>();
     }
@@ -56,5 +58,6 @@ public class FalseKnightStunHead : MonoBehaviour
         hp -= 1;
         headAni.SetBool("IsHit", false);
         bodyAni.SetBool("IsHit", false);
+        skillGauge.GaugePlus();
     }
 }

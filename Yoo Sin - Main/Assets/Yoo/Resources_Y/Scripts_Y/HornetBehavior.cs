@@ -41,8 +41,8 @@ public class HornetBehavior : MonoBehaviour
     private Collider2D detectRange;
     private int hp = 10;
     private int stunHp = 1;
+    private int stunCount = 0;
     private int randomNumber;
-    private int stunCount;
     private float xDiff;
     private float yDiff;
     //private RaycastHit2D hit;
@@ -68,11 +68,11 @@ public class HornetBehavior : MonoBehaviour
         hornetAni = GetComponent<Animator>();
         hornetRigidbody = GetComponent<Rigidbody2D>();
         hornetSprite = GetComponent<SpriteRenderer>();
+        playerBehavior = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehavior_F>();
         timeAfterRun = 0;
         timeAfterEvade = 0;
         timeAfterAct = 0;
         distance = 0;
-        stunCount = 0;
         lookLeft = true;
         isConer = false;
         //StartCoroutine(DashAir());
@@ -97,6 +97,7 @@ public class HornetBehavior : MonoBehaviour
             if (playerBehavior.GetDead() == true)
             {
                 player = null;
+                return;
             }
 
             if (hornetAni.GetBool("IsStun") == false)
@@ -216,12 +217,11 @@ public class HornetBehavior : MonoBehaviour
         {
             if (timeAfterEvaded >= EVADE_COOLDOWN)
             {
-                randomNumber = Random.Range(0, 7);
+                StartCoroutine(Evade());
+                return;
             }
-            else
-            {
-                randomNumber = Random.Range(0, 6);
-            }
+            
+            randomNumber = Random.Range(0, 6);
 
             switch (randomNumber)
             {
@@ -242,9 +242,6 @@ public class HornetBehavior : MonoBehaviour
                     break;
                 case 5:
                     StartCoroutine(WhipingAir());
-                    break;
-                case 6:
-                    StartCoroutine(Evade());
                     break;
             }
             return;
@@ -417,9 +414,9 @@ public class HornetBehavior : MonoBehaviour
         timeAfterRun = 0;
         hornetAni.SetBool("IsIdle", false);
         hornetAni.SetBool("IsRun", true);
-        // 왼쪽을 보고있지않다면
-        if (lookLeft == false)
-        {
+        //// 왼쪽을 보고있지않다면
+        //if (lookLeft == false)
+        //{
             while (true)
             {
                 timeAfterRun += Time.deltaTime;
@@ -436,27 +433,27 @@ public class HornetBehavior : MonoBehaviour
                 transform.position -= Time.deltaTime * MOVE_SPEED * transform.right;
                 yield return null;
             }
-        }
-        // 왼쪽을 보고있다면
-        if (lookLeft == true)
-        {
-            while (true)
-            {
-                timeAfterRun += Time.deltaTime;
-                if (timeAfterRun >= RUNNING_TIME || isConer == true || hitPlayer == true)
-                {
-                    hornetAni.SetBool("IsRun", false);
-                    hornetAni.SetBool("IsIdle", true);
-                    if (hitPlayer == true)
-                    {
-                        hitPlayer = false;
-                    }
-                    yield break;
-                }
-                transform.position -= Time.deltaTime * MOVE_SPEED * transform.right;
-                yield return null;
-            }
-        }
+        //}
+        //// 왼쪽을 보고있다면
+        //if (lookLeft == true)
+        //{
+        //    while (true)
+        //    {
+        //        timeAfterRun += Time.deltaTime;
+        //        if (timeAfterRun >= RUNNING_TIME || isConer == true || hitPlayer == true)
+        //        {
+        //            hornetAni.SetBool("IsRun", false);
+        //            hornetAni.SetBool("IsIdle", true);
+        //            if (hitPlayer == true)
+        //            {
+        //                hitPlayer = false;
+        //            }
+        //            yield break;
+        //        }
+        //        transform.position -= Time.deltaTime * MOVE_SPEED * transform.right;
+        //        yield return null;
+        //    }
+        //}
     }
 
     IEnumerator Jump()
@@ -478,7 +475,6 @@ public class HornetBehavior : MonoBehaviour
                         // 오른쪽으로 일정거리 점프함
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(600, JUMP_FORCE));
-                        isConer = false;
                         //Debug.Log("몇번실행함?");
                         break;
                     }
@@ -488,7 +484,6 @@ public class HornetBehavior : MonoBehaviour
                         // 왼쪽으로 일정거리 점프함
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(-1 * 600, JUMP_FORCE));
-                        isConer = false;
                         //Debug.Log("몇번실행함?");
                         break;
                     }
@@ -538,7 +533,7 @@ public class HornetBehavior : MonoBehaviour
 
     IEnumerator Evade()
     {
-        yield return new WaitForSeconds(1);
+        //yield return new WaitForSeconds(1);
         timeAfterEvade = 0;
         hornetAni.SetBool("IsIdle", false);
         hornetAni.SetBool("IsEvade", true);
@@ -555,9 +550,9 @@ public class HornetBehavior : MonoBehaviour
             yield return null;
         }
 
-        // 플레이어가 왼쪽에 없다면
-        if (playerOnLeft == false)
-        {
+        //// 플레이어가 왼쪽에 없다면
+        //if (playerOnLeft == false)
+        //{
             while (true)
             {
                 timeAfterEvade += Time.deltaTime;
@@ -566,25 +561,25 @@ public class HornetBehavior : MonoBehaviour
                     hornetAni.SetBool("IsEvade", false);
                     break;
                 }
-                transform.position -= Time.deltaTime * EVADE_SPEED * transform.right;
+                transform.position += Time.deltaTime * MOVE_SPEED * transform.right;
                 yield return null;
             }
-        }
-        // 플레이어가 왼쪽에 있다면
-        else if (playerOnLeft == true)
-        {
-            while (true)
-            {
-                timeAfterEvade += Time.deltaTime;
-                if (timeAfterEvade >= EVADE_TIME || isConer == true)
-                {
-                    hornetAni.SetBool("IsEvade", false);
-                    break;
-                }
-                transform.position += Time.deltaTime * EVADE_SPEED * transform.right;
-                yield return null;
-            }
-        }
+        //}
+        //// 플레이어가 왼쪽에 있다면
+        //else if (playerOnLeft == true)
+        //{
+        //    while (true)
+        //    {
+        //        timeAfterEvade += Time.deltaTime;
+        //        if (timeAfterEvade >= EVADE_TIME || isConer == true)
+        //        {
+        //            hornetAni.SetBool("IsEvade", false);
+        //            break;
+        //        }
+        //        transform.position += Time.deltaTime * EVADE_SPEED * transform.right;
+        //        yield return null;
+        //    }
+        //}
 
         while (true)
         {
@@ -606,11 +601,6 @@ public class HornetBehavior : MonoBehaviour
         //yield return new WaitForSeconds(1);
         hornetAni.SetBool("IsIdle", false);
         hornetAni.SetBool("IsThrow", true);
-
-        if (isConer == true)
-        {
-            isConer = false;
-        }
 
         while (true)
         {
@@ -690,11 +680,6 @@ public class HornetBehavior : MonoBehaviour
         else if (playerOnLeft == true)
         {
             xPositionToDash = transform.position.x - DASH_DISTANCE;
-        }
-
-        if (isConer == true)
-        {
-            isConer = false;
         }
 
         while (true)
@@ -785,7 +770,6 @@ public class HornetBehavior : MonoBehaviour
                         // 오른쪽으로 일정거리 점프함
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(600, JUMP_FORCE));
-                        isConer = false;
                         //Debug.Log("몇번실행함?");
                         break;
                     }
@@ -795,7 +779,6 @@ public class HornetBehavior : MonoBehaviour
                         // 왼쪽으로 일정거리 점프함
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(-1 * 600, JUMP_FORCE));
-                        isConer = false;
                         //Debug.Log("몇번실행함?");
                         break;
                     }
@@ -883,7 +866,6 @@ public class HornetBehavior : MonoBehaviour
                         // 오른쪽으로 일정거리 점프함
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(600, JUMP_FORCE));
-                        isConer = false;
                         //Debug.Log("몇번실행함?");
                         break;
                     }
@@ -893,7 +875,6 @@ public class HornetBehavior : MonoBehaviour
                         // 왼쪽으로 일정거리 점프함
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(-1 * 600, JUMP_FORCE));
-                        isConer = false;
                         //Debug.Log("몇번실행함?");
                         break;
                     }
@@ -1038,10 +1019,10 @@ public class HornetBehavior : MonoBehaviour
 
         while (true)
         {
-            tempColor.a -= 0.001f;
+            tempColor.a -= 0.15f * Time.deltaTime;
             hornetSprite.color = tempColor;
             //Debug.Log("이거 실행함?");
-            if (tempColor.a < 0.001f)
+            if (tempColor.a < 0.15f)
             {
                 Destroy(gameObject);
                 GameManager.instance.EndingScene();
