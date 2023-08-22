@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = default;
+    //WaitForSecondsRealtime 
     
     [SerializeField]
     GameObject exitMenu = default;
@@ -58,7 +59,7 @@ public class GameManager : MonoBehaviour
         // 일시정지 메뉴 열기
         if (menuOpen == false && escape == true)
         {
-            Time.timeScale = 0.3f;
+            Time.timeScale = 0f;
             PlayerBehavior_S.playermove = false;
             exitMenu.SetActive(true);
 

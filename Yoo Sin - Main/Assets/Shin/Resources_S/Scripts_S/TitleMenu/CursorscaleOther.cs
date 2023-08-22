@@ -39,9 +39,9 @@ public class CursorscaleOther : MonoBehaviour
 
         // 각각 자식커서들 이미지를 순차적으로 확대, 축소 시킬 값
         maxSize = new Vector2(100f, 100f);
-        plusScale = new Vector2(60f, 0f);
+        plusScale = new Vector2(2000f, 0f);
         minSize = new Vector2(0f, 100f);
-        minusScale = new Vector2(-60f, 0f);
+        minusScale = new Vector2(-2000f, 0f);
 
         for(int i = 0; i < childCursor.childCount; i++)
         {
@@ -98,8 +98,8 @@ public class CursorscaleOther : MonoBehaviour
         {
             for(int i = 0;i < childCursor.childCount;i++)
             {
-                childs[i].sizeDelta += plusScale * Time.timeScale;
-
+                // 일시정지 메뉴 ( 타임스케일 0 상태 ) 에서도 동작하게 unscaledDeltaTime을 붙여준다.
+                childs[i].sizeDelta += plusScale * Time.unscaledDeltaTime;
                 yield return null;
             }
         }
@@ -123,15 +123,13 @@ public class CursorscaleOther : MonoBehaviour
     }
 
     IEnumerator Reduction()
-    {
-        
-
+    {        
         // Update에서 프레임마다 코루틴을 호출하기에 조건값으로 끊어준다.
         if (childs[1].sizeDelta.x > 0f)
         {
             for (int i = 0; i < childCursor.childCount; i++)
             {
-                childs[i].sizeDelta += minusScale * Time.timeScale;
+                childs[i].sizeDelta += minusScale * Time.unscaledDeltaTime;
 
                 yield return null;
             }
@@ -145,7 +143,7 @@ public class CursorscaleOther : MonoBehaviour
             }
         }
 
-        isLeave = false;
+        //isLeave = false;
         yield break;
 
     }

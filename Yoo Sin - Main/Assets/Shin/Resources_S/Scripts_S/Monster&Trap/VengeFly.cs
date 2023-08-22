@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class VengeFly : MonoBehaviour
 {
+    private WaitForSeconds stayTime = default;
+    private WaitForSeconds moveStay = default;
+    private WaitForSeconds hitTime = default;
+    private WaitForSeconds turnStay = default;
+
     private Transform player = default;
     private Rigidbody2D vengeflyRigid = default;
     private Transform vengeflyTransform = default;
@@ -49,87 +54,84 @@ public class VengeFly : MonoBehaviour
         xPos = Random.Range(-1f, 1.01f);
         yPos = Random.Range(-1f, 1.01f);
 
+        stayTime = new WaitForSeconds(1.0f);
+        moveStay = new WaitForSeconds(3.0f);
+        hitTime = new WaitForSeconds(0.25f);
+        turnStay = new WaitForSeconds(0.2f);
+
         StartCoroutine(MoveArea());
     }
 
     // vengefly 기초 상태 ( 자신의 일정 구역 내에서 랜덤 위치로 이동 )
     IEnumerator MoveArea()
     {
-        
-        // 받아온 랜덤값 벡터 환산 = 최초 좌표값 + 랜덤값
-        Vector2 randomPos = new Vector2(firstPos.x + xPos, firstPos.y + yPos);
-        Vector2 myPos = transform.position;
-
-        // 이번 방향 지시값
-        Vector2 offset = randomPos - myPos;
-
-        // vengefly는 지정받은 방향으로 설정한 속도로 이동한다.
-        vengeflyRigid.velocity = offset.normalized * areaSpeed;
-
-        // 다음 방향 이동값 미리 받아오기 ( 터닝 애니메이션 재생 여부 판별하기 위함 )
-        xPos = Random.Range(-1f, 1.01f);
-        yPos = Random.Range(-1f, 1.01f);
-
-        //Debug.LogFormat("이번 방향 지시값 : {0}", offset.normalized);
-
-
-        // { vengefly의 스프라이트는 기본 왼쪽방향, 방향값에 따라 이미지 플립
-        if (offset.normalized.x < 0f)
+        while(true)
         {
-            vengeflySprite.flipX = false;
+            // 받아온 랜덤값 벡터 환산 = 최초 좌표값 + 랜덤값
+            Vector2 randomPos = new Vector2(firstPos.x + xPos, firstPos.y + yPos);
+            Vector2 myPos = transform.position;
+
+            // 이번 방향 지시값
+            Vector2 offset = randomPos - myPos;
+
+            // vengefly는 지정받은 방향으로 설정한 속도로 이동한다.
+            vengeflyRigid.velocity = offset.normalized * areaSpeed;
+
+            // 다음 방향 이동값 미리 받아오기 ( 터닝 애니메이션 재생 여부 판별하기 위함 )
+            xPos = Random.Range(-1f, 1.01f);
+            yPos = Random.Range(-1f, 1.01f);
+
+            //Debug.LogFormat("이번 방향 지시값 : {0}", offset.normalized);
+
+            // { vengefly의 스프라이트는 기본 왼쪽방향, 방향값에 따라 이미지 플립
+            if (offset.normalized.x < 0f)
+            {
+                vengeflySprite.flipX = false;
+            }
+            else
+            {
+                vengeflySprite.flipX = true;
+            }
+            // } vengefly의 스프라이트는 기본 왼쪽방향, 방향값에 따라 이미지 플립
+
+
+            // 이동을 진행할 시간
+            yield return moveStay;
+
+            // 다음 방향 지시값
+            Vector2 randomPos2 = new Vector2(firstPos.x + xPos, firstPos.y + yPos);
+            Vector2 myPos2 = transform.position;
+            Vector2 offset2 = randomPos2 - myPos2;
+
+            float isTurn = offset.normalized.x * offset2.normalized.x;
+
+            vengeflyRigid.velocity = Vector2.zero;
+
+            yield return stayTime;
+
+            if (isTurn < 0f)
+            {
+                vengeflyAnimator.SetTrigger("isTurn");
+            }
+
+
+            if (offset.normalized.x < 0f)
+            {
+                vengeflySprite.flipX = false;
+            }
+            else
+            {
+                vengeflySprite.flipX = true;
+            }
+
+            yield return turnStay;
+
         }
-        else
-        {
-            vengeflySprite.flipX = true;
-        }
-        // } vengefly의 스프라이트는 기본 왼쪽방향, 방향값에 따라 이미지 플립
-
-
-        // 이동을 진행할 시간
-        yield return new WaitForSeconds(3.0f);
-
-        // 다음 방향 지시값
-        Vector2 randomPos2 = new Vector2(firstPos.x + xPos, firstPos.y + yPos);
-        Vector2 myPos2 = transform.position;
-        Vector2 offset2 = randomPos2 - myPos2;
-
-        float isTurn = offset.normalized.x * offset2.normalized.x;
-
-
-        /* 
-        =========== Legacy : VengeFly의 Turn 기준값 및 애니메이션 집어넣기 ================
-
-        Debug.LogFormat("다음 방향 지시값 : {0}", offset2.normalized);
-        Debug.LogFormat("이번 방향 X 다음 방향 = {0} 음수면 턴, 양수면 턴X", isTurn);
-
-        if (isTurn < 0f)
-        {
-            vengeflyAnimator.SetBool("isTurn", false);
-        }
-        else
-        {
-            vengeflyAnimator.SetBool("isTurn", true);
-        }
-        
-        =========== Legacy : VengeFly의 Turn 기준값 및 애니메이션 집어넣기 ================
-        */
-
 
         // 이동을 진행한 후 잠시 멈춰 있을 코루틴
-        StartCoroutine(Stay());
+        //StartCoroutine(Stay(offset, isTurn));
 
     }
-
-    // IEnumerator MoveArea 함수 내부 존재
-    IEnumerator Stay()
-    {
-        // 1초동안 속력을 잃었다가 다시 움직인다.
-        vengeflyRigid.velocity = Vector2.zero;
-        yield return new WaitForSeconds(1.0f);
-        StartCoroutine(MoveArea());
-
-    }
-
 
     // 탐지범위내에 플레이어가 들어오면 추적하는 로직
     private void OnTriggerStay2D(Collider2D collision)
@@ -234,8 +236,10 @@ public class VengeFly : MonoBehaviour
     {
         isHit = true;
 
-        yield return new WaitForSeconds(0.25f);
+        yield return hitTime;
 
         isHit = false;
+
+        yield break;
     }
 }

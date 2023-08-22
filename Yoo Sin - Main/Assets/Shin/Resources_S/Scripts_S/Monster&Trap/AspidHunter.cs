@@ -7,6 +7,11 @@ using UnityEngine;
 
 public class AspidHunter : MonoBehaviour
 {
+    private WaitForSeconds stayTime = default;
+    private WaitForSeconds moveStay = default;
+    private WaitForSeconds hitTime = default;
+    private WaitForSeconds turnStay = default;
+
     private Transform player = default;
     private Rigidbody2D aspidRigid = default;
     private Transform aspidTransform = default;
@@ -28,6 +33,7 @@ public class AspidHunter : MonoBehaviour
     public bool chaseLimit = false;
     public bool isFire = false;
     public bool isHit = false;
+    public bool isArea = false;
 
     private float areaSpeed = 1.0f;
     private float chaseSpeed = 2.0f;
@@ -54,14 +60,19 @@ public class AspidHunter : MonoBehaviour
         xPos = Random.Range(-1f, 1.01f);
         yPos = Random.Range(-1f, 1.01f);
 
+        stayTime = new WaitForSeconds(1.0f);
+        moveStay = new WaitForSeconds(3.0f);
+        hitTime = new WaitForSeconds(0.25f);
+        turnStay = new WaitForSeconds(0.1f);
+
         // 이후 정해진 코루틴에 따라 움직인다.
         StartCoroutine(MoveArea());
     }
 
     IEnumerator MoveArea()
     {
-
-
+        while(true)
+        {
             // 최초 위치에서 움직일 구역 정하기
             Vector2 randomPos = new Vector2(firstPos.x + xPos, firstPos.y + yPos);
             Vector2 myPos = transform.position;
@@ -87,9 +98,7 @@ public class AspidHunter : MonoBehaviour
             }
 
             // 이동을 진행할 시간
-            yield return new WaitForSeconds(3.0f);
-
-
+            yield return moveStay;
 
             // 다음 방향 지시값
             Vector2 randomPos2 = new Vector2(firstPos.x + xPos, firstPos.y + yPos);
@@ -98,47 +107,37 @@ public class AspidHunter : MonoBehaviour
 
             float isTurn = offset.normalized.x * offset2.normalized.x;
 
+            aspidRigid.velocity = Vector2.zero;
 
-            /* 
-            =========== Legacy : VengeFly의 Turn 기준값 및 애니메이션 집어넣기 ================
+            yield return stayTime;
 
-            Debug.LogFormat("다음 방향 지시값 : {0}", offset2.normalized);
-            Debug.LogFormat("이번 방향 X 다음 방향 = {0} 음수면 턴, 양수면 턴X", isTurn);
 
             if (isTurn < 0f)
             {
-                vengeflyAnimator.SetBool("isTurn", false);
+                aspidAnimator.SetTrigger("isTurn");
+            }
+
+
+            if (offset.normalized.x < 0f)
+            {
+                aspidSprite.flipX = false;
             }
             else
             {
-                vengeflyAnimator.SetBool("isTurn", true);
+                aspidSprite.flipX = true;
             }
-        
-            =========== Legacy : VengeFly의 Turn 기준값 및 애니메이션 집어넣기 ================
-            */
 
+            yield return turnStay;
 
-            // 이동을 마치고 잠깐의 뜸들이기
-            StartCoroutine(Stay());   
+        }
 
     }
 
-    IEnumerator Stay()
-    {
-        // 랜덤구역 이동후 1.5초의 시간동안 멈춰있는다.
-        aspidRigid.velocity = Vector2.zero;
-
-        yield return new WaitForSeconds(1.5f);
-
-        // 이후 다시 MoveArea 코루틴으로 돌아간다.
-        StartCoroutine(MoveArea());
-
-    }
 
     public void OnTriggerStay2D(Collider2D collision)
     {
         // 살아있는 상태에서 탐지범위 안에 들어온것이 플레이어라면
-        if (isDead.Equals(false) && collision.tag.Equals("Player") && isHit == false)
+        if (isDead.Equals(false) && collision.tag.Equals("Player") && isHit == false && isArea == false)
         {
             Vector2 chasedArea = default;
             Vector2 chasedNoramalize = default;
@@ -282,9 +281,13 @@ public class AspidHunter : MonoBehaviour
     // OnTriggerStay2D 함수 내부 존재
     IEnumerator OppositeVector()
     {
+        isArea = true;
+
         aspidRigid.velocity *= -1 * 0.2f;
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
+
+        isArea = false;
 
         yield break;
     }
@@ -299,11 +302,13 @@ public class AspidHunter : MonoBehaviour
 
         // Bullet 프리팹을 생성
         Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+
         // 공격을 마친 aspidhunter는 Idle 애니메이션으로 복귀한다.
         aspidAnimator.SetBool("isFire", false);
 
         // OnTriggerStay2D 로 플레이어를 프레임마다 탐색중이므로 bool값을 변화 시키며 bullet 인스턴스화의 주기를 맞춰준다.
-        yield return new WaitForSeconds(3f);
+        yield return moveStay;
+
         isFire = false;
     }
 
@@ -311,9 +316,11 @@ public class AspidHunter : MonoBehaviour
     {
         isHit = true;
 
-        yield return new WaitForSeconds(0.25f);
+        yield return hitTime;
 
         isHit = false;
+
+        yield break;
     }
 
 }

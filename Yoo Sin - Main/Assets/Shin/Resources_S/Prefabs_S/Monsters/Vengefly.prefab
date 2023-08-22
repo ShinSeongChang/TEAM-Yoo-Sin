@@ -173,7 +173,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6974052597837201969}
   - component: {fileID: 6974052597837201970}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: DetectedPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -210,4 +210,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 8
+  m_Radius: 5
