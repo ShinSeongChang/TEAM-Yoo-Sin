@@ -42,6 +42,7 @@ public class PlayerBehavior_F : MonoBehaviour
     public bool isHitLeft;
     public bool isHitDown;
 
+    private bool isWall;
     private bool isRight;
     private bool isUp;
     private bool isDown;
@@ -75,6 +76,7 @@ public class PlayerBehavior_F : MonoBehaviour
         isInvincible = false;
         isDead = false;
         isKnockBack = false;
+        isWall = false;
         playerHealthUi = GameObject.Find("Healts").GetComponent<PlayerHealthUi>();
 
         playermove = true;
@@ -207,6 +209,10 @@ public class PlayerBehavior_F : MonoBehaviour
                 // 전방 공격성공이 아니고, 우측 방향키를 누르는 중이고 좌측 방향키를 누르는 중이 아닐 때
                 if (isHitFront == false && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow))
                 {
+                    if(isRight == true && isWall == true)
+                    {
+                        return;
+                    }
                     playerRigidbody.velocity = new Vector2(0, playerRigidbody.velocity.y);
                     // 우측으로 이동속도에 비례하게 이동, 왼쪽을 봄을 false로, 오른쪽을 봄을 true로 초기화
                     transform.position += moveSpeed * Time.deltaTime * transform.right;
@@ -217,6 +223,10 @@ public class PlayerBehavior_F : MonoBehaviour
                 // 전방 공격성공이 아니고, 좌측 방향키를 누르는 중이고 우측 방향키를 누르는 중이 아닐 때
                 else if (isHitFront == false && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
                 {
+                    if (isRight == false && isWall == true)
+                    {
+                        return;
+                    }
                     playerRigidbody.velocity = new Vector2(0, playerRigidbody.velocity.y);
                     // 좌측으로 이동속도에 비례하게 이동, 오른쪽을 봄을 false로, 왼쪽을 봄을 true로 초기화
                     transform.position -= moveSpeed * Time.deltaTime * transform.right;
@@ -437,6 +447,11 @@ public class PlayerBehavior_F : MonoBehaviour
             //StartCoroutine(Blink());
             Hit();
         }
+
+        if (collision.collider.CompareTag("Wall"))
+        {
+            isWall = true;
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -449,6 +464,11 @@ public class PlayerBehavior_F : MonoBehaviour
             playerAni.SetBool("IsGround", true);
             //playerAni.SetBool("IsFall", false);
         }
+
+        if (collision.collider.CompareTag("Wall"))
+        {
+            isWall = true;
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -457,6 +477,11 @@ public class PlayerBehavior_F : MonoBehaviour
         {
             isGround = false;
             playerAni.SetBool("IsGround", false);
+        }
+
+        if (collision.collider.CompareTag("Wall"))
+        {
+            isWall = false;
         }
     }
 

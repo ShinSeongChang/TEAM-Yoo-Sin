@@ -55,7 +55,7 @@ public class TitleManager : MonoBehaviour
     {
         // 해당 씬을 로딩하기 시작
         // 해당씬에 필요한 리소스들이 메모리상에 모두 준비 되면 씬이 넘어가게 됨.
-        operation = SceneManager.LoadSceneAsync("Room001");
+        operation = SceneManager.LoadSceneAsync("Room001_Main");
 
         // 참값을 이용하여 로딩씬이 넘어가는 구간을 임의로 지정할수 있다.        
         operation.allowSceneActivation = false;

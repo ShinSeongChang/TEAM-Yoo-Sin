@@ -17,6 +17,8 @@ public class Elevator : MonoBehaviour
 
     private void Update()
     {
+
+
         // 플레이어 낙하시 충격으로 엘레베이터 밀림방지
         if(GameManager.instance.boss1Die == true)
         {

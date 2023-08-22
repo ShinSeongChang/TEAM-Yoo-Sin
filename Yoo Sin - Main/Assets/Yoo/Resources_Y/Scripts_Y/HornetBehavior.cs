@@ -89,6 +89,11 @@ public class HornetBehavior : MonoBehaviour
     {
         if (hornetAni.GetBool("IsDead") == false && player != null)
         {
+            if (hornetAni.GetBool("IsStun") == true)
+            {
+                CheckWakeUp();
+            }
+
             if (playerBehavior.GetDead() == true)
             {
                 player = null;
@@ -96,7 +101,7 @@ public class HornetBehavior : MonoBehaviour
 
             if (hornetAni.GetBool("IsStun") == false)
             {
-                CheckStun();
+                CheckStunOrDead();
                 PositionDiff();
                 CheckTurn();
                 timeAfterEvaded += Time.deltaTime;
@@ -113,17 +118,6 @@ public class HornetBehavior : MonoBehaviour
                 }
             }
 
-            if (hornetAni.GetBool("IsStun") == true && stunCount < 3)
-            {
-                CheckWakeUp();
-            }
-
-            if (stunCount >= 3)
-            {
-                hornetAni.SetBool("IsDead", true);
-                Debug.Log("¿©±âµé¾î¿È?");
-                StartCoroutine(Dead());
-            }
             //if(hornetAni.GetBool("IsIdle") == true && dashCount == 1)
             //{
             //    StartCoroutine(DashGround());
@@ -253,6 +247,7 @@ public class HornetBehavior : MonoBehaviour
                     StartCoroutine(Evade());
                     break;
             }
+            return;
         }
         else if (4 <= distance && distance < 8)
         {
@@ -281,6 +276,7 @@ public class HornetBehavior : MonoBehaviour
                     StartCoroutine(DashAir());
                     break;
             }
+            return;
         }
         else if (8 <= distance)
         {
@@ -306,6 +302,7 @@ public class HornetBehavior : MonoBehaviour
                     StartCoroutine(WhipingAir());
                     break;
             }
+            return;
         }
     }
 
@@ -319,7 +316,7 @@ public class HornetBehavior : MonoBehaviour
         hornetAni.SetBool("IsGround", true);
         hornetAni.SetBool("IsStun", true);
         hornetAni.SetBool("IsIdle", true);
-        stunCount += 1;
+        //stunCount += 1;
 
         if (lookLeft == true)
         {
@@ -350,11 +347,18 @@ public class HornetBehavior : MonoBehaviour
         }
     }
 
-    private void CheckStun()
+    private void CheckStunOrDead()
     {
         if (hp <= 0)
         {
+            stunCount += 1;
             StopAllCoroutines();
+            if (stunCount >= 3)
+            {
+                //Debug.Log("¿©±âµé¾î¿È?");
+                StartCoroutine(Dead());
+                return;
+            }
             StartCoroutine(Stun());
         }
     }
@@ -1007,12 +1011,17 @@ public class HornetBehavior : MonoBehaviour
 
     IEnumerator Dead()
     {
+        hornetAni.SetBool("IsDead", true);
+        hornetAni.SetTrigger("StunStart");
         while(true)
         {
             if(hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetStunPart1"))
             {
-                if(hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if(hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.90f)
                 {
+                    hornetAni.SetBool("IsIdle", false);
+                    hornetRigidbody.velocity = Vector2.zero;
+                    hornetRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
                     break;
                 }
             }
@@ -1035,6 +1044,7 @@ public class HornetBehavior : MonoBehaviour
             if (tempColor.a < 0.001f)
             {
                 Destroy(gameObject);
+                GameManager.instance.EndingScene();
                 yield break;
             }
             yield return null;

@@ -102,23 +102,14 @@ public class GameManager : MonoBehaviour
 
     public void EndingScene()
     {
-        Time.timeScale = 0.3f;
-
         StartCoroutine(EndingDelay());
-
     }
 
     IEnumerator EndingDelay()
     {
-        yield return new WaitForSecondsRealtime(2.0f);
-
-        Time.timeScale = 1.0f;
 
         yield return new WaitForSeconds(0.75f);
-
         EndingCanvas.SetActive(true);
-
-
 
         yield break;
     }
