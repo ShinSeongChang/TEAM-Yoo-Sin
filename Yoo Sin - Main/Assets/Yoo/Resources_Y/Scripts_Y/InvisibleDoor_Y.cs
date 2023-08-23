@@ -23,9 +23,12 @@ public class InvisibleDoor_Y : MonoBehaviour
     {
         if(collision.tag == "Player")
         {           
-            myAni.SetTrigger("InvisibleClear");
             myCollider.isTrigger = false;
             hornetCamera.enabled = true;
+            myAni.SetTrigger("InvisibleClear");
+            BgmMainController.instance.sources[0].clip = BgmMainController.instance.bgms[2];
+            BgmMainController.instance.sources[0].Play();
+            BgmMainController.instance.sources[1].enabled = false;
         }
     }
 
