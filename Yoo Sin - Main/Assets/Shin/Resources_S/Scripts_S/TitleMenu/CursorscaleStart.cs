@@ -31,9 +31,9 @@ public class CursorscaleStart : MonoBehaviour
         childCursor = transform.GetComponentInChildren<RectTransform>();
 
         maxSize = new Vector2(100f, 100f);
-        plusScale = new Vector2(2000f, 0f);
+        plusScale = new Vector2(4000f, 0f);
         minSize = new Vector2(0f, 100f);
-        minusScale = new Vector2(-2000f, 0f);
+        minusScale = new Vector2(-4000f, 0f);
 
         for (int i = 0; i < childCursor.childCount; i++)
         {

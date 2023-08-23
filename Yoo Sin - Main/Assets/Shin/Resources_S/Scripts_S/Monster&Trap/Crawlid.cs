@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
 public class Crawlid : MonoBehaviour
-{
+{   
+    private AudioSource myAudio = default;
     private SkillGauge skillGauge;
     private Transform player = default;
     private Rigidbody2D crawlidRigid = default;
@@ -27,6 +27,7 @@ public class Crawlid : MonoBehaviour
 
     void Awake()
     {
+        myAudio = GetComponent<AudioSource>();
         player =GameObject.FindWithTag("Player").GetComponent<Transform>();
         crawlidRigid = GetComponent<Rigidbody2D>();
         crawlidCollider = GetComponent<CapsuleCollider2D>();
@@ -66,15 +67,17 @@ public class Crawlid : MonoBehaviour
             Vector2 crawlidFrontdown = new Vector2(0, -1f);
 
             // 레이캐스트가 찍히는곳을 직접 봐보기
-            // Debug.DrawRay(crawlidFront, crawlidFrontdown, Color.green);
+            //Debug.DrawRay(new Vector2(myPos.x + 1f, myPos.y), new Vector2(-2f, 0f), Color.green);
  
-            RaycastHit2D hit = Physics2D.Raycast(crawlidFront, crawlidFrontdown, 1, LayerMask.GetMask("Platform"));
+            RaycastHit2D hit = Physics2D.Raycast(crawlidFront, crawlidFrontdown, 1, LayerMask.GetMask("Platform"));            
 
             // 레이캐스트가 찍은곳에 플랫폼이 없으며 현재 플랫폼 위에 있는 상태라면
             if (isGround == true && hit.collider == null) 
             {
                 StartCoroutine(Turning());
             }
+
+           
 
             // *} 레이캐스트로 절벽 탐지하는 로직
 
@@ -114,13 +117,19 @@ public class Crawlid : MonoBehaviour
         if(collision.collider.tag == "Platform")
         {
             isGround = false;
-        }        
+        }
     }
 
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
+        if(collision.tag == "MainCamera")
+        {
+            Debug.Log("카메라에 닿았나");
+            myAudio.Play();
+        }
 
         if(isDie.Equals(true))
         {
@@ -191,6 +200,14 @@ public class Crawlid : MonoBehaviour
                 crawlidRigid.AddForce(transform.right * -5f, ForceMode2D.Impulse);
                 StartCoroutine(Hit());
             }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "MainCamera")
+        {
+            myAudio.Stop();
         }
     }
 

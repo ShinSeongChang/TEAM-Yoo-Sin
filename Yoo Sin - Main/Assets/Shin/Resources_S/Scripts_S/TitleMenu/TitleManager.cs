@@ -24,6 +24,8 @@ public class TitleManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI optionText = default;
     [SerializeField] TextMeshProUGUI gameexitText = default;
 
+    private float invisibleSpeed = 2.5f;
+
     // 로딩씬 구현
     private AsyncOperation operation;
 
@@ -41,8 +43,10 @@ public class TitleManager : MonoBehaviour
 
         child = GameObject.Find("TitleBackground").GetComponentInChildren<Transform>();
 
-        mainManager = GameObject.Find("Main").GetComponent<MainManager>();
-        optionManager = child.GetChild(1).GetComponentInChildren<OptionManager>();
+        mainManager = GameObject.Find("Title_MainUi").GetComponent<MainManager>();
+
+        // 메인캔버스 내 옵션 ui가 비활성화 된 상태이기에 부모인 메인캔버스내 자식 인덱스로 접근한 것.
+        optionManager = GameObject.Find("TitleCanvas").transform.GetChild(3).GetComponent<OptionManager>();
 
     }
 
@@ -53,6 +57,9 @@ public class TitleManager : MonoBehaviour
     }
     IEnumerator GameInit()
     {
+        Color tempImagecolor = titleBackground.color;
+        float tempTextcolor = gameexitText.alpha;
+
         // 해당 씬을 로딩하기 시작
         // 해당씬에 필요한 리소스들이 메모리상에 모두 준비 되면 씬이 넘어가게 됨.
         operation = SceneManager.LoadSceneAsync("Room001");
@@ -60,16 +67,19 @@ public class TitleManager : MonoBehaviour
         // 참값을 이용하여 로딩씬이 넘어가는 구간을 임의로 지정할수 있다.        
         operation.allowSceneActivation = false;
 
-        while(gameexitText.alpha > 0f)
+        while (gameexitText.alpha > 0f || titleText.color.a > 0f)
         {
-            yield return new WaitForSeconds(0.032f);
+            tempImagecolor.a -= invisibleSpeed * Time.deltaTime;
+            tempTextcolor -= invisibleSpeed * Time.deltaTime;
 
-            titleBackground.color = new Color
-                (titleBackground.color.r, titleBackground.color.g, titleBackground.color.b, titleBackground.color.a - 0.04f);
-            titleText.color = new Color(titleText.color.r, titleText.color.g, titleText.color.b, titleText.color.a - 0.04f);
-            gamestartText.alpha -= 0.04f;
-            optionText.alpha -= 0.04f;
-            gameexitText.alpha -= 0.04f;
+            titleBackground.color = tempImagecolor;
+            titleText.color = tempImagecolor;
+
+            gamestartText.alpha = tempTextcolor;
+            optionText.alpha -= tempTextcolor;
+            gameexitText.alpha -= tempTextcolor;
+
+            yield return null;
         }
 
         main.SetActive(false);

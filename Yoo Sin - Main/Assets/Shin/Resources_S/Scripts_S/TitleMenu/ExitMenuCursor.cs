@@ -45,6 +45,12 @@ public class ExitMenuCursor : MonoBehaviour
             GameManager.instance.MenuClose();
         }
 
+        // Option 선택시
+        if(cursorTransform.anchoredPosition.y == 0f && enter == true)
+        {
+            GameManager.instance.OptionInit();
+        }
+
         // GameExit 선택시
         if (cursorTransform.anchoredPosition.y == -100f && enter == true)
         {

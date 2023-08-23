@@ -6,14 +6,11 @@ using TMPro;
 
 public class MainManager : MonoBehaviour
 {
-
-    //[SerializeField] Image soundbarEmpty = default;
-    //[SerializeField] Image soundbar = default;
-
-    [SerializeField] TextMeshProUGUI gametartText = default;
+    [SerializeField] TextMeshProUGUI gamestartText = default;
     [SerializeField] TextMeshProUGUI optionText = default;
     [SerializeField] TextMeshProUGUI gameexitText = default;
 
+    float invisibleSpeed = 2.5f;
 
     public void OptionInit()
     {
@@ -21,29 +18,32 @@ public class MainManager : MonoBehaviour
     }
     IEnumerator InvisibilityTrue()
     {
-        //soundbarEmpty.color = new Color(soundbarEmpty.color.r, soundbarEmpty.color.g, soundbarEmpty.color.b, soundbarEmpty.color.a - 0.04f);
-        //soundbar.color = new Color(soundbar.color.r, soundbar.color.g, soundbar.color.b, soundbar.color.a - 0.04f);
-        gametartText.alpha -= 0.04f;
-        optionText.alpha -= 0.04f;
-        gameexitText.alpha -= 0.04f;
+        float tempTextcolor = gameexitText.alpha;
+
+        while(gameexitText.alpha > 0f)
+        {
+            tempTextcolor -= invisibleSpeed * Time.deltaTime;
+
+            gamestartText.alpha = tempTextcolor;
+            optionText.alpha = tempTextcolor;
+            gameexitText.alpha = tempTextcolor;
+
+            yield return null;
+        }
 
         if (gameexitText.alpha <= 0f)
         {
-            //soundbarEmpty.color = new Color(soundbarEmpty.color.r, soundbarEmpty.color.g, soundbarEmpty.color.b, 0f);
-            //soundbar.color = new Color(soundbar.color.r, soundbar.color.g, soundbar.color.b, 0f);
-            gametartText.alpha = 0f;
+            gamestartText.alpha = 0f;
             optionText.alpha = 0f;
             gameexitText.alpha = 0f;
-
-            TitleManager.instance.OptionInit();
-            yield break;
-
         }
 
-        yield return new WaitForSeconds(0.016f);
+        TitleManager.instance.OptionInit();
 
-        StartCoroutine(InvisibilityTrue());
+        yield break;
     }
+
+
     public void OptionOut()
     {
         StartCoroutine(InvisibilityFalse());
@@ -51,29 +51,30 @@ public class MainManager : MonoBehaviour
 
     IEnumerator InvisibilityFalse()
     {
-        //soundbarEmpty.color = new Color(soundbarEmpty.color.r, soundbarEmpty.color.g, soundbarEmpty.color.b, soundbarEmpty.color.a + 0.04f);
-        //soundbar.color = new Color(soundbar.color.r, soundbar.color.g, soundbar.color.b, soundbar.color.a + 0.04f);
-        gametartText.alpha += 0.04f;
-        optionText.alpha += 0.04f;
-        gameexitText.alpha += 0.04f;
+        float tempTextcolor = gameexitText.alpha;
 
 
-        if (gameexitText.alpha >= 1f)
+        while(gameexitText.alpha < 1f)
         {
-            //soundbarEmpty.color = new Color(soundbarEmpty.color.r, soundbarEmpty.color.g, soundbarEmpty.color.b, 1f);
-            //soundbar.color = new Color(soundbar.color.r, soundbar.color.g, soundbar.color.b, 1f);
-            gametartText.alpha = 1f;
-            optionText.alpha = 1f;
-            gameexitText.alpha = 1f;
+            tempTextcolor += invisibleSpeed * Time.deltaTime;
 
+            gamestartText.alpha += tempTextcolor;
+            optionText.alpha += tempTextcolor;
+            gameexitText.alpha = tempTextcolor;
 
-            yield break;
+            yield return null;
 
         }
 
-        yield return new WaitForSeconds(0.016f);
+        if (gameexitText.alpha >= 1f)
+        {
+            gamestartText.alpha = 1f;
+            optionText.alpha = 1f;
+            gameexitText.alpha = 1f;
 
-        StartCoroutine(InvisibilityFalse());
+        }
+
+        yield break;
     }
 
 

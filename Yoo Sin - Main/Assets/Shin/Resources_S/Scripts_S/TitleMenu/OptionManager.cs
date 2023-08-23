@@ -3,14 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class OptionManager : MonoBehaviour
 {
-
-    [SerializeField] Image soundbarEmpty = default;
-    [SerializeField] Image soundbar = default;
-    [SerializeField] TextMeshProUGUI soundText = default;
+    [SerializeField] TextMeshProUGUI MasterText = default;
+    [SerializeField] TextMeshProUGUI BGMText = default;
+    [SerializeField] TextMeshProUGUI EffectText = default;
     [SerializeField] TextMeshProUGUI resumeText = default;
+
+    float invisibleSpeed = 2.5f;
+
+    private Image Master_SoundBar_BackGround = default;
+    private Image Master_SoundBar_Fill = default;
+    private Image BGM_SoundBar_BackGround = default;
+    private Image BGM_SoundBar_Fill = default;
+    private Image Effect_SoundBar_BackGround = default;
+    private Image Effect_SoundBar_Fill = default;
+
+    // Active False인 상태에서 다른매니저에서 참조하려하니 null Refernce 발생, Start => Awake 변경
+    void Awake()
+    {
+        Master_SoundBar_BackGround = transform.GetChild(4).transform.GetChild(0).GetComponent<Image>();
+        Master_SoundBar_Fill = transform.GetChild(4).transform.GetChild(1).transform.GetChild(0).GetComponent<Image>();
+
+        BGM_SoundBar_BackGround = transform.GetChild(5).transform.GetChild(0).GetComponent<Image>();
+        BGM_SoundBar_Fill = transform.GetChild(5).transform.GetChild(1).transform.GetChild(0).GetComponent<Image>();
+
+        Effect_SoundBar_BackGround = transform.GetChild(6).transform.GetChild(0).GetComponent<Image>();
+        Effect_SoundBar_Fill = transform.GetChild(6).transform.GetChild(1).transform.GetChild(0).GetComponent<Image>();
+    }
 
     public void OptionInit()
     {
@@ -19,25 +41,33 @@ public class OptionManager : MonoBehaviour
 
     IEnumerator InvisibilityFalse()
     {
-        soundbarEmpty.color = new Color(soundbarEmpty.color.r, soundbarEmpty.color.g, soundbarEmpty.color.b, soundbarEmpty.color.a + 0.04f);
-        soundbar.color = new Color(soundbar.color.r, soundbar.color.g, soundbar.color.b, soundbar.color.a + 0.04f);
-        soundText.alpha += 0.04f;
-        resumeText.alpha += 0.04f;
+        Color tempImagecolor = Effect_SoundBar_BackGround.color;
+        Color tempImagecolor2 = Effect_SoundBar_Fill.color;
+        float tempTextcolor = resumeText.alpha;
 
-        if (resumeText.alpha >= 1f)
+        while(resumeText.alpha < 1f || Master_SoundBar_Fill.color.a < 1f)
         {
-            soundbarEmpty.color = new Color(soundbarEmpty.color.r, soundbarEmpty.color.g, soundbarEmpty.color.b, 1f);
-            soundbar.color = new Color(soundbar.color.r, soundbar.color.g, soundbar.color.b, 1f);
-            soundText.alpha = 1f;
-            resumeText.alpha = 1f;
+            tempImagecolor.a += invisibleSpeed * Time.deltaTime;
+            tempImagecolor2.a += invisibleSpeed * Time.deltaTime;
+            tempTextcolor += invisibleSpeed * Time.deltaTime;
 
-            yield break;
+            Master_SoundBar_BackGround.color = tempImagecolor;
+            Master_SoundBar_Fill.color = tempImagecolor2;
+            BGM_SoundBar_BackGround.color = tempImagecolor;
+            BGM_SoundBar_Fill.color = tempImagecolor2;
+            Effect_SoundBar_BackGround.color = tempImagecolor;
+            Effect_SoundBar_Fill.color = tempImagecolor2;
 
-        }
+            MasterText.alpha = tempTextcolor;
+            BGMText.alpha = tempTextcolor;
+            EffectText.alpha = tempTextcolor;
+            resumeText.alpha = tempTextcolor;
 
-        yield return new WaitForSeconds(0.016f);
+            yield return null;
 
-        StartCoroutine(InvisibilityFalse());
+        }       
+        
+        yield break;
     }
 
     public void OptionOut()
@@ -47,26 +77,37 @@ public class OptionManager : MonoBehaviour
 
     IEnumerator InvisibilityTrue()
     {
-        soundbarEmpty.color = new Color(soundbarEmpty.color.r, soundbarEmpty.color.g, soundbarEmpty.color.b, soundbarEmpty.color.a - 0.04f);
-        soundbar.color = new Color(soundbar.color.r, soundbar.color.g, soundbar.color.b, soundbar.color.a - 0.04f);
-        soundText.alpha -= 0.04f;
-        resumeText.alpha -= 0.04f;
+        //Color tempImagecolor = Master_SoundBar_BackGround.color;
+        //Color tempImagecolor2 = Master_SoundBar_Fill.color;
 
-        if (resumeText.alpha <= 0f)
+        Color tempImagecolor = Master_SoundBar_BackGround.color;
+        Color tempImagecolor2 = Master_SoundBar_Fill.color;
+        float tempTextcolor = resumeText.alpha;
+
+        while (resumeText.alpha >= 0f || Master_SoundBar_Fill.color.a >= 0f)
         {
-            soundbarEmpty.color = new Color(soundbarEmpty.color.r, soundbarEmpty.color.g, soundbarEmpty.color.b, 0f);
-            soundbar.color = new Color(soundbar.color.r, soundbar.color.g, soundbar.color.b, 0f);
-            soundText.alpha = 0f;
-            resumeText.alpha = 0f;
+            tempImagecolor.a -= invisibleSpeed * Time.deltaTime;
+            tempImagecolor2.a -= invisibleSpeed * Time.deltaTime;
+            tempTextcolor -= invisibleSpeed * Time.deltaTime;
 
+            Master_SoundBar_BackGround.color = tempImagecolor;
+            Master_SoundBar_Fill.color = tempImagecolor2;
+            BGM_SoundBar_BackGround.color = tempImagecolor;
+            BGM_SoundBar_Fill.color = tempImagecolor2;
+            Effect_SoundBar_BackGround.color = tempImagecolor;
+            Effect_SoundBar_Fill.color = tempImagecolor2;
 
-            TitleManager.instance.OptionExit();
-            yield break;
+            MasterText.alpha = tempTextcolor;
+            BGMText.alpha = tempTextcolor;
+            EffectText.alpha = tempTextcolor;
+            resumeText.alpha = tempTextcolor;
 
+            yield return null;
         }
 
-        yield return new WaitForSeconds(0.016f);
+  
 
-        StartCoroutine(InvisibilityTrue());
+        TitleManager.instance.OptionExit();
+        yield break;
     }
 }
