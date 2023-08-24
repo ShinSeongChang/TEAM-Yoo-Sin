@@ -11,6 +11,8 @@ public class MenuCursor : MonoBehaviour
     private Vector2 downLimit = default;
     private Vector2 upLimit = default;
 
+    private bool isStart = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,8 +55,10 @@ public class MenuCursor : MonoBehaviour
         }
 
         // 메뉴커서가 게임시작을 선택했을 때
-        if (cursorTransform.anchoredPosition.y == -95f && enter == true)
+        if (isStart == false && cursorTransform.anchoredPosition.y == -95f && enter == true)
         {
+            isStart = true;
+
             TitleManager.instance.GameStart();
         }
         // 메뉴커서가 옵션창을 선택했을 때

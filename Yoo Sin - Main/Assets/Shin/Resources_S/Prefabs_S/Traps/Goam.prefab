@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 3947571282775913351}
   - component: {fileID: 3947571282775913355}
   - component: {fileID: 3947571282775913352}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Goam
-  m_TagString: MonsterAttack
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -118,7 +118,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -3}

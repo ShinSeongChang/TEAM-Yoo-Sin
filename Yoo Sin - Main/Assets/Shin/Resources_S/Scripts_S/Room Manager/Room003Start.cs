@@ -12,7 +12,7 @@ public class Room003Start : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            Vector3 moveRoom = new Vector3(room002Finish.position.x - 5.0f, 31.65f, room002Finish.position.z);
+            Vector3 moveRoom = new Vector3(room002Finish.position.x - 2.0f, 31.65f, room002Finish.position.z);
             player.transform.position = moveRoom;
         }
     }
