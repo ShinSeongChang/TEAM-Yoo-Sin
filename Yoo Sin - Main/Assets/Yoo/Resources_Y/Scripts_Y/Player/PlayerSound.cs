@@ -31,9 +31,9 @@ public class PlayerSound : MonoBehaviour
 
     private void SelectSound()
     {
-        if(playerAni.GetCurrentAnimatorStateInfo(0).IsName("Player_idle_R") && tempMoveString != "Player_idle_R")
-        { 
-            if(tempMoveString == "PlayerFall")
+        if (playerAni.GetCurrentAnimatorStateInfo(0).IsName("Player_idle_R") && tempMoveString != "Player_idle_R")
+        {
+            if (tempMoveString == "PlayerFall")
             {
                 return;
             }
@@ -42,7 +42,7 @@ public class PlayerSound : MonoBehaviour
             return;
         }
 
-        if(playerAni.GetCurrentAnimatorStateInfo(0).IsName("PlayerWalk") && tempMoveString != "PlayerWalk")
+        if (playerAni.GetCurrentAnimatorStateInfo(0).IsName("PlayerWalk") && tempMoveString != "PlayerWalk")
         {
             playerAudio.clip = sounds[0];
             playerAudio.Play();
@@ -53,7 +53,7 @@ public class PlayerSound : MonoBehaviour
 
         if (playerAni.GetCurrentAnimatorStateInfo(0).IsName("PlayerFall") && tempMoveString != "PlayerFall")
         {
-            if(tempMoveString == "PlayerWalk")
+            if (tempMoveString == "PlayerWalk")
             {
                 playerAudio.Stop();
             }

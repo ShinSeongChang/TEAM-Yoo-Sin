@@ -23,6 +23,8 @@ public class FalseKnightBehavior : MonoBehaviour
     public List<AudioClip> attackSounds;
     public List<AudioClip> hitSounds;
     public List<AudioClip> actSounds;
+    private AudioSource falseAudio;
+
     public GameObject shockWavePrefab;
     private GameObject shockWave;
     private Rigidbody2D falseKnightRigidbody;
@@ -34,7 +36,6 @@ public class FalseKnightBehavior : MonoBehaviour
     private Collider2D attackRange;
     private SkillGauge_Y skillGauge;
 
-    private AudioSource falseAudio;
 
     private Quaternion toLeft = Quaternion.Euler(0, 180, 0);
     private Quaternion toRight = Quaternion.Euler(0, 0, 0);
@@ -58,6 +59,8 @@ public class FalseKnightBehavior : MonoBehaviour
 
     private bool playerOnRight;
     private bool lookRight;
+    private bool stunBodyFallSoundPlayed;
+    private bool isStunPlayed;
 
     enum Skill
     {
@@ -80,6 +83,8 @@ public class FalseKnightBehavior : MonoBehaviour
         player = null;
         distance = 0;
         lookRight = true;
+        stunBodyFallSoundPlayed = false;
+        isStunPlayed = false;
         timeAfterAttack = 0;
         timeAfterRun = 0;
         whatToDo = 0;
@@ -114,7 +119,7 @@ public class FalseKnightBehavior : MonoBehaviour
                 timeAfterAttack += Time.deltaTime;
                 timeAfterRun += Time.deltaTime;
                 PositionDiff();
-                if(falseKnightAni.GetBool("IsIdle") == true)
+                if (falseKnightAni.GetBool("IsIdle") == true)
                 {
                     CheckTurn();
                 }
@@ -191,7 +196,7 @@ public class FalseKnightBehavior : MonoBehaviour
             {
                 timeAfterAttack = 0;
                 // 거리가 0이상 5미만일 경우 점프, 내려찍기, 백점프 충격파 중 하나 사용
-                if(0 <= distance && distance < 5)
+                if (0 <= distance && distance < 5)
                 {
                     randomNumber = Random.Range(0, 3);
                     if (randomNumber == 0)
@@ -202,7 +207,7 @@ public class FalseKnightBehavior : MonoBehaviour
                     {
                         whatToDo = Skill.takeDown;
                     }
-                    else if(randomNumber == 2)
+                    else if (randomNumber == 2)
                     {
                         whatToDo = Skill.backJumpShockWave;
                     }
@@ -266,6 +271,7 @@ public class FalseKnightBehavior : MonoBehaviour
         if (hp <= 0)
         {
             StopAllCoroutines();
+            falseAudio.Stop();
             attackRange.enabled = false;
             // Stun함수 실행
             Stun();
@@ -333,6 +339,7 @@ public class FalseKnightBehavior : MonoBehaviour
         // 기사의 공격 시간 0으로 다시 지정
         timeAfterAttack = 0;
         timeAfterRun = 0;
+        isStunPlayed = false;
     }
 
     // 기사가 방향 전환을 하도록 만드는 Turn 코루틴
@@ -423,11 +430,11 @@ public class FalseKnightBehavior : MonoBehaviour
         falseKnightAni.SetBool("IsIdle", false);
         falseKnightAni.SetBool("IsJump", true);
         // 달리기와 점프 준비 애니메이션이 실행되는 시간 만큼 기다린 후 다음 행 너머 부터 실행
-        while(true)
+        while (true)
         {
-            if(falseKnightAni.GetCurrentAnimatorStateInfo(0).IsName("FalseKnightJump_Ready"))
+            if (falseKnightAni.GetCurrentAnimatorStateInfo(0).IsName("FalseKnightJump_Ready"))
             {
-                if(falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
                 {
                     break;
                 }
@@ -459,7 +466,7 @@ public class FalseKnightBehavior : MonoBehaviour
         {
             if (falseKnightAni.GetCurrentAnimatorStateInfo(0).IsName("FalseKnightJump_Land"))
             {
-                if(landCount == 0)
+                if (landCount == 0)
                 {
                     // 착지 소리냄
                     falseAudio.PlayOneShot(actSounds[1]);
@@ -471,7 +478,7 @@ public class FalseKnightBehavior : MonoBehaviour
                     timeAfterAttack = 0;
                     falseKnightAni.SetBool("IsIdle", true);
                     falseKnightAni.SetBool("IsJump", false);
-                    
+
                     yield break;
                 }
             }
@@ -653,7 +660,7 @@ public class FalseKnightBehavior : MonoBehaviour
             falseKnightAni.SetBool("IsTakeDown", false);
             falseKnightAni.SetBool("IsIdle", true);
         }
-        
+
         else if (falseKnightAni.GetBool("IsBackShockWave") == true)
         {
             falseKnightAni.SetBool("IsBackShockWave", false);
@@ -681,6 +688,7 @@ public class FalseKnightBehavior : MonoBehaviour
         falseKnightAni.SetBool("HeadOpen", false);
         falseKnightAni.SetBool("IsHeadOpen", true);
         // 여기서 코루틴 종료
+        stunBodyFallSoundPlayed = false;
         yield break;
     }
 
@@ -711,7 +719,11 @@ public class FalseKnightBehavior : MonoBehaviour
             if (falseKnightAni.GetBool("IsDead") == true)
             {
                 // 착지시 갑옷부서지는 소리냄
-                falseAudio.PlayOneShot(actSounds[4]);
+                if (!stunBodyFallSoundPlayed)
+                {
+                    falseAudio.PlayOneShot(actSounds[4]);
+                    stunBodyFallSoundPlayed = true;
+                }
                 StartCoroutine(Dead());
             }
             // 스턴이 false 이고 내려찍기 공격중이 true라면
@@ -727,10 +739,15 @@ public class FalseKnightBehavior : MonoBehaviour
                 }
             }
             // 사망이 false 이고 스턴이 true라면
-            if (falseKnightAni.GetBool("IsDead") == false && falseKnightAni.GetBool("IsStun") == true)
+            if (isStunPlayed == false && falseKnightAni.GetBool("IsDead") == false && falseKnightAni.GetBool("IsStun") == true)
             {
+                isStunPlayed = true;
                 // 착지시 갑옷부서지는 소리냄
-                falseAudio.PlayOneShot(actSounds[4]);
+                if (!stunBodyFallSoundPlayed)
+                {
+                    falseAudio.PlayOneShot(actSounds[4]);
+                    stunBodyFallSoundPlayed = true;
+                }
                 StartCoroutine(HeadOpen());
             }
         }

@@ -455,8 +455,9 @@ GameObject:
   - component: {fileID: 5372064642628494135}
   - component: {fileID: 5372064642628494134}
   - component: {fileID: 5372064642628494138}
-  - component: {fileID: 5372064642628494139}
+  - component: {fileID: 3434710761040733341}
   - component: {fileID: 5372064642628494136}
+  - component: {fileID: 5372064642628494139}
   m_Layer: 0
   m_Name: Hornet
   m_TagString: Untagged
@@ -579,26 +580,102 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &5372064642628494139
-MonoBehaviour:
+--- !u!82 &3434710761040733341
+AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5372064642628494129}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 871521c3c55036141be1f44977dca855, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  airDashEffectPrefab: {fileID: 2074595843031014958, guid: 324e0f825be57894fa92cab5d8b5e5bf, type: 3}
-  groundDashEffectPrefab: {fileID: 6995916218424626478, guid: 23b4ac74c4490064ba2ecd879c22bb96, type: 3}
-  startWhipEffectPrefab: {fileID: 7284434885750061740, guid: a4788ba24ae280341ba0fd389f594870, type: 3}
-  throwNeedleEffectPrefab: {fileID: 4969554040773834203, guid: a9f3a5465fb23c84ab164f9d2b64e36f, type: 3}
-  needlePrefab: {fileID: 6820062218292944577, guid: 9ed03b22e3255f749ba92920c4545862, type: 3}
-  whipingPrefab: {fileID: 3101560847801515337, guid: 094a8b0a52108494c868f035cf48b1be, type: 3}
-  isConer: 0
-  hitPlayer: 0
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 643a081d0c887534985287bc60619f77, type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!61 &5372064642628494136
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -625,3 +702,49 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 17, y: 4}
   m_EdgeRadius: 0
+--- !u!114 &5372064642628494139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5372064642628494129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 871521c3c55036141be1f44977dca855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  airDashEffectPrefab: {fileID: 2074595843031014958, guid: 324e0f825be57894fa92cab5d8b5e5bf, type: 3}
+  groundDashEffectPrefab: {fileID: 6995916218424626478, guid: 23b4ac74c4490064ba2ecd879c22bb96, type: 3}
+  startWhipEffectPrefab: {fileID: 7284434885750061740, guid: a4788ba24ae280341ba0fd389f594870, type: 3}
+  throwNeedleEffectPrefab: {fileID: 4969554040773834203, guid: a9f3a5465fb23c84ab164f9d2b64e36f, type: 3}
+  needlePrefab: {fileID: 6820062218292944577, guid: 9ed03b22e3255f749ba92920c4545862, type: 3}
+  whipingPrefab: {fileID: 3101560847801515337, guid: 094a8b0a52108494c868f035cf48b1be, type: 3}
+  attackSounds:
+  - {fileID: 8300000, guid: 965a269969d9dad4e974d1d7360cc434, type: 3}
+  - {fileID: 8300000, guid: 4697e4f2670a34846b78e5f5a7fae9ba, type: 3}
+  - {fileID: 8300000, guid: 06e925abe43a09a43a5bff6c6cc14926, type: 3}
+  - {fileID: 8300000, guid: 8f90c292501800a46a15a1877deefbca, type: 3}
+  - {fileID: 8300000, guid: fdabcad2f54b56246bc65d668d7875fb, type: 3}
+  - {fileID: 8300000, guid: aae558d6f66f02840ae78df70946abaa, type: 3}
+  - {fileID: 8300000, guid: 4aa4d0ccc6c2f5840a4355366e65fad8, type: 3}
+  hitSound: {fileID: 8300000, guid: 82dc5fad6994afc40b26bbce59ea2201, type: 3}
+  actSounds:
+  - {fileID: 8300000, guid: 0955306149f4dff46acd7ece563178cf, type: 3}
+  - {fileID: 8300000, guid: 1635209a376fabf4589e43aa88549acd, type: 3}
+  - {fileID: 8300000, guid: aa354c76a405c214d8ef6733cdf13790, type: 3}
+  - {fileID: 8300000, guid: d889cbadb37693d4597c46b2c49c8000, type: 3}
+  - {fileID: 8300000, guid: 66ecbeae0126aba47b8e395bbba85e58, type: 3}
+  - {fileID: 8300000, guid: 520e2891405551b4d870f41a44379bfe, type: 3}
+  - {fileID: 8300000, guid: 96f61917d9b4ada41bfe75465fee6705, type: 3}
+  - {fileID: 8300000, guid: 2663254809ec6ce4488aabfbf956b5b5, type: 3}
+  - {fileID: 8300000, guid: 8db90f157f5612d429af226c067a01f0, type: 3}
+  stunSounds:
+  - {fileID: 8300000, guid: e6a47cb90bbd7144ab9b3375693267de, type: 3}
+  - {fileID: 8300000, guid: 0326e6bac411f53428e0df8c611cd62e, type: 3}
+  - {fileID: 8300000, guid: 421e871c5b0225b4cbb45d8855ede6b2, type: 3}
+  evadeSounds:
+  - {fileID: 8300000, guid: dd77e2f2a7e109f479d9f323e11a637c, type: 3}
+  - {fileID: 8300000, guid: a53672526ed23eb45b2587969fffcca8, type: 3}
+  isConer: 0
+  hitPlayer: 0

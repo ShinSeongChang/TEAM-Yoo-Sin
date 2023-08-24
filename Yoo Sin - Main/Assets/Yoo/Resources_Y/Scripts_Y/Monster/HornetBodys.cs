@@ -9,6 +9,8 @@ public class HornetBodys : MonoBehaviour
     private Rigidbody2D hornetRigidbody;
     private float hornetRotationZ;
     private HornetBehavior hornetBehavior;
+    private AudioSource hornetAudio;
+
 
     private Quaternion toLeft = Quaternion.Euler(0, 0, 0);
     private Quaternion toRight = Quaternion.Euler(0, 180, 0);
@@ -19,25 +21,27 @@ public class HornetBodys : MonoBehaviour
         hornetRigidbody = transform.GetComponentInParent<Rigidbody2D>();
         hornetRotationZ = transform.parent.eulerAngles.z;
         hornetBehavior = transform.GetComponentInParent<HornetBehavior>();
+        hornetAudio = transform.GetComponentInParent<AudioSource>();
         skillGauge = GameObject.Find("GaugeImg").GetComponent<SkillGauge_Y>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("PlayerAttack") == true)
+        if (collision.CompareTag("PlayerAttack") == true)
         {
-            if(hornetAni.GetBool("IsStun") == false)
+            hornetAudio.PlayOneShot(hornetBehavior.hitSound);
+            if (hornetAni.GetBool("IsStun") == false)
             {
                 hornetBehavior.HpDown();
                 skillGauge.GaugePlus();
             }
-            if(hornetAni.GetBool("IsStun") == true && hornetAni.GetBool("IsIdle") == false)
+            if (hornetAni.GetBool("IsStun") == true && hornetAni.GetBool("IsIdle") == false)
             {
                 hornetBehavior.StunHpDown();
                 skillGauge.GaugePlus();
@@ -65,7 +69,7 @@ public class HornetBodys : MonoBehaviour
                     transform.parent.transform.rotation = toLeft;
                     //Debug.Log("왼쪽으로");
                 }
-                else if(hornetBehavior.Get_LookLeft() == false)
+                else if (hornetBehavior.Get_LookLeft() == false)
                 {
                     transform.parent.transform.rotation = toRight;
                     //Debug.Log("오른쪽으로");
@@ -78,7 +82,7 @@ public class HornetBodys : MonoBehaviour
             //}
         }
 
-        if(collision.collider.CompareTag("Wall"))
+        if (collision.collider.CompareTag("Wall"))
         {
             hornetBehavior.isConer = true;
 

@@ -1,6 +1,8 @@
+using Mono.Cecil.Cil;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class HornetBehavior : MonoBehaviour
@@ -12,12 +14,9 @@ public class HornetBehavior : MonoBehaviour
     private const float EVADE_SPEED = 14f;
     private const float EVADE_TIME = 0.3f;
     private const float JUMP_FORCE = 1200f;
-    private const float ACT_TERM = 0.4f;
+    private const float ACT_TERM = 0.15f;
     private const float EVADE_COOLDOWN = 5f;
     private const float DASH_DISTANCE = 7f;
-    private const float FADE_OUT_TIME = 0.2f;
-
-    private WaitForSeconds fadeOutTime = new WaitForSeconds(FADE_OUT_TIME);
 
     public GameObject airDashEffectPrefab;
     public GameObject groundDashEffectPrefab;
@@ -25,6 +24,13 @@ public class HornetBehavior : MonoBehaviour
     public GameObject throwNeedleEffectPrefab;
     public GameObject needlePrefab;
     public GameObject whipingPrefab;
+
+    public List<AudioClip> attackSounds;
+    public AudioClip hitSound;
+    public List<AudioClip> actSounds;
+    public List<AudioClip> stunSounds;
+    public List<AudioClip> evadeSounds;
+    private AudioSource hornetAudio;
 
     private SpriteRenderer hornetSprite;
     private GameObject needle;
@@ -43,13 +49,14 @@ public class HornetBehavior : MonoBehaviour
     private int stunHp = 1;
     private int stunCount = 0;
     private int randomNumber;
+    private int randomAttackSound1;
+    private int randomAttackSound2;
     private float xDiff;
     private float yDiff;
     //private RaycastHit2D hit;
     //private int dashCount = 1;
 
     private Vector2 dashAirDir;
-    private Vector2 dashGroundDir;
     private Vector3 playerPosition;
     private float xPositionToDash;
     private Rigidbody2D hornetRigidbody;
@@ -68,6 +75,7 @@ public class HornetBehavior : MonoBehaviour
         hornetAni = GetComponent<Animator>();
         hornetRigidbody = GetComponent<Rigidbody2D>();
         hornetSprite = GetComponent<SpriteRenderer>();
+        hornetAudio = GetComponent<AudioSource>();
         playerBehavior = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehavior_F>();
         timeAfterRun = 0;
         timeAfterEvade = 0;
@@ -82,6 +90,19 @@ public class HornetBehavior : MonoBehaviour
         //StartCoroutine(Jump());
         //StartCoroutine(WhipingAir());
         //StartCoroutine(Evade());
+        randomAttackSound1 = Random.Range(0, attackSounds.Count - 2);
+        randomAttackSound2 = Random.Range(0, attackSounds.Count);
+        while (true)
+        {
+            if (randomAttackSound1 == randomAttackSound2)
+            {
+                randomAttackSound2 = Random.Range(0, attackSounds.Count);
+            }
+            else
+            {
+                break;
+            }
+        }
     }
 
     // Update is called once per frame
@@ -220,7 +241,7 @@ public class HornetBehavior : MonoBehaviour
                 StartCoroutine(Evade());
                 return;
             }
-            
+
             randomNumber = Random.Range(0, 6);
 
             switch (randomNumber)
@@ -305,7 +326,7 @@ public class HornetBehavior : MonoBehaviour
 
     IEnumerator Stun()
     {
-        for(int i = 0; i < hornetAni.parameters.Length; i ++)
+        for (int i = 0; i < hornetAni.parameters.Length; i++)
         {
             hornetAni.parameters[i].defaultBool = false;
         }
@@ -314,14 +335,13 @@ public class HornetBehavior : MonoBehaviour
         hornetAni.SetBool("IsStun", true);
         hornetAni.SetBool("IsIdle", true);
         //stunCount += 1;
-
         if (lookLeft == true)
         {
             hornetRigidbody.gravityScale = 5;
             hornetRigidbody.velocity = Vector2.zero;
             hornetRigidbody.AddForce(new Vector2(500, 600));
         }
-        else if(lookLeft == false)
+        else if (lookLeft == false)
         {
             hornetRigidbody.gravityScale = 5;
             hornetRigidbody.velocity = Vector2.zero;
@@ -348,14 +368,17 @@ public class HornetBehavior : MonoBehaviour
     {
         if (hp <= 0)
         {
+            hornetAudio.Stop();
             stunCount += 1;
             StopAllCoroutines();
             if (stunCount >= 3)
             {
                 //Debug.Log("여기들어옴?");
+                hornetAudio.PlayOneShot(actSounds[8]);
                 StartCoroutine(Dead());
                 return;
             }
+            hornetAudio.PlayOneShot(stunSounds[Random.Range(0, stunSounds.Count)]);
             StartCoroutine(Stun());
         }
     }
@@ -394,10 +417,20 @@ public class HornetBehavior : MonoBehaviour
     {
         hornetAni.SetBool("IsIdle", false);
         hornetAni.SetTrigger("Encount");
+        bool isPlayed = false;
+
         while (true)
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetEncount"))
             {
+                if (!isPlayed)
+                {
+                    if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.25f)
+                    {
+                        hornetAudio.PlayOneShot(actSounds[0]);
+                        isPlayed = true;
+                    }
+                }
                 if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
                 {
                     hornetAni.SetBool("IsIdle", true);
@@ -415,25 +448,34 @@ public class HornetBehavior : MonoBehaviour
         hornetAni.SetBool("IsIdle", false);
         hornetAni.SetBool("IsRun", true);
         Turn();
+        bool isPlayed = false;
         //// 왼쪽을 보고있지않다면
         //if (lookLeft == false)
         //{
-            while (true)
+        while (true)
+        {
+            timeAfterRun += Time.deltaTime;
+            if (timeAfterRun >= RUNNING_TIME || isConer == true || hitPlayer == true)
             {
-                timeAfterRun += Time.deltaTime;
-                if (timeAfterRun >= RUNNING_TIME || isConer == true || hitPlayer == true)
+                hornetAni.SetBool("IsRun", false);
+                hornetAni.SetBool("IsIdle", true);
+                if (hitPlayer == true)
                 {
-                    hornetAni.SetBool("IsRun", false);
-                    hornetAni.SetBool("IsIdle", true);
-                    if (hitPlayer == true)
-                    {
-                        hitPlayer = false;
-                    }
-                    yield break;
+                    hitPlayer = false;
                 }
-                transform.position -= Time.deltaTime * MOVE_SPEED * transform.right;
-                yield return null;
+                hornetAudio.Stop();
+                yield break;
             }
+
+            if (isPlayed == false)
+            {
+                hornetAudio.clip = actSounds[1];
+                hornetAudio.Play();
+                isPlayed = true;
+            }
+            transform.position -= Time.deltaTime * MOVE_SPEED * transform.right;
+            yield return null;
+        }
         //}
         //// 왼쪽을 보고있다면
         //if (lookLeft == true)
@@ -463,28 +505,30 @@ public class HornetBehavior : MonoBehaviour
 
         hornetAni.SetBool("IsIdle", false);
         hornetAni.SetBool("IsJump", true);
-
+        hornetAudio.PlayOneShot(attackSounds[Random.Range(0, attackSounds.Count - 2)]);
         while (true)
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetJump_Ready"))
             {
                 if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
                 {
-                    // 오른쪽을 보고있다면
+                    // 코너이고, 오른쪽을 보고있다면
                     if (isConer == true && lookLeft == false)
                     {
                         // 오른쪽으로 일정거리 점프함
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(600, JUMP_FORCE));
+                        hornetAudio.PlayOneShot(actSounds[2]);
                         //Debug.Log("몇번실행함?");
                         break;
                     }
-                    // 왼쪽을 보고있다면
+                    // 코너이고, 왼쪽을 보고있다면
                     else if (isConer == true && lookLeft == true)
                     {
                         // 왼쪽으로 일정거리 점프함
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(-1 * 600, JUMP_FORCE));
+                        hornetAudio.PlayOneShot(actSounds[2]);
                         //Debug.Log("몇번실행함?");
                         break;
                     }
@@ -494,6 +538,7 @@ public class HornetBehavior : MonoBehaviour
                         // 오른쪽으로 일정거리 점프함
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(150, JUMP_FORCE));
+                        hornetAudio.PlayOneShot(actSounds[2]);
                         //Debug.Log("몇번실행함?");
                         break;
                     }
@@ -503,19 +548,26 @@ public class HornetBehavior : MonoBehaviour
                         // 왼쪽으로 일정거리 점프함
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(-1 * 150, JUMP_FORCE));
+                        hornetAudio.PlayOneShot(actSounds[2]);
                         //Debug.Log("몇번실행함?");
                         break;
                     }
-                    //break;
                 }
             }
             yield return null;
         }
 
+        bool isPlayed = false;
         while (true)
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetJump_Land"))
             {
+                if (!isPlayed)
+                {
+                    hornetAudio.PlayOneShot(actSounds[3]);
+                    isPlayed = true;
+                }
+
                 if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
                 {
                     hornetAni.SetBool("IsIdle", true);
@@ -551,20 +603,28 @@ public class HornetBehavior : MonoBehaviour
             yield return null;
         }
 
+        bool isPlayed = false;
+
         //// 플레이어가 왼쪽에 없다면
         //if (playerOnLeft == false)
         //{
-            while (true)
+        while (true)
+        {
+            timeAfterEvade += Time.deltaTime;
+            if (timeAfterEvade >= EVADE_TIME || isConer == true)
             {
-                timeAfterEvade += Time.deltaTime;
-                if (timeAfterEvade >= EVADE_TIME || isConer == true)
-                {
-                    hornetAni.SetBool("IsEvade", false);
-                    break;
-                }
-                transform.position += Time.deltaTime * EVADE_SPEED * transform.right;
-                yield return null;
+                hornetAni.SetBool("IsEvade", false);
+                break;
             }
+
+            if (!isPlayed)
+            {
+                hornetAudio.PlayOneShot(evadeSounds[Random.Range(0, evadeSounds.Count)]);
+                isPlayed = true;
+            }
+            transform.position += Time.deltaTime * EVADE_SPEED * transform.right;
+            yield return null;
+        }
         //}
         //// 플레이어가 왼쪽에 있다면
         //else if (playerOnLeft == true)
@@ -602,7 +662,7 @@ public class HornetBehavior : MonoBehaviour
         //yield return new WaitForSeconds(1);
         hornetAni.SetBool("IsIdle", false);
         hornetAni.SetBool("IsThrow", true);
-
+        hornetAudio.PlayOneShot(attackSounds[Random.Range(0, attackSounds.Count - 1)]);
         while (true)
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetThrow_Ready"))
@@ -611,6 +671,7 @@ public class HornetBehavior : MonoBehaviour
                 {
                     needle = Instantiate(needlePrefab, transform.position, transform.rotation);
                     effect = Instantiate(throwNeedleEffectPrefab, transform.position, transform.rotation);
+                    hornetAudio.PlayOneShot(actSounds[5]);
                     break;
                 }
             }
@@ -636,6 +697,7 @@ public class HornetBehavior : MonoBehaviour
         //yield return new WaitForSeconds(1);
         hornetAni.SetBool("IsIdle", false);
         hornetAni.SetTrigger("WhipStart");
+        hornetAudio.PlayOneShot(attackSounds[Random.Range(0, attackSounds.Count)]);
         while (true)
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetWhiping_ReadyG"))
@@ -644,6 +706,8 @@ public class HornetBehavior : MonoBehaviour
                 {
                     whip = Instantiate(whipingPrefab, transform.position, transform.rotation);
                     effect = Instantiate(startWhipEffectPrefab, transform.position, transform.rotation);
+                    hornetAudio.PlayOneShot(actSounds[6]);
+                    hornetAudio.PlayOneShot(actSounds[7]);
                     break;
                 }
             }
@@ -671,7 +735,7 @@ public class HornetBehavior : MonoBehaviour
 
         hornetAni.SetBool("IsIdle", false);
         hornetAni.SetTrigger("DashStart");
-
+        hornetAudio.PlayOneShot(attackSounds[Random.Range(0, attackSounds.Count - 1)]);
         // 플레이어가 왼쪽에 있지않다면
         if (playerOnLeft == false)
         {
@@ -696,6 +760,7 @@ public class HornetBehavior : MonoBehaviour
                         // 오른쪽으로 플레이어와 거리차이에 따라 힘을 줌 (대쉬 시작 시점의 플레이어 위치를 향한 힘)
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(1000f, 0));
+                        hornetAudio.PlayOneShot(actSounds[4]);
                     }
                     // 대쉬 시작 시점에 플레이어가 왼쪽에 있다면
                     else if (xPositionToDash <= transform.position.x)
@@ -703,6 +768,7 @@ public class HornetBehavior : MonoBehaviour
                         // 왼쪽으로 플레이어와 거리차이에 따라 힘을 줌 (대쉬 시작 시점의 플레이어 위치를 향한 힘)
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(-1000f, 0));
+                        hornetAudio.PlayOneShot(actSounds[4]);
                     }
 
                     break;
@@ -758,28 +824,29 @@ public class HornetBehavior : MonoBehaviour
     {
         hornetAni.SetBool("IsIdle", false);
         hornetAni.SetBool("IsWhipA", true);
-
         while (true)
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetWhipingJump_ReadyA"))
             {
                 if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
                 {
-                    // 오른쪽을 보고있다면
+                    // 코너이고, 오른쪽을 보고있다면
                     if (isConer == true && lookLeft == false)
                     {
                         // 오른쪽으로 일정거리 점프함
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(600, JUMP_FORCE));
+                        hornetAudio.PlayOneShot(actSounds[2]);
                         //Debug.Log("몇번실행함?");
                         break;
                     }
-                    // 왼쪽을 보고있다면
+                    // 코너이고, 왼쪽을 보고있다면
                     else if (isConer == true && lookLeft == true)
                     {
                         // 왼쪽으로 일정거리 점프함
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(-1 * 600, JUMP_FORCE));
+                        hornetAudio.PlayOneShot(actSounds[2]);
                         //Debug.Log("몇번실행함?");
                         break;
                     }
@@ -789,6 +856,7 @@ public class HornetBehavior : MonoBehaviour
                         // 오른쪽으로 일정거리 점프함
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(150, JUMP_FORCE));
+                        hornetAudio.PlayOneShot(actSounds[2]);
                         //Debug.Log("몇번실행함?");
                         break;
                     }
@@ -798,6 +866,7 @@ public class HornetBehavior : MonoBehaviour
                         // 왼쪽으로 일정거리 점프함
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(-1 * 150, JUMP_FORCE));
+                        hornetAudio.PlayOneShot(actSounds[2]);
                         //Debug.Log("몇번실행함?");
                         break;
                     }
@@ -806,6 +875,8 @@ public class HornetBehavior : MonoBehaviour
             }
             yield return null;
         }
+
+        hornetAudio.PlayOneShot(attackSounds[randomAttackSound1]);
 
         while (true)
         {
@@ -820,15 +891,24 @@ public class HornetBehavior : MonoBehaviour
             yield return null;
         }
 
+        bool isPlayed = false;
+
         while (true)
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetWhiping_ReadyA"))
             {
+                if (!isPlayed)
+                {
+                    hornetAudio.PlayOneShot(attackSounds[randomAttackSound2]);
+                    isPlayed = true;
+                }
                 if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
                 {
 
                     effect = Instantiate(startWhipEffectPrefab, transform.position, transform.rotation);
                     whip = Instantiate(whipingPrefab, transform.position, transform.rotation);
+                    hornetAudio.PlayOneShot(actSounds[6]);
+                    hornetAudio.PlayOneShot(actSounds[7]);
                     break;
                 }
             }
@@ -843,8 +923,31 @@ public class HornetBehavior : MonoBehaviour
                 {
                     hornetRigidbody.gravityScale = 5;
                     hornetAni.SetBool("IsIdle", true);
-                    yield break;
+                    break;
                 }
+            }
+            yield return null;
+        }
+
+        while (true)
+        {
+            if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("Hornet_idle"))
+            {
+                hornetAudio.PlayOneShot(actSounds[3]);
+                randomAttackSound1 = Random.Range(0, attackSounds.Count - 2);
+                randomAttackSound2 = Random.Range(0, attackSounds.Count);
+                while (true)
+                {
+                    if (randomAttackSound1 == randomAttackSound2)
+                    {
+                        randomAttackSound2 = Random.Range(0, attackSounds.Count);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                yield break;
             }
             yield return null;
         }
@@ -861,22 +964,24 @@ public class HornetBehavior : MonoBehaviour
             {
                 if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
                 {
-                    // 오른쪽을 보고있다면
+                    // 코너이고, 오른쪽을 보고있다면
                     if (isConer == true && lookLeft == false)
                     {
                         // 오른쪽으로 일정거리 점프함
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(600, JUMP_FORCE));
                         //Debug.Log("몇번실행함?");
+                        hornetAudio.PlayOneShot(actSounds[2]);
                         break;
                     }
-                    // 왼쪽을 보고있다면
+                    // 코너이고, 왼쪽을 보고있다면
                     else if (isConer == true && lookLeft == true)
                     {
                         // 왼쪽으로 일정거리 점프함
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(-1 * 600, JUMP_FORCE));
                         //Debug.Log("몇번실행함?");
+                        hornetAudio.PlayOneShot(actSounds[2]);
                         break;
                     }
                     // 오른쪽을 보고있다면
@@ -886,6 +991,7 @@ public class HornetBehavior : MonoBehaviour
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(150, JUMP_FORCE));
                         //Debug.Log("몇번실행함?");
+                        hornetAudio.PlayOneShot(actSounds[2]);
                         break;
                     }
                     // 왼쪽을 보고있다면
@@ -895,6 +1001,7 @@ public class HornetBehavior : MonoBehaviour
                         hornetRigidbody.velocity = Vector2.zero;
                         hornetRigidbody.AddForce(new Vector2(-1 * 150, JUMP_FORCE));
                         //Debug.Log("몇번실행함?");
+                        hornetAudio.PlayOneShot(actSounds[2]);
                         break;
                     }
                     //break;
@@ -903,6 +1010,9 @@ public class HornetBehavior : MonoBehaviour
             yield return null;
         }
 
+        hornetAudio.PlayOneShot(attackSounds[randomAttackSound1]);
+
+        // 플레이어의 위치로 방향을 틀도록 함
         while (true)
         {
             if (hornetRigidbody.velocity.y <= -8)
@@ -928,10 +1038,18 @@ public class HornetBehavior : MonoBehaviour
             yield return null;
         }
 
+        bool isPlayed = false;
+
         while (true)
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetDashA_Ready"))
             {
+                if (!isPlayed)
+                {
+                    hornetAudio.PlayOneShot(attackSounds[randomAttackSound2]);
+                    isPlayed = true;
+                }
+
                 if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
                 {
                     dashDistanceX = playerPosition.x - transform.position.x;
@@ -956,6 +1074,7 @@ public class HornetBehavior : MonoBehaviour
                         dashAirDir = new Vector2(dashDistanceX, -1 * dashDistanceY).normalized;
                         //hornetRigidbody.AddForce(new Vector2(dashDistanceX * 125, -1 * dashDistanceY * 125));
                         hornetRigidbody.AddForce(dashAirDir * 1000);
+                        hornetAudio.PlayOneShot(actSounds[4]);
                     }
                     // 플레이어가 왼쪽에 있다면
                     else if (playerOnLeft == true)
@@ -966,6 +1085,7 @@ public class HornetBehavior : MonoBehaviour
                         dashAirDir = new Vector2(-1 * dashDistanceX, -1 * dashDistanceY).normalized;
                         //hornetRigidbody.AddForce(new Vector2(dashDistanceX * 125, -1 * dashDistanceY * 125));
                         hornetRigidbody.AddForce(dashAirDir * 1000);
+                        hornetAudio.PlayOneShot(actSounds[4]);
                     }
                     break;
                 }
@@ -973,16 +1093,36 @@ public class HornetBehavior : MonoBehaviour
             yield return null;
         }
 
+        isPlayed = false;
+
         while (true)
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetDashA_Land"))
             {
+                if (!isPlayed)
+                {
+                    hornetAudio.PlayOneShot(actSounds[3]);
+                    isPlayed = true;
+                }
                 if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
                 {
                     hornetAni.SetBool("IsIdle", true);
                     if (hitPlayer == true)
                     {
                         hitPlayer = false;
+                    }
+                    randomAttackSound1 = Random.Range(0, attackSounds.Count - 2);
+                    randomAttackSound2 = Random.Range(0, attackSounds.Count);
+                    while (true)
+                    {
+                        if (randomAttackSound1 == randomAttackSound2)
+                        {
+                            randomAttackSound2 = Random.Range(0, attackSounds.Count);
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
                     yield break;
                 }
@@ -1001,11 +1141,11 @@ public class HornetBehavior : MonoBehaviour
         hornetAni.SetBool("IsGround", true);
         hornetAni.SetBool("IsDead", true);
         hornetAni.SetTrigger("StunStart");
-        while(true)
+        while (true)
         {
-            if(hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetStunPart1"))
+            if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetStunPart1"))
             {
-                if(hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.90f)
+                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.90f)
                 {
                     hornetAni.SetBool("IsIdle", false);
                     hornetRigidbody.velocity = Vector2.zero;
@@ -1017,7 +1157,7 @@ public class HornetBehavior : MonoBehaviour
         }
 
         Collider2D[] hornetColliders = transform.GetComponentsInChildren<Collider2D>();
-        for(int i = 0; i < transform.childCount; i ++)
+        for (int i = 0; i < transform.childCount; i++)
         {
             hornetColliders[i].enabled = false;
         }
@@ -1026,10 +1166,10 @@ public class HornetBehavior : MonoBehaviour
 
         while (true)
         {
-            tempColor.a -= 0.15f * Time.deltaTime;
+            tempColor.a -= 0.2f * Time.deltaTime;
             hornetSprite.color = tempColor;
             //Debug.Log("이거 실행함?");
-            if (tempColor.a < 0.15f)
+            if (tempColor.a < 0.2f)
             {
                 Destroy(gameObject);
                 BgmMainController.instance.sources[0].clip = BgmMainController.instance.bgms[0];

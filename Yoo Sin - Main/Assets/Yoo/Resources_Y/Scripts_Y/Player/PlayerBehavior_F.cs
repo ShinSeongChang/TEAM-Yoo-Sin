@@ -66,7 +66,7 @@ public class PlayerBehavior_F : MonoBehaviour
         playerAni = transform.GetChild(0).GetComponent<Animator>();
         playerSprite = transform.GetChild(0).GetComponent<SpriteRenderer>();
         playerRigidbody = transform.GetComponent<Rigidbody2D>();
-        playerCollider = transform.GetComponent <Collider2D>();
+        playerCollider = transform.GetComponent<Collider2D>();
         attackRemainTime = new WaitForSeconds(0.2f);
         jumpCount = 1;
         isRight = true;
@@ -213,7 +213,7 @@ public class PlayerBehavior_F : MonoBehaviour
                 // 전방 공격성공이 아니고, 우측 방향키를 누르는 중이고 좌측 방향키를 누르는 중이 아닐 때
                 if (isHitFront == false && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow))
                 {
-                    if(isRight == true && isWall == true)
+                    if (isRight == true && isWall == true)
                     {
                         return;
                     }
@@ -297,12 +297,12 @@ public class PlayerBehavior_F : MonoBehaviour
             // a키(스킬) 관련
             if (Input.GetKeyDown(KeyCode.A))
             {
-                if(playerHealthUi.GetHp() >= 5)
+                if (playerHealthUi.GetHp() >= 5)
                 {
                     return;
                 }
 
-                if(playerSkillGauge.GetGauge() >= 2)
+                if (playerSkillGauge.GetGauge() >= 4)
                 {
                     playerHealthUi.HealtUp();
                     playerSkillGauge.UseHeal();
@@ -370,10 +370,10 @@ public class PlayerBehavior_F : MonoBehaviour
     {
         Color tempColor = playerSprite.color;
         yield return null;
-        while(true)
+        while (true)
         {
             //Debug.Log("블링크와일 들어옴");
-            if(isInvincible == false)
+            if (isInvincible == false)
             {
                 tempColor.a = 1;
                 playerSprite.color = tempColor;
@@ -381,10 +381,10 @@ public class PlayerBehavior_F : MonoBehaviour
                 yield break;
             }
 
-            if(isInvincible == true)
+            if (isInvincible == true)
             {
                 //Debug.Log("블링크깜박이는부분 들어옴");
-                if(playerSprite == null)
+                if (playerSprite == null)
                 {
                     yield break;
                 }
@@ -395,7 +395,7 @@ public class PlayerBehavior_F : MonoBehaviour
                     tempColor.a = 0;
                     playerSprite.color = tempColor;
                 }
-                else if(playerSprite.color.a == 0)
+                else if (playerSprite.color.a == 0)
                 {
                     //Debug.Log("블링크깜박이는부분 들어옴");
                     tempColor.a = 1;

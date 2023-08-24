@@ -33,7 +33,7 @@ public class SkillGauge_Y : MonoBehaviour
 
     public void UseHeal()
     {
-        skillCount -= 2;
+        skillCount -= 4;
 
         AnimatorSelector();
     }
