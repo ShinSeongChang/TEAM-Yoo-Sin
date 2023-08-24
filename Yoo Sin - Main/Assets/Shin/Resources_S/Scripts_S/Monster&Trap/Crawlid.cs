@@ -20,6 +20,9 @@ public class Crawlid : MonoBehaviour
     private float speed = 2.0f;
     private int lifeCount = 3;
 
+    private Color firstColor = default;
+    private Color hitColor = default;
+
     public bool isDie = false;
     public bool isTurn = false;
     public bool isGround = false;
@@ -34,6 +37,9 @@ public class Crawlid : MonoBehaviour
         crawlidAnimator  = GetComponent<Animator>();
         crawlidSprite = GetComponent<SpriteRenderer>();
 
+        firstColor = new Color(1f, 1f, 1f, 1f);
+        hitColor = new Color(0.75f, 0.25f, 0.25f, 0.75f);
+
         isGround = true;        
     }
 
@@ -45,6 +51,8 @@ public class Crawlid : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Debug.Log("Crawlid 컬러 체크" + crawlidSprite.color);
+
         myPos = transform.position;
         
         // crawlid의 update 행동들은 살아있는 동안만 동작한다.
@@ -151,6 +159,7 @@ public class Crawlid : MonoBehaviour
         // 플레이어의 공격에 닿게 되면
         if(collision.tag.Equals("PlayerAttack"))
         {
+            StartCoroutine(Hit());
             // 라이프 카운트가 1씩 깎이며
             lifeCount -= 1;
 
@@ -191,14 +200,14 @@ public class Crawlid : MonoBehaviour
                 // 살아있는 상태, 플레이어가 왼쪽에서 가격한 경우 오른쪽으로 타격하는 힘을 줌
                 crawlidRigid.velocity = Vector2.zero;
                 crawlidRigid.AddForce(transform.right * 5f, ForceMode2D.Impulse);
-                StartCoroutine(Hit());
+                //StartCoroutine(Hit());
             }
             else if(offset.normalized.x > 0f)
             {
                 // 살아있는 상태, 플레이어가 오른쪽에서 가격한 경우 오른쪽으로 타격하는 힘을 줌
                 crawlidRigid.velocity = Vector2.zero;
                 crawlidRigid.AddForce(transform.right * -5f, ForceMode2D.Impulse);
-                StartCoroutine(Hit());
+                //StartCoroutine(Hit());
             }
         }
     }
@@ -235,7 +244,11 @@ public class Crawlid : MonoBehaviour
     {
         isHit = true;
 
+        crawlidSprite.color = hitColor;
+
         yield return new WaitForSeconds(0.25f);
+
+        crawlidSprite.color = firstColor;
 
         isHit = false;
     }
@@ -253,4 +266,5 @@ public class Crawlid : MonoBehaviour
             crawlidSprite.flipX = false;
         }
     }
+
 }

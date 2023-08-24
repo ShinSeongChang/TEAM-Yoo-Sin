@@ -65,7 +65,7 @@ public class TitleManager : MonoBehaviour
         operation = SceneManager.LoadSceneAsync("Room001");
 
         // 참값을 이용하여 로딩씬이 넘어가는 구간을 임의로 지정할수 있다.        
-        operation.allowSceneActivation = false;
+        operation.allowSceneActivation = false;        
 
         while (gameexitText.alpha > 0f || titleText.color.a > 0f)
         {
@@ -75,7 +75,7 @@ public class TitleManager : MonoBehaviour
             titleBackground.color = tempImagecolor;
             titleText.color = tempImagecolor;
 
-            gamestartText.alpha = tempTextcolor;
+            gamestartText.alpha -= tempTextcolor;
             optionText.alpha -= tempTextcolor;
             gameexitText.alpha -= tempTextcolor;
 

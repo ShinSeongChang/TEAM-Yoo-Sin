@@ -24,12 +24,11 @@ public class CursorscaleOther : MonoBehaviour
     
 
     // 업데이트 부분에서 각 코루틴을 매프레임마다 호출할것이기에 호출 제약을 위한 불값들
-    private bool isEnlargement = false;
-    private bool isRedution = false;
+    private bool isEnlargement = false;    
     private bool isLeave = false;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {      
         // 내 커서 위치 받아오기
         myCursor = GetComponent<RectTransform>();

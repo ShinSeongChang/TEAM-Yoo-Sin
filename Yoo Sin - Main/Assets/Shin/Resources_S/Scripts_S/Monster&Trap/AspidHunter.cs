@@ -40,6 +40,9 @@ public class AspidHunter : MonoBehaviour
     private int lifeCount = 4;
     private float hitForce = 5f;
 
+    private Color firstColor = default;
+    private Color hitColor = default;
+
     void Awake()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();
@@ -49,6 +52,9 @@ public class AspidHunter : MonoBehaviour
         aspidDetectedArea = transform.GetComponentInChildren<CircleCollider2D>();
         aspidSprite = GetComponent<SpriteRenderer>();
         aspidAnimator = GetComponent<Animator>();
+
+        firstColor = new Color(1f, 1f, 1f, 1f);
+        hitColor = new Color(0.75f, 0.25f, 0.25f, 0.75f);
 
         // AspidHunter 의 최초 포지션 받아오기 == 랜덤 이동할 구역크기 정하기 위함.
         firstPos = aspidTransform.position;
@@ -249,7 +255,8 @@ public class AspidHunter : MonoBehaviour
             {
                 // 라이프 카운트가 0이하가 되면 죽는 애니메이션과 함께 속도를 잃게 하기위해 Rigidbody의 simulated를 false 한다.
                 aspidAnimator.SetTrigger("isDead");
-                aspidRigid.simulated = false;                
+                aspidRigid.simulated = false;
+                StartCoroutine(Hit());
 
                 // 죽음 애니메이션이 나온 후 오브젝트를 비활성화 시킬 Die 함수
                 Invoke("Die", 0.6f);
@@ -315,9 +322,11 @@ public class AspidHunter : MonoBehaviour
     IEnumerator Hit()
     {
         isHit = true;
+        aspidSprite.color = hitColor;
 
         yield return hitTime;
 
+        aspidSprite.color = firstColor;
         isHit = false;
 
         yield break;

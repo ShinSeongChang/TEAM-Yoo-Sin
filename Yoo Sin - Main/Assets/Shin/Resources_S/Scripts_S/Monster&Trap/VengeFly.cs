@@ -24,6 +24,9 @@ public class VengeFly : MonoBehaviour
     private int lifeCount = 3;
     private float hitForce = 5f;
 
+    private Color firstColor = default;
+    private Color hitColor = default;
+
     public float xPos = default;
     public float yPos = default;
 
@@ -43,6 +46,9 @@ public class VengeFly : MonoBehaviour
         vengeflyDetectedArea = transform.GetComponentInChildren<CircleCollider2D>();
         vengeflySprite = GetComponent<SpriteRenderer>();
         vengeflyAnimator = GetComponent<Animator>();
+
+        firstColor = new Color(1f, 1f, 1f, 1f);
+        hitColor = new Color(0.75f, 0.25f, 0.25f, 0.75f);
 
         // 생성된 최초의 좌표 받아내기 ( 최초 좌표로 랜덤 움직임 구역 정할것 )
         firstPos = vengeflyTransform.position;
@@ -160,7 +166,6 @@ public class VengeFly : MonoBehaviour
         }
     }
 
-
     // 플레이어에게 공격 받았을때 로직
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -169,11 +174,14 @@ public class VengeFly : MonoBehaviour
         {
             if(collision.tag.Equals("Platform") || collision.tag.Equals("Wall"))
             {
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
+                StartCoroutine(Destroy());
             }
         }
         else if (collision.tag.Equals("PlayerAttack"))
-        {           
+        {
+            StartCoroutine(Hit());
+
             // 살아있는 동안 플레이어 공격에 맞은경우
             Vector2 offset = player.transform.position - transform.position;
             lifeCount -= 1;
@@ -188,6 +196,8 @@ public class VengeFly : MonoBehaviour
                 // 이동중이던 속력을 잃고 날아가는 모션 방해받지 않기위해 트리거를 켜준다.
                 vengeflyRigid.velocity = Vector2.zero;
                 vengeflyCollider.isTrigger = true;
+
+                //StartCoroutine(Hit());
 
                 // 비행체라 gravityScale 의 기존값이 0, 떨어지는 물리력이 필요하기에 gravityScale 값을 올려준다.
                 vengeflyRigid.gravityScale = 1.0f;       
@@ -208,12 +218,12 @@ public class VengeFly : MonoBehaviour
             else if(offset.normalized.x < 0f)
             {
                 vengeflyRigid.AddForce(Vector2.right * hitForce, ForceMode2D.Impulse);
-                StartCoroutine(Hit());
+                //StartCoroutine(Hit());
             }
             else if (offset.normalized.x > 0f)
             {
                 vengeflyRigid.AddForce(Vector2.left * hitForce, ForceMode2D.Impulse);
-                StartCoroutine(Hit());
+                //StartCoroutine(Hit());
             }
             // } 플레이어에게 맞은 후 밀려날 방향 계산하기
         }
@@ -230,16 +240,24 @@ public class VengeFly : MonoBehaviour
 
     }
 
-
     // 맞는 순간 매프레임당 쫓아오는 속력을 순간적으로 없애기 위한 Hit 딜레이
     IEnumerator Hit()
     {
         isHit = true;
+        vengeflySprite.color = hitColor;
 
         yield return hitTime;
 
+        vengeflySprite.color = firstColor;
         isHit = false;
 
         yield break;
+    }
+
+    IEnumerator Destroy()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        gameObject.SetActive(false);
     }
 }

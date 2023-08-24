@@ -9,6 +9,10 @@ public class OptionCursor : MonoBehaviour
     private RectTransform cursorTransform = default;
     private OptionManager optionManager;
 
+    [SerializeField] Slider Master_SoundBar;
+    [SerializeField] Slider BGM_SoundBar;
+    [SerializeField] Slider Effect_SoundBar;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,30 +59,71 @@ public class OptionCursor : MonoBehaviour
 
 
 
-        // 사운드 조절
+        // Master_SoundBar 조절
         if (cursorTransform.anchoredPosition.y == 0f && leftKey == true)
         {
-            //soundBar.fillAmount -= 0.1f;
+            Master_SoundBar.value -= 5f;
 
-            //if(soundBar.fillAmount < 0f)
-            //{
-            //    //soundBar.fillAmount = 0f;
-            //}
+            if (Master_SoundBar.value <= Master_SoundBar.minValue)
+            {
+                Master_SoundBar.value = Master_SoundBar.minValue;
+            }
         }
         else if(cursorTransform.anchoredPosition.y == 0f && rightKey == true)
         {
-            //soundBar.fillAmount += 0.1f;
+            Master_SoundBar.value += 5f;
 
-            //if( soundBar.fillAmount > 1.0f)
-            //{
-            //    soundBar.fillAmount = 1.0f;
-            //}
+            if (Master_SoundBar.value >= Master_SoundBar.maxValue)
+            {
+                Master_SoundBar.value = Master_SoundBar.maxValue;
+            }
         }
+
+        // BGM_SoundBar 조절
+        if (cursorTransform.anchoredPosition.y == -75f && leftKey == true)
+        {
+            BGM_SoundBar.value -= 5f;
+
+            if (BGM_SoundBar.value <= BGM_SoundBar.minValue)
+            {
+                BGM_SoundBar.value = BGM_SoundBar.minValue;
+            }
+        }
+        else if (cursorTransform.anchoredPosition.y == -75f && rightKey == true)
+        {
+            BGM_SoundBar.value += 5f;
+
+            if (BGM_SoundBar.value >= BGM_SoundBar.maxValue)
+            {
+                BGM_SoundBar.value = BGM_SoundBar.maxValue;
+            }
+        }
+
+        // Effect_SoundBar 조절
+        if (cursorTransform.anchoredPosition.y == -150f && leftKey == true)
+        {
+            Effect_SoundBar.value -= 5f;
+
+            if (Effect_SoundBar.value <= Effect_SoundBar.minValue)
+            {
+                Effect_SoundBar.value = Effect_SoundBar.minValue;
+            }
+        }
+        else if (cursorTransform.anchoredPosition.y == -150f && rightKey == true)
+        {
+            Effect_SoundBar.value += 5f;
+
+            if (Effect_SoundBar.value >= Effect_SoundBar.maxValue)
+            {
+                Effect_SoundBar.value = Effect_SoundBar.maxValue;
+            }
+        }
+
+
+
         else if (cursorTransform.anchoredPosition.y == -370f && enter == true)
         {
             optionManager.OptionOut();
-            //cursorTransform.anchoredPosition = new Vector2(0f, 0f);
-
         }
 
     }

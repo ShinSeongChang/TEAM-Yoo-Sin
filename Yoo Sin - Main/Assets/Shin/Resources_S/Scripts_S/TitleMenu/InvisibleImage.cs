@@ -16,11 +16,13 @@ public class InvisibleImage : MonoBehaviour
 
     IEnumerator BackgroundInvisible()
     {
+        yield return new WaitForSeconds(0.35f);
+
         Color tempColor = myImage.color;
 
         while (myImage.color.a >= 0f)
         {
-            tempColor.a -= 0.3f * Time.deltaTime;
+            tempColor.a -= 0.6f * Time.deltaTime;
             myImage.color = tempColor;
 
             yield return null;

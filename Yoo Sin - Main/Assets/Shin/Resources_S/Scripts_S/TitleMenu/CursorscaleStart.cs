@@ -21,7 +21,6 @@ public class CursorscaleStart : MonoBehaviour
     private Vector2 minSize = default;
 
     private bool isEnlargement = false;
-    private bool isRedution = false;
     private bool isLeave = false;    
 
     // Start is called before the first frame update

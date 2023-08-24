@@ -567,7 +567,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9126744775434546607}
-  - component: {fileID: 9126744775434546606}
+  - component: {fileID: 1153947960}
   m_Layer: 5
   m_Name: OptionCursor001
   m_TagString: Untagged
@@ -597,7 +597,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &9126744775434546606
+--- !u!114 &1153947960
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -606,7 +606,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9126744775434546604}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2caddf9f8b653c418d691b9bce8bd63, type: 3}
+  m_Script: {fileID: 11500000, guid: af7065aa2d1af8444a79fd78e069efc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainCursor: {fileID: 9126744775813558751}
@@ -832,7 +832,7 @@ MonoBehaviour:
   m_MinValue: -40
   m_MaxValue: 10
   m_WholeNumbers: 0
-  m_Value: -16.6
+  m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -970,6 +970,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed665a3216fb8c24fb2352d2994eddea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Master_SoundBar: {fileID: 9126744776590563862}
+  BGM_SoundBar: {fileID: 9126744776708329114}
+  Effect_SoundBar: {fileID: 9126744775749908220}
 --- !u!1 &9126744775892103780
 GameObject:
   m_ObjectHideFlags: 0
@@ -1349,7 +1352,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9126744776080136296
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1357,7 +1360,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9126744776080136297}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1521,7 +1524,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1634,7 +1637,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1710,7 +1713,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2109,7 +2112,7 @@ MonoBehaviour:
   m_MinValue: -40
   m_MaxValue: 10
   m_WholeNumbers: 0
-  m_Value: -16.6
+  m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2313,7 +2316,7 @@ MonoBehaviour:
   m_MinValue: -40
   m_MaxValue: 10
   m_WholeNumbers: 0
-  m_Value: -16.6
+  m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

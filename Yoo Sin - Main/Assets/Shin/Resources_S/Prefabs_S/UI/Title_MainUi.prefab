@@ -372,7 +372,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 136014695491735620}
-  - component: {fileID: 136014695491735621}
+  - component: {fileID: 1728117067}
   m_Layer: 5
   m_Name: Menu Cursor001
   m_TagString: Untagged
@@ -402,7 +402,7 @@ RectTransform:
   m_AnchoredPosition: {x: 1, y: -95}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &136014695491735621
+--- !u!114 &1728117067
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -411,7 +411,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 136014695491735623}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2caddf9f8b653c418d691b9bce8bd63, type: 3}
+  m_Script: {fileID: 11500000, guid: af7065aa2d1af8444a79fd78e069efc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainCursor: {fileID: 136014696235913663}
