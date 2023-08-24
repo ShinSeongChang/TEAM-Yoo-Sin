@@ -16,6 +16,7 @@ public class VengeFly : MonoBehaviour
     private CircleCollider2D vengeflyDetectedArea = default;
     private SpriteRenderer vengeflySprite = default;
     private Animator vengeflyAnimator = default;
+    private SkillGauge_Y skillGauge;
 
     private Vector2 firstPos = default;
 
@@ -64,6 +65,8 @@ public class VengeFly : MonoBehaviour
         moveStay = new WaitForSeconds(3.0f);
         hitTime = new WaitForSeconds(0.25f);
         turnStay = new WaitForSeconds(0.2f);
+
+        skillGauge = GameObject.Find("GaugeImg").GetComponent<SkillGauge_Y>();
 
         StartCoroutine(MoveArea());
     }
@@ -181,6 +184,7 @@ public class VengeFly : MonoBehaviour
         else if (collision.tag.Equals("PlayerAttack"))
         {
             StartCoroutine(Hit());
+            skillGauge.GaugePlus();
 
             // 살아있는 동안 플레이어 공격에 맞은경우
             Vector2 offset = player.transform.position - transform.position;

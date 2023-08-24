@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
         if (menuOpen == false && escape == true)
         {
             Time.timeScale = 0f;
-            PlayerBehavior_S.playermove = false;
+            PlayerBehavior_F.playermove = false;
             ExitUi.SetActive(true);
 
             StartCoroutine(Delay());            
@@ -92,16 +92,9 @@ public class GameManager : MonoBehaviour
     // { 게임 클리어시
     public void EndingScene()
     {
-        StartCoroutine(EndingDelay());
-    }
-    IEnumerator EndingDelay()
-    {
-
-        yield return endingDelay;
-
         EndingUi.SetActive(true);
 
-        yield break;
+        StartCoroutine(LoadTitle());
     }
     // } 게임 클리어시
 
@@ -118,7 +111,7 @@ public class GameManager : MonoBehaviour
     {
         yield return titleDelay;
 
-        SceneManager.LoadScene("TilteScene");
+        SceneManager.LoadScene("TilteScene_Main");
 
         yield break;
     }
@@ -134,7 +127,7 @@ public class GameManager : MonoBehaviour
             MenuMain.SetActive(false);
             ExitUi.SetActive(false);
             Time.timeScale = 1.0f;
-            PlayerBehavior_S.playermove = true;
+            PlayerBehavior_F.playermove = true;
 
             menuOpen = false;
             escape = false;
@@ -146,7 +139,7 @@ public class GameManager : MonoBehaviour
     public void GameExit()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("TilteScene");
+        SceneManager.LoadScene("TilteScene_Main");
     }
 
 

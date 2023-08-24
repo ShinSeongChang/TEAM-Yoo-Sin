@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5372064640818708222}
   - component: {fileID: 5372064640818708220}
   - component: {fileID: 5372064640818708223}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Dash
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 5372064640836958284}
   - component: {fileID: 5372064640836958291}
   - component: {fileID: 5372064640836958290}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ThrowReady
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 5372064641108308340}
   - component: {fileID: 5372064641108308347}
   - component: {fileID: 5372064641108308346}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Run
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -251,7 +251,7 @@ GameObject:
   - component: {fileID: 5372064641541698140}
   - component: {fileID: 5372064641541698147}
   - component: {fileID: 5372064641541698146}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Throw_ThrowEnd
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -322,7 +322,7 @@ GameObject:
   - component: {fileID: 5372064641582836831}
   - component: {fileID: 5372064641582836834}
   - component: {fileID: 5372064641582836829}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Normal
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -393,7 +393,7 @@ GameObject:
   - component: {fileID: 5372064641838202822}
   - component: {fileID: 5372064641838202823}
   - component: {fileID: 5372064641838202820}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: DashAReady_WhipAReady
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -589,7 +589,7 @@ AudioSource:
   m_GameObject: {fileID: 5372064642628494129}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300002, guid: 643a081d0c887534985287bc60619f77, type: 2}
+  OutputAudioMixerGroup: {fileID: -617521790260342507, guid: 5fcdcd2b0b80ba543a12c52887272b16, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1

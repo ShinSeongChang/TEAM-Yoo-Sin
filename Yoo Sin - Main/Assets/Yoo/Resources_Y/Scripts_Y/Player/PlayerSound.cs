@@ -12,10 +12,7 @@ public class PlayerSound : MonoBehaviour
     private string tempString;
     private string tempMoveString;
     private int randomSound;
-    enum sound
-    {
 
-    }
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +23,12 @@ public class PlayerSound : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (playerAni == null)
+        {
+            StopAllCoroutines();
+            Destroy(this);
+            return;
+        }
         SelectSound();
     }
 

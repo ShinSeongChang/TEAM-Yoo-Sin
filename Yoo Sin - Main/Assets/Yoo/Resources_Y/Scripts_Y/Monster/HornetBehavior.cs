@@ -14,7 +14,7 @@ public class HornetBehavior : MonoBehaviour
     private const float EVADE_SPEED = 14f;
     private const float EVADE_TIME = 0.3f;
     private const float JUMP_FORCE = 1200f;
-    private const float ACT_TERM = 0.15f;
+    private const float ACT_TERM = 0.13f;
     private const float EVADE_COOLDOWN = 5f;
     private const float DASH_DISTANCE = 7f;
 
@@ -352,7 +352,7 @@ public class HornetBehavior : MonoBehaviour
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetStunPart1"))
             {
-                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f && hornetAni.GetBool("IsGround") == true)
+                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.90f && hornetAni.GetBool("IsGround") == true)
                 {
                     hornetAni.SetBool("IsIdle", false);
                     hornetRigidbody.velocity = Vector2.zero;
@@ -595,7 +595,7 @@ public class HornetBehavior : MonoBehaviour
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetEvade_Ready"))
             {
-                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
                 {
                     break;
                 }
@@ -682,7 +682,7 @@ public class HornetBehavior : MonoBehaviour
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetThrow_End"))
             {
-                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
                 {
                     hornetAni.SetBool("IsIdle", true);
                     yield break;
@@ -702,7 +702,7 @@ public class HornetBehavior : MonoBehaviour
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetWhiping_ReadyG"))
             {
-                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
                 {
                     whip = Instantiate(whipingPrefab, transform.position, transform.rotation);
                     effect = Instantiate(startWhipEffectPrefab, transform.position, transform.rotation);
@@ -718,7 +718,7 @@ public class HornetBehavior : MonoBehaviour
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetWhiping_EndG"))
             {
-                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
                 {
                     hornetAni.SetBool("IsIdle", true);
                     yield break;
@@ -751,7 +751,7 @@ public class HornetBehavior : MonoBehaviour
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetDashG_Ready"))
             {
-                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
                 {
                     effect = Instantiate(groundDashEffectPrefab, transform.position, transform.rotation);
                     // 대쉬 시작 시점에 플레이어가 왼쪽에 있지않다면
@@ -806,7 +806,7 @@ public class HornetBehavior : MonoBehaviour
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetDashG_Land"))
             {
-                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
                 {
                     hornetAni.SetBool("IsIdle", true);
                     if (hitPlayer == true)
@@ -828,7 +828,7 @@ public class HornetBehavior : MonoBehaviour
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetWhipingJump_ReadyA"))
             {
-                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
                 {
                     // 코너이고, 오른쪽을 보고있다면
                     if (isConer == true && lookLeft == false)
@@ -902,7 +902,7 @@ public class HornetBehavior : MonoBehaviour
                     hornetAudio.PlayOneShot(attackSounds[randomAttackSound2]);
                     isPlayed = true;
                 }
-                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
                 {
 
                     effect = Instantiate(startWhipEffectPrefab, transform.position, transform.rotation);
@@ -919,7 +919,7 @@ public class HornetBehavior : MonoBehaviour
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetWhiping_EndA"))
             {
-                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
                 {
                     hornetRigidbody.gravityScale = 5;
                     hornetAni.SetBool("IsIdle", true);
@@ -962,7 +962,7 @@ public class HornetBehavior : MonoBehaviour
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetDashJump_ReadyA"))
             {
-                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
                 {
                     // 코너이고, 오른쪽을 보고있다면
                     if (isConer == true && lookLeft == false)
@@ -1050,7 +1050,7 @@ public class HornetBehavior : MonoBehaviour
                     isPlayed = true;
                 }
 
-                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
                 {
                     dashDistanceX = playerPosition.x - transform.position.x;
                     dashDistanceY = playerPosition.y - transform.position.y;
@@ -1104,7 +1104,7 @@ public class HornetBehavior : MonoBehaviour
                     hornetAudio.PlayOneShot(actSounds[3]);
                     isPlayed = true;
                 }
-                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
                 {
                     hornetAni.SetBool("IsIdle", true);
                     if (hitPlayer == true)

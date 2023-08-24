@@ -29,6 +29,9 @@ public class ExitMenuOptionCursor : MonoBehaviour
         downSpace = new Vector2(0f, -200f);
         upSpace = new Vector2(0f, -75f);
 
+        Mastrer_SoundBar.value = AudioManager.audioInstance.masterValue;
+        BGM_SoundBar.value = AudioManager.audioInstance.bgmValue;
+        Effect_SoundBar.value = AudioManager.audioInstance.effectValue;
     }
 
     // Update is called once per frame
@@ -79,61 +82,73 @@ public class ExitMenuOptionCursor : MonoBehaviour
         // Mastrer_SoundBar 조절
         if (cursorTransform.anchoredPosition.y == 75f && leftKey == true)
         {
-            Mastrer_SoundBar.value -= 5f;
+            Mastrer_SoundBar.value += AudioManager.audioInstance.downValue;
 
-            if(Mastrer_SoundBar.value <= Mastrer_SoundBar.minValue)
+            if(Mastrer_SoundBar.value <= AudioManager.audioInstance.minValue)
             {
-                Mastrer_SoundBar.value = Mastrer_SoundBar.minValue;
+                Mastrer_SoundBar.value = AudioManager.audioInstance.minValue;
             }
+
+            AudioManager.audioInstance.masterValue = Mastrer_SoundBar.value;
         }
         else if(cursorTransform.anchoredPosition.y == 75f && rightKey == true)
         {
-            Mastrer_SoundBar.value += 5f;
+            Mastrer_SoundBar.value += AudioManager.audioInstance.upValue;
 
-            if(Mastrer_SoundBar.value >= Mastrer_SoundBar.maxValue)
+            if(Mastrer_SoundBar.value >= AudioManager.audioInstance.maxValue)
             {
-                Mastrer_SoundBar.value = Mastrer_SoundBar.maxValue;
+                Mastrer_SoundBar.value = AudioManager.audioInstance.maxValue;
             }
+
+            AudioManager.audioInstance.masterValue = Mastrer_SoundBar.value;
         }
 
         // BGM 조절;
-        if(cursorTransform.anchoredPosition.y == 0f && leftKey == true)
+        if (cursorTransform.anchoredPosition.y == 0f && leftKey == true)
         {
-            BGM_SoundBar.value -= 5f;
+            BGM_SoundBar.value += AudioManager.audioInstance.downValue;
 
-            if(BGM_SoundBar.value <= BGM_SoundBar.minValue)
+            if (BGM_SoundBar.value <= AudioManager.audioInstance.minValue)
             {
-                BGM_SoundBar.value = BGM_SoundBar.minValue;
+                BGM_SoundBar.value = AudioManager.audioInstance.minValue;
             }
+
+            AudioManager.audioInstance.bgmValue = BGM_SoundBar.value;
         }
         else if(cursorTransform.anchoredPosition.y == 0f && rightKey == true)
         {
-            BGM_SoundBar.value += 5f;
+            BGM_SoundBar.value += AudioManager.audioInstance.upValue;
 
-            if(BGM_SoundBar.value >= BGM_SoundBar.maxValue)
+            if (BGM_SoundBar.value >= AudioManager.audioInstance.maxValue)
             {
-                BGM_SoundBar.value = BGM_SoundBar.maxValue;
+                BGM_SoundBar.value = AudioManager.audioInstance.maxValue;
             }
+
+            AudioManager.audioInstance.bgmValue = BGM_SoundBar.value;
         }
 
         // Effect 조절
         if (cursorTransform.anchoredPosition.y == -75f && leftKey == true)
         {
-            Effect_SoundBar.value -= 5f;
+            Effect_SoundBar.value += AudioManager.audioInstance.downValue;
 
-            if (Effect_SoundBar.value <= Effect_SoundBar.minValue)
+            if (Effect_SoundBar.value <= AudioManager.audioInstance.minValue)
             {
-                Effect_SoundBar.value = Effect_SoundBar.minValue;
+                Effect_SoundBar.value = AudioManager.audioInstance.minValue;
             }
+
+            AudioManager.audioInstance.effectValue = Effect_SoundBar.value;
         }
         else if (cursorTransform.anchoredPosition.y == -75f && rightKey == true)
         {
-            Effect_SoundBar.value += 5f;
+            Effect_SoundBar.value += AudioManager.audioInstance.upValue;
 
-            if (Effect_SoundBar.value >= Effect_SoundBar.maxValue)
+            if (Effect_SoundBar.value >= AudioManager.audioInstance.maxValue)
             {
-                Effect_SoundBar.value = Effect_SoundBar.maxValue;
+                Effect_SoundBar.value = AudioManager.audioInstance.maxValue;
             }
+
+            AudioManager.audioInstance.effectValue = Effect_SoundBar.value;
         }
 
 

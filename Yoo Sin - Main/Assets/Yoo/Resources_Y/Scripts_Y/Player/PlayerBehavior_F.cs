@@ -327,6 +327,7 @@ public class PlayerBehavior_F : MonoBehaviour
 
     IEnumerator Dead()
     {
+        GameManager.instance.PlayerDie();
         // 1프레임 후 오브젝트 파괴
         yield return null;
         playermove = false;

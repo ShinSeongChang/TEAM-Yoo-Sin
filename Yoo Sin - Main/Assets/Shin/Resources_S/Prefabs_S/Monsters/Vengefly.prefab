@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6974052597325055598}
   - component: {fileID: 6974052597325055599}
   - component: {fileID: 3556973726256143692}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Vengefly
   m_TagString: Monster
   m_Icon: {fileID: 0}

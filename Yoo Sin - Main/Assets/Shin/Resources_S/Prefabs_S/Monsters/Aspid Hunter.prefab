@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4070753283801976866}
   - component: {fileID: 4070753283801976867}
   - component: {fileID: 4070753283801976865}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Aspid Hunter
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -131,6 +131,7 @@ MonoBehaviour:
   chaseLimit: 0
   isFire: 0
   isHit: 0
+  isArea: 0
 --- !u!58 &4070753283801976867
 CircleCollider2D:
   m_ObjectHideFlags: 0

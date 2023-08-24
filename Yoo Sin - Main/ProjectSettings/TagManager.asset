@@ -12,6 +12,7 @@ TagManager:
   - StunBody
   - FalseCam
   - HornetCam
+  - SoundArea
   layers:
   - Default
   - TransparentFX
@@ -24,8 +25,8 @@ TagManager:
   - Elevetor
   - Wall
   - Invincible
-  - 
-  - 
+  - SoundArea
+  - Monster
   - 
   - 
   - 

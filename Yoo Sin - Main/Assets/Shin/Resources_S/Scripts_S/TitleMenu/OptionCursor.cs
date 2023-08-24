@@ -18,6 +18,10 @@ public class OptionCursor : MonoBehaviour
     {
         cursorTransform = GetComponent<RectTransform>();
         optionManager = GameObject.Find("Title_OptionUi").GetComponent<OptionManager>();
+
+        Master_SoundBar.value = AudioManager.audioInstance.masterValue;
+        BGM_SoundBar.value = AudioManager.audioInstance.bgmValue;
+        Effect_SoundBar.value = AudioManager.audioInstance.effectValue;
     }
 
     // Update is called once per frame
@@ -62,61 +66,74 @@ public class OptionCursor : MonoBehaviour
         // Master_SoundBar 조절
         if (cursorTransform.anchoredPosition.y == 0f && leftKey == true)
         {
-            Master_SoundBar.value -= 5f;
+            Master_SoundBar.value += AudioManager.audioInstance.downValue;
 
-            if (Master_SoundBar.value <= Master_SoundBar.minValue)
+            if (Master_SoundBar.value <= AudioManager.audioInstance.minValue)
             {
-                Master_SoundBar.value = Master_SoundBar.minValue;
+                Master_SoundBar.value = AudioManager.audioInstance.minValue;
             }
+            
+            AudioManager.audioInstance.masterValue = Master_SoundBar.value;
         }
         else if(cursorTransform.anchoredPosition.y == 0f && rightKey == true)
         {
-            Master_SoundBar.value += 5f;
+            Master_SoundBar.value += AudioManager.audioInstance.upValue;
 
-            if (Master_SoundBar.value >= Master_SoundBar.maxValue)
+            if (Master_SoundBar.value >= AudioManager.audioInstance.maxValue)
             {
-                Master_SoundBar.value = Master_SoundBar.maxValue;
+                Master_SoundBar.value = AudioManager.audioInstance.maxValue;
             }
+
+            AudioManager.audioInstance.masterValue = Master_SoundBar.value;
         }
 
         // BGM_SoundBar 조절
         if (cursorTransform.anchoredPosition.y == -75f && leftKey == true)
         {
-            BGM_SoundBar.value -= 5f;
+            BGM_SoundBar.value += AudioManager.audioInstance.downValue;
 
-            if (BGM_SoundBar.value <= BGM_SoundBar.minValue)
+            if (BGM_SoundBar.value <= AudioManager.audioInstance.minValue)
             {
-                BGM_SoundBar.value = BGM_SoundBar.minValue;
+                BGM_SoundBar.value = AudioManager.audioInstance.minValue;
             }
+
+            AudioManager.audioInstance.bgmValue = BGM_SoundBar.value;
         }
         else if (cursorTransform.anchoredPosition.y == -75f && rightKey == true)
         {
-            BGM_SoundBar.value += 5f;
+            BGM_SoundBar.value += AudioManager.audioInstance.upValue;
 
-            if (BGM_SoundBar.value >= BGM_SoundBar.maxValue)
+            if (BGM_SoundBar.value >= AudioManager.audioInstance.maxValue)
             {
-                BGM_SoundBar.value = BGM_SoundBar.maxValue;
+                BGM_SoundBar.value = AudioManager.audioInstance.maxValue;
             }
+
+            AudioManager.audioInstance.bgmValue = BGM_SoundBar.value;
         }
 
         // Effect_SoundBar 조절
         if (cursorTransform.anchoredPosition.y == -150f && leftKey == true)
         {
-            Effect_SoundBar.value -= 5f;
+            Effect_SoundBar.value += AudioManager.audioInstance.downValue;
 
-            if (Effect_SoundBar.value <= Effect_SoundBar.minValue)
+            if (Effect_SoundBar.value <= AudioManager.audioInstance.minValue)
             {
-                Effect_SoundBar.value = Effect_SoundBar.minValue;
+                Effect_SoundBar.value = AudioManager.audioInstance.minValue;
             }
+
+            AudioManager.audioInstance.effectValue = Effect_SoundBar.value;
+
         }
         else if (cursorTransform.anchoredPosition.y == -150f && rightKey == true)
         {
-            Effect_SoundBar.value += 5f;
+            Effect_SoundBar.value += AudioManager.audioInstance.upValue;
 
-            if (Effect_SoundBar.value >= Effect_SoundBar.maxValue)
+            if (Effect_SoundBar.value >= AudioManager.audioInstance.maxValue)
             {
-                Effect_SoundBar.value = Effect_SoundBar.maxValue;
+                Effect_SoundBar.value = AudioManager.audioInstance.maxValue;
             }
+
+            AudioManager.audioInstance.effectValue = Effect_SoundBar.value;
         }
 
 

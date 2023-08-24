@@ -1,14 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class Crawlid : MonoBehaviour
 {   
     private AudioSource myAudio = default;
-    private SkillGauge skillGauge;
+    private SkillGauge_Y skillGauge;
     private Transform player = default;
     private Rigidbody2D crawlidRigid = default;
     private CapsuleCollider2D crawlidCollider = default;
@@ -45,13 +41,13 @@ public class Crawlid : MonoBehaviour
 
     void Start()
     {
-        skillGauge = GameObject.Find("GaugeImg").GetComponent<SkillGauge>();
+        skillGauge = GameObject.Find("GaugeImg").GetComponent<SkillGauge_Y>();
         
     }
 
     private void FixedUpdate()
     {
-        Debug.Log("Crawlid 컬러 체크" + crawlidSprite.color);
+        //Debug.Log("Crawlid 컬러 체크" + crawlidSprite.color);
 
         myPos = transform.position;
         
@@ -64,9 +60,8 @@ public class Crawlid : MonoBehaviour
             {
                 crawlidRigid.velocity = new Vector2(speed * vector, crawlidRigid.velocity.y);        
             }
-
-
             // *{ 레이캐스트로 절벽 탐지하는 로직
+
 
             // 레이캐스트의 시작점 == crawlid보다 x값이 0.6앞선 위치 * vector로 왼쪽인지 오른쪽인지 판별한다.
             Vector2 crawlidFront = new Vector2(transform.position.x + 0.6f * vector, transform.position.y);
@@ -84,9 +79,6 @@ public class Crawlid : MonoBehaviour
             {
                 StartCoroutine(Turning());
             }
-
-           
-
             // *} 레이캐스트로 절벽 탐지하는 로직
 
         }
@@ -133,7 +125,7 @@ public class Crawlid : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if(collision.tag == "MainCamera")
+        if(collision.tag == "SoundArea")
         {
             Debug.Log("카메라에 닿았나");
             myAudio.Play();
@@ -163,6 +155,7 @@ public class Crawlid : MonoBehaviour
             // 라이프 카운트가 1씩 깎이며
             lifeCount -= 1;
 
+            //Debug.Log("Crawlid 목숨 : " + lifeCount);
             skillGauge.GaugePlus();
 
             // 현재 플레이어와의 거리를 계산하고
@@ -182,17 +175,15 @@ public class Crawlid : MonoBehaviour
                 if (offset.normalized.x < 0f && (offset.normalized.y > -0.5f && offset.normalized.y < 0.5f))
                 {
                     // 오른쪽 윗 대각선으로 날아간다.
-                    Vector2 hitForce = new Vector2(10f, 2.5f);
+                    Vector2 hitForce = new Vector2(7.5f, 3f);
                     crawlidRigid.AddForce(hitForce, ForceMode2D.Impulse);
                 }
                 else if (offset.normalized.x > 0f && (offset.normalized.y > -0.5f && offset.normalized.y < 0.5f))
                 {
                     // 플레이어가 오른쪽 방향에서 가격하여 사망하게 된 경우 왼쪽 윗 대각선으로 날아간다.
-                    Vector2 hitForce = new Vector2(-10f, 2.5f);
+                    Vector2 hitForce = new Vector2(-7.5f, 3f);
                     crawlidRigid.AddForce(hitForce, ForceMode2D.Impulse);
                 }
-
-
 
             }
             else if (offset.normalized.x < 0f)
@@ -214,7 +205,7 @@ public class Crawlid : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == "MainCamera")
+        if (collision.tag == "SoundArea")
         {
             myAudio.Stop();
         }

@@ -16,7 +16,7 @@ public class FalseKnightBehavior : MonoBehaviour
     private const float BEFORE_HEAD_OPEN_TIME = 1.283f;
 
     private const float RUN_DELAY = 5f;
-    private const float ATTACK_DELAY = 3f;
+    private const float ATTACK_DELAY = 1.8f;
     private const float JUMP_FORCE = 400f;
     // 매직넘버들 상수 처리
 
@@ -352,7 +352,7 @@ public class FalseKnightBehavior : MonoBehaviour
         {
             if (falseKnightAni.GetCurrentAnimatorStateInfo(0).IsName("FalseKnightTurn"))
             {
-                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
                 {
                     break;
                 }
@@ -389,7 +389,7 @@ public class FalseKnightBehavior : MonoBehaviour
         {
             if (falseKnightAni.GetCurrentAnimatorStateInfo(0).IsName("FalseKnightRun_Ready"))
             {
-                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
                 {
                     break;
                 }
@@ -434,7 +434,7 @@ public class FalseKnightBehavior : MonoBehaviour
         {
             if (falseKnightAni.GetCurrentAnimatorStateInfo(0).IsName("FalseKnightJump_Ready"))
             {
-                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
                 {
                     break;
                 }
@@ -473,7 +473,7 @@ public class FalseKnightBehavior : MonoBehaviour
                     landCount = 1;
                 }
 
-                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
                 {
                     timeAfterAttack = 0;
                     falseKnightAni.SetBool("IsIdle", true);
@@ -498,7 +498,7 @@ public class FalseKnightBehavior : MonoBehaviour
         {
             if (falseKnightAni.GetCurrentAnimatorStateInfo(0).IsName("FalseKnightTakeDown_Ready"))
             {
-                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
                 {
                     break;
                 }
@@ -523,6 +523,7 @@ public class FalseKnightBehavior : MonoBehaviour
             // 점프 소리냄
             falseAudio.PlayOneShot(actSounds[0]);
         }
+        timeAfterAttack = 0;
         // 여기서 코루틴 종료
         yield break;
     }
@@ -566,7 +567,7 @@ public class FalseKnightBehavior : MonoBehaviour
         {
             if (falseKnightAni.GetCurrentAnimatorStateInfo(0).IsName("FalseKnightBackJump_Ready"))
             {
-                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
                 {
                     break;
                 }
@@ -592,16 +593,16 @@ public class FalseKnightBehavior : MonoBehaviour
             falseAudio.PlayOneShot(actSounds[0]);
         }
 
+        timeAfterAttack = 0;
+
         while (falseKnightAni.GetBool("IsBackShockWave") == true)
         {
             if (falseKnightAni.GetCurrentAnimatorStateInfo(0).IsName("FalseKnightBackJump_Land") == true)
             {
-                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
                 {
                     // 공격사운드
                     falseAudio.PlayOneShot(attackSounds[Random.Range(0, attackSounds.Count)]);
-                    // 공격 시작 후의 시간을 0으로 초기화
-                    timeAfterAttack = 0;
                     // 착지 소리냄
                     falseAudio.PlayOneShot(actSounds[1]);
                     // 충격파 공격의 차징 시간동안 기다린 후 다음 행 너머 부터 실행
@@ -623,6 +624,7 @@ public class FalseKnightBehavior : MonoBehaviour
                     }
                     // 땅내려찍는 소리냄
                     falseAudio.PlayOneShot(actSounds[3]);
+                    timeAfterAttack = 0;
                     yield break;
                     // 여기서 코루틴 종료
                 }

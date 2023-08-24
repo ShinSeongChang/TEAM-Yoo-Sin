@@ -19,6 +19,7 @@ public class AspidHunter : MonoBehaviour
     private CircleCollider2D aspidDetectedArea = default;
     private SpriteRenderer aspidSprite = default;
     private Animator aspidAnimator = default;
+    private SkillGauge_Y skillGauge;
 
     public GameObject bulletPrefab = default;
 
@@ -70,6 +71,8 @@ public class AspidHunter : MonoBehaviour
         moveStay = new WaitForSeconds(3.0f);
         hitTime = new WaitForSeconds(0.25f);
         turnStay = new WaitForSeconds(0.1f);
+
+        skillGauge = GameObject.Find("GaugeImg").GetComponent<SkillGauge_Y>();
 
         // 이후 정해진 코루틴에 따라 움직인다.
         StartCoroutine(MoveArea());
@@ -244,6 +247,9 @@ public class AspidHunter : MonoBehaviour
     {
         if (collision.tag.Equals("PlayerAttack"))
         {
+            StartCoroutine(Hit());
+            skillGauge.GaugePlus();
+
             Vector2 offset = player.transform.position - transform.position;
 
             // 공격을 받을시 라이프카운트를 1씩 잃으며
@@ -255,8 +261,9 @@ public class AspidHunter : MonoBehaviour
             {
                 // 라이프 카운트가 0이하가 되면 죽는 애니메이션과 함께 속도를 잃게 하기위해 Rigidbody의 simulated를 false 한다.
                 aspidAnimator.SetTrigger("isDead");
-                aspidRigid.simulated = false;
-                StartCoroutine(Hit());
+                aspidRigid.simulated = false;                
+
+                StopAllCoroutines();
 
                 // 죽음 애니메이션이 나온 후 오브젝트를 비활성화 시킬 Die 함수
                 Invoke("Die", 0.6f);
@@ -265,12 +272,12 @@ public class AspidHunter : MonoBehaviour
             else if (offset.normalized.x < 0f)
             {
                 aspidRigid.AddForce(Vector2.right * hitForce, ForceMode2D.Impulse);
-                StartCoroutine(Hit());
+                //StartCoroutine(Hit());
             }
             else if (offset.normalized.x > 0f)
             {
                 aspidRigid.AddForce(Vector2.left * hitForce, ForceMode2D.Impulse);
-                StartCoroutine(Hit());
+                //StartCoroutine(Hit());
             }
 
         }
