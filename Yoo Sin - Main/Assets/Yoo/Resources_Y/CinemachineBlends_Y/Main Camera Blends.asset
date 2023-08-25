@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Main Camera Blends
   m_EditorClassIdentifier: 
   m_CustomBlends:
-  - m_From: '**ANY CAMERA**'
+  - m_From: PlayerCamera
     m_To: HornetCam
     m_Blend:
       m_Style: 1
@@ -24,7 +24,7 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: '**ANY CAMERA**'
+  - m_From: PlayerCamera
     m_To: FalseCam
     m_Blend:
       m_Style: 1
@@ -36,7 +36,7 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 0
   - m_From: FalseCam
-    m_To: '**ANY CAMERA**'
+    m_To: PlayerCamera
     m_Blend:
       m_Style: 1
       m_Time: 0.3

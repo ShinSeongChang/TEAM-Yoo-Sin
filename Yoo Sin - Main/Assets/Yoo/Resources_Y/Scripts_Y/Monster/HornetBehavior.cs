@@ -1011,6 +1011,7 @@ public class HornetBehavior : MonoBehaviour
         }
 
         hornetAudio.PlayOneShot(attackSounds[randomAttackSound1]);
+        bool onLeft = false;
 
         // 플레이어의 위치로 방향을 틀도록 함
         while (true)
@@ -1026,10 +1027,12 @@ public class HornetBehavior : MonoBehaviour
                 hornetAni.SetBool("IsDashA", false);
                 if (lookLeft == false)
                 {
+                    onLeft = false;
                     transform.eulerAngles -= Vector3.forward * (Mathf.Atan2(yDiff, xDiff) * Mathf.Rad2Deg - 180);
                 }
                 else if (lookLeft == true)
                 {
+                    onLeft = true;
                     transform.eulerAngles += Vector3.forward * (Mathf.Atan2(yDiff, xDiff) * Mathf.Rad2Deg);
                 }
                 hornetAni.SetTrigger("DashStart");
@@ -1066,7 +1069,7 @@ public class HornetBehavior : MonoBehaviour
 
                     effect = Instantiate(airDashEffectPrefab, transform.position, transform.rotation);
                     // 플레이어가 왼쪽에 있지않다면
-                    if (playerOnLeft == false)
+                    if (onLeft == false)
                     {
                         // 오른쪽으로 플레이어와 거리차이에 따라 힘을 줌 (대쉬 시작 시점의 플레이어 위치를 향한 힘)
                         //hornetRigidbody.gravityScale = 5;
@@ -1077,7 +1080,7 @@ public class HornetBehavior : MonoBehaviour
                         hornetAudio.PlayOneShot(actSounds[4]);
                     }
                     // 플레이어가 왼쪽에 있다면
-                    else if (playerOnLeft == true)
+                    else if (onLeft == true)
                     {
                         // 왼쪽으로 플레이어와 거리차이에 따라 힘을 줌 (대쉬 시작 시점의 플레이어 위치를 향한 힘)
                         //hornetRigidbody.gravityScale = 5;

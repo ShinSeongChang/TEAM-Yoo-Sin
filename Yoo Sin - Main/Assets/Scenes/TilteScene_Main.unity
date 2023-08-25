@@ -1342,8 +1342,8 @@ MonoBehaviour:
   audioMixer: {fileID: 24100000, guid: 5fcdcd2b0b80ba543a12c52887272b16, type: 2}
   maxValue: 0
   minValue: 0
-  upValue: 5
-  downValue: -5
+  upValue: 3
+  downValue: -3
   masterValue: 0
   bgmValue: 0
   effectValue: 0
@@ -3042,6 +3042,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1544206358}
     m_Modifications:
+    - target: {fileID: 9126744775749908220, guid: 2699866aa79a01e4b8beec28b4400ccc, type: 3}
+      propertyPath: m_Value
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9126744775749908220, guid: 2699866aa79a01e4b8beec28b4400ccc, type: 3}
+      propertyPath: m_MaxValue
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9126744775749908220, guid: 2699866aa79a01e4b8beec28b4400ccc, type: 3}
+      propertyPath: m_MinValue
+      value: -35
+      objectReference: {fileID: 0}
     - target: {fileID: 9126744776080136296, guid: 2699866aa79a01e4b8beec28b4400ccc, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3129,6 +3141,30 @@ PrefabInstance:
     - target: {fileID: 9126744776080136297, guid: 2699866aa79a01e4b8beec28b4400ccc, type: 3}
       propertyPath: m_Name
       value: Title_OptionUi
+      objectReference: {fileID: 0}
+    - target: {fileID: 9126744776590563862, guid: 2699866aa79a01e4b8beec28b4400ccc, type: 3}
+      propertyPath: m_Value
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9126744776590563862, guid: 2699866aa79a01e4b8beec28b4400ccc, type: 3}
+      propertyPath: m_MaxValue
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9126744776590563862, guid: 2699866aa79a01e4b8beec28b4400ccc, type: 3}
+      propertyPath: m_MinValue
+      value: -35
+      objectReference: {fileID: 0}
+    - target: {fileID: 9126744776708329114, guid: 2699866aa79a01e4b8beec28b4400ccc, type: 3}
+      propertyPath: m_Value
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9126744776708329114, guid: 2699866aa79a01e4b8beec28b4400ccc, type: 3}
+      propertyPath: m_MaxValue
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9126744776708329114, guid: 2699866aa79a01e4b8beec28b4400ccc, type: 3}
+      propertyPath: m_MinValue
+      value: -35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2699866aa79a01e4b8beec28b4400ccc, type: 3}

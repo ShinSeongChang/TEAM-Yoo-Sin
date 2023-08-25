@@ -127,7 +127,7 @@ public class Crawlid : MonoBehaviour
 
         if(collision.tag == "SoundArea")
         {
-            Debug.Log("카메라에 닿았나");
+            //Debug.Log("카메라에 닿았나");
             myAudio.Play();
         }
 

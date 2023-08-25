@@ -22,6 +22,13 @@ public class OptionCursor : MonoBehaviour
         Master_SoundBar.value = AudioManager.audioInstance.masterValue;
         BGM_SoundBar.value = AudioManager.audioInstance.bgmValue;
         Effect_SoundBar.value = AudioManager.audioInstance.effectValue;
+
+        //Master_SoundBar.maxValue = AudioManager.audioInstance.maxValue;
+        //Master_SoundBar.minValue = AudioManager.audioInstance.minValue;
+        //BGM_SoundBar.maxValue = AudioManager.audioInstance.maxValue;
+        //BGM_SoundBar.minValue = AudioManager.audioInstance.minValue;
+        //Effect_SoundBar.maxValue = AudioManager.audioInstance.maxValue;
+        //Effect_SoundBar.minValue = AudioManager.audioInstance.minValue;
     }
 
     // Update is called once per frame
@@ -61,12 +68,10 @@ public class OptionCursor : MonoBehaviour
             }
         }
 
-
-
         // Master_SoundBar 조절
         if (cursorTransform.anchoredPosition.y == 0f && leftKey == true)
         {
-            Master_SoundBar.value += AudioManager.audioInstance.downValue;
+            Master_SoundBar.value -= 3f;
 
             if (Master_SoundBar.value <= AudioManager.audioInstance.minValue)
             {
@@ -137,7 +142,7 @@ public class OptionCursor : MonoBehaviour
         }
 
 
-
+        // 옵션창 나가기
         else if (cursorTransform.anchoredPosition.y == -370f && enter == true)
         {
             optionManager.OptionOut();

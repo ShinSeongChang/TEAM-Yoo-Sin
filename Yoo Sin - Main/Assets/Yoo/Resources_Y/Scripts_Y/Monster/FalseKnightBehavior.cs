@@ -115,8 +115,9 @@ public class FalseKnightBehavior : MonoBehaviour
                     // 중력값을 5로 초기화(빨리 떨어지도록 함)
                     falseKnightRigidbody.gravityScale = 5;
                 }
-                // 공격, 달리기 이후의 시간을 델타타임만큼 더함
+
                 timeAfterAttack += Time.deltaTime;
+                // 공격, 달리기 이후의 시간을 델타타임만큼 더함
                 timeAfterRun += Time.deltaTime;
                 PositionDiff();
                 if (falseKnightAni.GetBool("IsIdle") == true)
@@ -195,71 +196,99 @@ public class FalseKnightBehavior : MonoBehaviour
             if (timeAfterAttack >= ATTACK_DELAY)
             {
                 timeAfterAttack = 0;
-                // 거리가 0이상 5미만일 경우 점프, 내려찍기, 백점프 충격파 중 하나 사용
-                if (0 <= distance && distance < 5)
-                {
-                    randomNumber = Random.Range(0, 3);
-                    if (randomNumber == 0)
-                    {
-                        whatToDo = Skill.jump;
-                    }
-                    else if (randomNumber == 1)
-                    {
-                        whatToDo = Skill.takeDown;
-                    }
-                    else if (randomNumber == 2)
-                    {
-                        whatToDo = Skill.backJumpShockWave;
-                    }
 
-                    if (whatToDo == Skill.jump)
-                    {
-                        StartCoroutine(Jump());
-                    }
-                    else if (whatToDo == Skill.takeDown)
-                    {
-                        StartCoroutine(TakeDown());
-                    }
-                    else if (whatToDo == Skill.backJumpShockWave)
-                    {
-                        StartCoroutine(BackShockWave());
-                    }
-                }
-                // 거리가 5이상 8미만 일경우 점프, 내려찍기, 충격파 중 하나 사용
-                else if (5 <= distance && distance < 8)
+                randomNumber = Random.Range(0, 2);
+                if (randomNumber == 0)
                 {
-                    randomNumber = Random.Range(0, 2);
-                    if (randomNumber == 0)
-                    {
-                        whatToDo = Skill.shockWave;
-                    }
-                    else if (randomNumber == 1)
-                    {
-                        whatToDo = Skill.takeDown;
-                    }
-                    else if (randomNumber == 2)
-                    {
-                        whatToDo = Skill.jump;
-                    }
+                    whatToDo = Skill.backJumpShockWave;
+                }
+                else if (randomNumber == 1)
+                {
+                    whatToDo = Skill.takeDown;
+                }
+                else if (randomNumber == 2)
+                {
+                    whatToDo = Skill.jump;
+                }
 
-                    if (whatToDo == Skill.shockWave)
-                    {
-                        StartCoroutine(ShockWave());
-                    }
-                    else if (whatToDo == Skill.takeDown)
-                    {
-                        StartCoroutine(TakeDown());
-                    }
-                    else if (whatToDo == Skill.jump)
-                    {
-                        StartCoroutine(Jump());
-                    }
-                }
-                // 플레이어와 기사의 거리가 8이상 11미만이라면 충격파
-                else if (8 <= distance && distance < 11)
+                if (whatToDo == Skill.backJumpShockWave)
                 {
-                    StartCoroutine(ShockWave());
+                    StartCoroutine(BackShockWave());
                 }
+                else if (whatToDo == Skill.takeDown)
+                {
+                    StartCoroutine(TakeDown());
+                }
+                else if (whatToDo == Skill.jump)
+                {
+                    StartCoroutine(Jump());
+                }
+
+                //// 거리가 0이상 5미만일 경우 점프, 내려찍기, 백점프 충격파 중 하나 사용
+                //if (0 <= distance && distance < 5)
+                //{
+                //    randomNumber = Random.Range(0, 3);
+                //    if (randomNumber == 0)
+                //    {
+                //        whatToDo = Skill.jump;
+                //    }
+                //    else if (randomNumber == 1)
+                //    {
+                //        whatToDo = Skill.takeDown;
+                //    }
+                //    else if (randomNumber == 2)
+                //    {
+                //        whatToDo = Skill.backJumpShockWave;
+                //    }
+
+                //    if (whatToDo == Skill.jump)
+                //    {
+                //        StartCoroutine(Jump());
+                //    }
+                //    else if (whatToDo == Skill.takeDown)
+                //    {
+                //        StartCoroutine(TakeDown());
+                //    }
+                //    else if (whatToDo == Skill.backJumpShockWave)
+                //    {
+                //        StartCoroutine(BackShockWave());
+                //    }
+                //}
+                //// 거리가 5이상 8미만 일경우 점프, 내려찍기, 충격파 중 하나 사용
+                //else if (5 <= distance && distance < 8)
+                //{
+                //    randomNumber = Random.Range(0, 2);
+                //    if (randomNumber == 0)
+                //    {
+                //        whatToDo = Skill.shockWave;
+                //    }
+                //    else if (randomNumber == 1)
+                //    {
+                //        whatToDo = Skill.takeDown;
+                //    }
+                //    else if (randomNumber == 2)
+                //    {
+                //        whatToDo = Skill.jump;
+                //    }
+
+                //    if (whatToDo == Skill.shockWave)
+                //    {
+                //        StartCoroutine(ShockWave());
+                //    }
+                //    else if (whatToDo == Skill.takeDown)
+                //    {
+                //        StartCoroutine(TakeDown());
+                //    }
+                //    else if (whatToDo == Skill.jump)
+                //    {
+                //        StartCoroutine(Jump());
+                //    }
+                //}
+                //// 플레이어와 기사의 거리가 8이상 11미만이라면 충격파
+                //else if (8 <= distance && distance < 11)
+                //{
+                //    StartCoroutine(ShockWave());
+                //}
             }
         }
     }
@@ -434,7 +463,7 @@ public class FalseKnightBehavior : MonoBehaviour
         {
             if (falseKnightAni.GetCurrentAnimatorStateInfo(0).IsName("FalseKnightJump_Ready"))
             {
-                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
+                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.88f)
                 {
                     break;
                 }
@@ -498,7 +527,7 @@ public class FalseKnightBehavior : MonoBehaviour
         {
             if (falseKnightAni.GetCurrentAnimatorStateInfo(0).IsName("FalseKnightTakeDown_Ready"))
             {
-                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
+                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.88f)
                 {
                     break;
                 }
@@ -567,7 +596,7 @@ public class FalseKnightBehavior : MonoBehaviour
         {
             if (falseKnightAni.GetCurrentAnimatorStateInfo(0).IsName("FalseKnightBackJump_Ready"))
             {
-                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
+                if (falseKnightAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.88f)
                 {
                     break;
                 }

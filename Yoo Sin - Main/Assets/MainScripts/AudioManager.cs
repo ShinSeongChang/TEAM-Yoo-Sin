@@ -12,8 +12,9 @@ public class AudioManager : MonoBehaviour
 
     public float maxValue = default;
     public float minValue = default;
-    public float upValue = 5f;
-    public float downValue = -5f;
+
+    public float upValue = 3f;
+    public float downValue = -3f;
 
     public float masterValue = default;
     public float bgmValue = default;
@@ -27,12 +28,10 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("오디오 매니저 두개 존재");
             Destroy(gameObject);
         }
-
-        maxValue = 10f;
-        minValue = -40f;
+        maxValue = -5f;
+        minValue = -35f;
 
         masterValue = maxValue;
         bgmValue = maxValue;
@@ -43,8 +42,6 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("Master Value : " + masterValue);
-
         audioMixer.SetFloat("Master", masterValue);
         audioMixer.SetFloat("Bgm", bgmValue);
         audioMixer.SetFloat("Effect", effectValue);
