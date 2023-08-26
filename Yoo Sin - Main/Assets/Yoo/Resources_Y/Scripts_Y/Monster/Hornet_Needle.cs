@@ -9,7 +9,7 @@ public class Hornet_Needle : MonoBehaviour
     private const float RECALL_TERM = 0.05f;
     private WaitForSeconds recallTime = new WaitForSeconds(RECALL_TERM);
 
-    public float speed = 56f;
+    public float speed = 200f;
     private Vector3 haveToGo;
     private Vector3 startPosition;
     private Vector3 dir;
@@ -118,24 +118,26 @@ public class Hornet_Needle : MonoBehaviour
             {
                 yield break;
             }
-            speed -= 1f;
+            speed -= 0.75f;
             yield return speedChangeTime;
         }
+        yield break;
     }
 
     IEnumerator speedUp()
     {
         speed = 0;
         yield return recallTime;
-        while (speed < 56f)
+        while (speed < 100f)
         {
             if (isEnd == true)
             {
                 yield break;
             }
-            speed += 1f;
+            speed += 1.5f;
             yield return speedChangeTime;
         }
+        yield break;
     }
 
     public bool Get_IsReturn()

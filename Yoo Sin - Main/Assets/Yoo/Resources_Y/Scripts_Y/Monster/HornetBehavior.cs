@@ -90,19 +90,6 @@ public class HornetBehavior : MonoBehaviour
         //StartCoroutine(Jump());
         //StartCoroutine(WhipingAir());
         //StartCoroutine(Evade());
-        randomAttackSound1 = Random.Range(0, attackSounds.Count - 2);
-        randomAttackSound2 = Random.Range(0, attackSounds.Count);
-        while (true)
-        {
-            if (randomAttackSound1 == randomAttackSound2)
-            {
-                randomAttackSound2 = Random.Range(0, attackSounds.Count);
-            }
-            else
-            {
-                break;
-            }
-        }
     }
 
     // Update is called once per frame
@@ -326,10 +313,6 @@ public class HornetBehavior : MonoBehaviour
 
     IEnumerator Stun()
     {
-        for (int i = 0; i < hornetAni.parameters.Length; i++)
-        {
-            hornetAni.parameters[i].defaultBool = false;
-        }
         hornetAni.SetTrigger("StunStart");
         hornetAni.SetBool("IsGround", true);
         hornetAni.SetBool("IsStun", true);
@@ -371,6 +354,15 @@ public class HornetBehavior : MonoBehaviour
             hornetAudio.Stop();
             stunCount += 1;
             StopAllCoroutines();
+            // 애니메이터의 파라미터들 중에 불값을 가진 파라미터들의 불값을 false로 초기화
+            for (int i = 0; i < hornetAni.parameters.Length; i++)
+            {
+                if (hornetAni.parameters[i].type == AnimatorControllerParameterType.Bool)
+                {
+                    hornetAni.SetBool(hornetAni.parameters[i].name, false);
+                }
+            }
+
             if (stunCount >= 3)
             {
                 //Debug.Log("여기들어옴?");
@@ -425,7 +417,7 @@ public class HornetBehavior : MonoBehaviour
             {
                 if (!isPlayed)
                 {
-                    if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.25f)
+                    if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.05f)
                     {
                         hornetAudio.PlayOneShot(actSounds[0]);
                         isPlayed = true;
@@ -505,7 +497,7 @@ public class HornetBehavior : MonoBehaviour
 
         hornetAni.SetBool("IsIdle", false);
         hornetAni.SetBool("IsJump", true);
-        hornetAudio.PlayOneShot(attackSounds[Random.Range(0, attackSounds.Count - 2)]);
+        hornetAudio.PlayOneShot(attackSounds[Random.Range(0, 3)]);
         while (true)
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetJump_Ready"))
@@ -662,7 +654,7 @@ public class HornetBehavior : MonoBehaviour
         //yield return new WaitForSeconds(1);
         hornetAni.SetBool("IsIdle", false);
         hornetAni.SetBool("IsThrow", true);
-        hornetAudio.PlayOneShot(attackSounds[Random.Range(0, attackSounds.Count - 1)]);
+        hornetAudio.PlayOneShot(attackSounds[Random.Range(3, 7)]);
         while (true)
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetThrow_Ready"))
@@ -697,7 +689,7 @@ public class HornetBehavior : MonoBehaviour
         //yield return new WaitForSeconds(1);
         hornetAni.SetBool("IsIdle", false);
         hornetAni.SetTrigger("WhipStart");
-        hornetAudio.PlayOneShot(attackSounds[Random.Range(0, attackSounds.Count)]);
+        hornetAudio.PlayOneShot(attackSounds[Random.Range(4, 6)]);
         while (true)
         {
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("HornetWhiping_ReadyG"))
@@ -735,7 +727,7 @@ public class HornetBehavior : MonoBehaviour
 
         hornetAni.SetBool("IsIdle", false);
         hornetAni.SetTrigger("DashStart");
-        hornetAudio.PlayOneShot(attackSounds[Random.Range(0, attackSounds.Count - 1)]);
+        hornetAudio.PlayOneShot(attackSounds[Random.Range(3, 5)]);
         // 플레이어가 왼쪽에 있지않다면
         if (playerOnLeft == false)
         {
@@ -876,7 +868,7 @@ public class HornetBehavior : MonoBehaviour
             yield return null;
         }
 
-        hornetAudio.PlayOneShot(attackSounds[randomAttackSound1]);
+        hornetAudio.PlayOneShot(attackSounds[Random.Range(0, 3)]);
 
         while (true)
         {
@@ -899,7 +891,7 @@ public class HornetBehavior : MonoBehaviour
             {
                 if (!isPlayed)
                 {
-                    hornetAudio.PlayOneShot(attackSounds[randomAttackSound2]);
+                    hornetAudio.PlayOneShot(attackSounds[Random.Range(4, 6)]);
                     isPlayed = true;
                 }
                 if (hornetAni.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.92f)
@@ -934,19 +926,6 @@ public class HornetBehavior : MonoBehaviour
             if (hornetAni.GetCurrentAnimatorStateInfo(0).IsName("Hornet_idle"))
             {
                 hornetAudio.PlayOneShot(actSounds[3]);
-                randomAttackSound1 = Random.Range(0, attackSounds.Count - 2);
-                randomAttackSound2 = Random.Range(0, attackSounds.Count);
-                while (true)
-                {
-                    if (randomAttackSound1 == randomAttackSound2)
-                    {
-                        randomAttackSound2 = Random.Range(0, attackSounds.Count);
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
                 yield break;
             }
             yield return null;
@@ -1010,7 +989,7 @@ public class HornetBehavior : MonoBehaviour
             yield return null;
         }
 
-        hornetAudio.PlayOneShot(attackSounds[randomAttackSound1]);
+        hornetAudio.PlayOneShot(attackSounds[Random.Range(0, 3)]);
         bool onLeft = false;
 
         // 플레이어의 위치로 방향을 틀도록 함
@@ -1049,7 +1028,7 @@ public class HornetBehavior : MonoBehaviour
             {
                 if (!isPlayed)
                 {
-                    hornetAudio.PlayOneShot(attackSounds[randomAttackSound2]);
+                    hornetAudio.PlayOneShot(attackSounds[Random.Range(3, 5)]);
                     isPlayed = true;
                 }
 
@@ -1114,19 +1093,6 @@ public class HornetBehavior : MonoBehaviour
                     {
                         hitPlayer = false;
                     }
-                    randomAttackSound1 = Random.Range(0, attackSounds.Count - 2);
-                    randomAttackSound2 = Random.Range(0, attackSounds.Count);
-                    while (true)
-                    {
-                        if (randomAttackSound1 == randomAttackSound2)
-                        {
-                            randomAttackSound2 = Random.Range(0, attackSounds.Count);
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
                     yield break;
                 }
             }
@@ -1136,10 +1102,6 @@ public class HornetBehavior : MonoBehaviour
 
     IEnumerator Dead()
     {
-        for (int i = 0; i < hornetAni.parameters.Length; i++)
-        {
-            hornetAni.parameters[i].defaultBool = false;
-        }
         hornetAni.SetBool("IsIdle", true);
         hornetAni.SetBool("IsGround", true);
         hornetAni.SetBool("IsDead", true);

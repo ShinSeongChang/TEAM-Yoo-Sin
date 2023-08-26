@@ -45,26 +45,35 @@ public class SkillGauge_Y : MonoBehaviour
 
     void AnimatorSelector()
     {
-        switch(skillCount)
+        // 애니메이터의 파라미터들 중에 불값을 가진 파라미터들의 불값을 false로 초기화
+        for (int i = 0; i < skillAnimator.parameters.Length; i++)
+        {
+            if (skillAnimator.parameters[i].type == AnimatorControllerParameterType.Bool)
+            {
+                skillAnimator.SetBool(skillAnimator.parameters[i].name, false);
+            }
+        }
+
+        switch (skillCount)
         {
             case 0:
-                skillAnimator.SetTrigger("isEmpty");
+                skillAnimator.SetBool("isEmpty", true);
                 break;
 
             case 1:
-                skillAnimator.SetTrigger("is25");
+                skillAnimator.SetBool("is25", true);
                 break;
 
             case 2:
-                skillAnimator.SetTrigger("is50");
+                skillAnimator.SetBool("is50", true);
                 break;
 
             case 3:
-                skillAnimator.SetTrigger("is75");
+                skillAnimator.SetBool("is75", true);
                 break;
 
             case 4:
-                skillAnimator.SetTrigger("isFull");
+                skillAnimator.SetBool("isFull", true);
                 break;
 
         }
